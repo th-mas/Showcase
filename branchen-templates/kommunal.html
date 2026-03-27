@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemeindewerke Mustertal | Ihr kommunaler Partner</title>
+<style>
+:root {
+  --accent: #00897B;
+  --accent-light: #4DB6AC;
+  --accent-glow: rgba(0, 137, 123, 0.3);
+  --bg-dark: #080e0d;
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --bg-card-hover: rgba(0, 137, 123, 0.1);
+  --text: #e5f0ee;
+  --text-muted: #85a09a;
+  --glass-border: rgba(255, 255, 255, 0.07);
+  --radius: 16px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg-dark); color: var(--text); line-height: 1.7; overflow-x: hidden;
+}
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: rgba(8, 14, 13, 0.88); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+}
+nav .logo { font-size: 1.3rem; font-weight: 700; color: var(--accent-light); }
+nav ul { list-style: none; display: flex; gap: 2rem; }
+nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+nav a:hover { color: var(--accent-light); }
+
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center; padding: 6rem 2rem 4rem;
+  background: radial-gradient(ellipse at 40% 30%, var(--accent-glow), transparent 55%),
+              radial-gradient(ellipse at 80% 70%, rgba(0, 77, 64, 0.2), transparent 50%),
+              var(--bg-dark);
+}
+.hero h1 { font-size: clamp(2.2rem, 6vw, 3.8rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.15; }
+.hero h1 span { color: var(--accent-light); }
+.hero p { font-size: 1.15rem; color: var(--text-muted); max-width: 640px; margin-bottom: 2.5rem; }
+.btn {
+  display: inline-block; padding: 0.9rem 2.4rem; border-radius: 50px;
+  background: linear-gradient(135deg, var(--accent), #26A69A);
+  color: #fff; text-decoration: none; font-weight: 600; font-size: 1rem;
+  transition: transform 0.3s, box-shadow 0.3s; border: none; cursor: pointer;
+}
+.btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px var(--accent-glow); }
+
+/* Info ticker */
+.info-bar {
+  background: rgba(0, 137, 123, 0.1); border: 1px solid rgba(0, 137, 123, 0.2);
+  border-radius: 10px; padding: 1rem 2rem; max-width: 700px; margin: 2rem auto 0;
+  display: flex; align-items: center; gap: 1rem; font-size: 0.9rem; color: var(--accent-light);
+}
+.info-bar .badge {
+  background: var(--accent); color: #fff; padding: 0.2rem 0.7rem;
+  border-radius: 50px; font-size: 0.75rem; font-weight: 700; white-space: nowrap;
+}
+
+section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+.section-title { text-align: center; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: 0.5rem; }
+.section-title span { color: var(--accent-light); }
+.section-sub { text-align: center; color: var(--text-muted); margin-bottom: 3rem; max-width: 600px; margin-inline: auto; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+.card {
+  background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: var(--radius);
+  padding: 2rem; backdrop-filter: blur(10px);
+  transition: background 0.4s, transform 0.3s, box-shadow 0.3s;
+}
+.card:hover { background: var(--bg-card-hover); transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
+.card .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--accent-light); }
+.card p { font-size: 0.95rem; color: var(--text-muted); }
+
+/* Quick Links */
+.quick-links {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;
+  margin-top: 2rem;
+}
+.quick-link {
+  display: flex; align-items: center; gap: 0.8rem; padding: 1rem 1.2rem;
+  background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 12px;
+  color: var(--text); text-decoration: none; transition: background 0.3s, transform 0.2s;
+}
+.quick-link:hover { background: var(--bg-card-hover); transform: translateX(4px); }
+.quick-link .ql-icon { font-size: 1.3rem; color: var(--accent-light); }
+.quick-link span { font-size: 0.9rem; }
+
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.about-text h3 { font-size: 1.4rem; margin-bottom: 1rem; color: var(--accent-light); }
+.about-text p { color: var(--text-muted); margin-bottom: 1rem; }
+.key-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+.fact {
+  background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 12px;
+  padding: 1rem; text-align: center;
+}
+.fact .num { font-size: 1.6rem; font-weight: 800; color: var(--accent-light); }
+.fact .label { font-size: 0.75rem; color: var(--text-muted); }
+
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+.contact-card {
+  background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: var(--radius);
+  padding: 2rem; text-align: center;
+}
+.contact-card .icon { font-size: 2rem; margin-bottom: 0.8rem; color: var(--accent-light); }
+.contact-card h4 { margin-bottom: 0.4rem; }
+.contact-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+footer {
+  text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--glass-border);
+  color: var(--text-muted); font-size: 0.9rem;
+}
+footer .hours { margin-bottom: 1rem; }
+footer .hours span { color: var(--accent-light); font-weight: 600; }
+
+@media (max-width: 768px) {
+  nav ul { display: none; }
+  .about-grid { grid-template-columns: 1fr; }
+  .info-bar { flex-direction: column; text-align: center; }
+  section { padding: 3rem 1.2rem; }
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">&#9878; Gemeindewerke Mustertal</div>
+  <ul>
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#ueber">Ueber uns</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <h1>Fuer unsere <span>Gemeinde.</span></h1>
+  <p>Ihr kommunaler Dienstleister fuer Wasser, Abwasser und Energie. Zuverlaessige Versorgung und buergernaher Service fuer ein lebenswertes Mustertal.</p>
+  <a href="#kontakt" class="btn">Zum Buergerservice &#10132;</a>
+  <div class="info-bar fade-in">
+    <div class="badge">INFO</div>
+    <span>Naechste Gemeinderatssitzung: 15. April 2026, 19:00 Uhr im Gemeindesaal</span>
+  </div>
+</section>
+
+<section id="leistungen">
+  <h2 class="section-title fade-in">Unsere <span>Leistungen</span></h2>
+  <p class="section-sub fade-in">Kommunale Daseinsvorsorge - zuverlaessig, nachhaltig und buergernah.</p>
+  <div class="cards">
+    <div class="card fade-in">
+      <div class="icon">&#128167;</div>
+      <h3>Wasserversorgung</h3>
+      <p>Trinkwasser hoechster Qualitaet aus eigenen Quellen. Regelmaessige Kontrollen sichern bestes Wasser fuer alle Haushalte.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="icon">&#9852;</div>
+      <h3>Abwasser</h3>
+      <p>Moderne Klaeranlage und Kanalnetz. Umweltgerechte Abwasserbehandlung zum Schutz unserer Gewaesser.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="icon">&#9889;</div>
+      <h3>Energie</h3>
+      <p>Strom aus regionaler Wasserkraft und Photovoltaik. Unser Beitrag zur Energiewende in der Region.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="icon">&#9998;</div>
+      <h3>Buergerservice</h3>
+      <p>Meldewesen, Baubewilligungen, Foerderungen und Auskuenfte. Wir sind fuer Sie da - persoenlich und unkompliziert.</p>
+    </div>
+  </div>
+  <div class="quick-links fade-in">
+    <a href="#" class="quick-link"><span class="ql-icon">&#128196;</span><span>Formulare Download</span></a>
+    <a href="#" class="quick-link"><span class="ql-icon">&#128197;</span><span>Muellabfuhr-Termine</span></a>
+    <a href="#" class="quick-link"><span class="ql-icon">&#128176;</span><span>Gebuehrenrechner</span></a>
+    <a href="#" class="quick-link"><span class="ql-icon">&#9888;</span><span>Stoerungsmeldung</span></a>
+  </div>
+</section>
+
+<section id="ueber">
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <h2 class="section-title" style="text-align:left">Ueber <span>uns</span></h2>
+      <h3>Im Dienst der Buergerinnen und Buerger</h3>
+      <p>Die Gemeindewerke Mustertal versorgen seit 1958 die Gemeinde mit Trinkwasser und kuemmern sich um die Abwasserentsorgung. Seit 2015 betreiben wir zusaetzlich eigene Photovoltaikanlagen.</p>
+      <p>Unser Ziel ist eine nachhaltige, leistbare und zuverlaessige Versorgung fuer alle Bewohnerinnen und Bewohner unserer Gemeinde.</p>
+    </div>
+    <div class="key-facts fade-in">
+      <div class="fact"><div class="num">3.200</div><div class="label">Versorgte Haushalte</div></div>
+      <div class="fact"><div class="num">98 km</div><div class="label">Leitungsnetz</div></div>
+      <div class="fact"><div class="num">100%</div><div class="label">Regionale Energie</div></div>
+      <div class="fact"><div class="num">24</div><div class="label">Mitarbeiter/innen</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <h2 class="section-title fade-in">Buerger<span>service</span></h2>
+  <p class="section-sub fade-in">Wir sind persoenlich fuer Sie da - am Gemeindeamt oder telefonisch.</p>
+  <div class="contact-grid">
+    <div class="contact-card fade-in">
+      <div class="icon">&#9742;</div>
+      <h4>Telefon</h4>
+      <p>+43 3124 51200</p>
+      <p style="margin-top:0.5rem;font-size:0.85rem;">Stoerung: +43 3124 51200-99</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">&#9993;</div>
+      <h4>E-Mail</h4>
+      <p>gemeinde@mustertal.gv.at</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">&#9878;</div>
+      <h4>Gemeindeamt</h4>
+      <p>Rathausplatz 1, 8112 Mustertal</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="hours">
+    <span>Parteienverkehr:</span> Mo, Mi, Fr 08:00 - 12:00 Uhr | Di 08:00 - 12:00 &amp; 15:00 - 18:00 Uhr | Do 08:00 - 12:00 Uhr
+  </div>
+  <p>&copy; 2026 Gemeindewerke Mustertal | Ihr kommunaler Versorger</p>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

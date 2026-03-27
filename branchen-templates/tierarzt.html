@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tierarztpraxis Dr. Waldner | Fuer Ihr Tier nur das Beste</title>
+<style>
+:root {
+  --accent: #4CAF50;
+  --accent-light: #66BB6A;
+  --accent-dark: #388E3C;
+  --bg-primary: #080C08;
+  --bg-secondary: #0E140E;
+  --bg-card: rgba(76, 175, 80, 0.05);
+  --glass: rgba(76, 175, 80, 0.08);
+  --glass-border: rgba(76, 175, 80, 0.14);
+  --text-primary: #E5EFE6;
+  --text-secondary: #9AB49C;
+  --text-muted: #5A725C;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg-primary); color: var(--text-primary);
+  line-height: 1.7; overflow-x: hidden;
+}
+.fade-in {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: rgba(8, 12, 8, 0.85); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 1rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.logo { font-size: 1.4rem; font-weight: 700; color: var(--accent); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  color: var(--text-secondary); text-decoration: none;
+  font-size: 0.9rem; transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--accent); }
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 6rem 2rem 4rem;
+  background: radial-gradient(ellipse at 50% 40%, rgba(76, 175, 80, 0.08) 0%, transparent 55%),
+              var(--bg-primary);
+  position: relative;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 200px;
+  background: linear-gradient(to top, var(--bg-primary), transparent);
+}
+.hero-content { position: relative; z-index: 1; max-width: 800px; }
+.hero-badge {
+  display: inline-block; padding: 0.4rem 1.2rem;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: 50px; font-size: 0.85rem; color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--text-secondary); margin-bottom: 2.5rem;
+  max-width: 600px; margin-inline: auto;
+}
+.cta-btn {
+  display: inline-block; padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff; font-weight: 700; font-size: 1rem;
+  text-decoration: none; border-radius: 50px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 25px rgba(76, 175, 80, 0.25);
+}
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 35px rgba(76, 175, 80, 0.4);
+}
+.cta-emergency {
+  display: inline-block; margin-left: 1rem; padding: 1rem 2.5rem;
+  background: transparent;
+  border: 2px solid rgba(244, 67, 54, 0.5);
+  color: #EF5350; font-weight: 700; font-size: 1rem;
+  text-decoration: none; border-radius: 50px;
+  transition: transform 0.3s, background 0.3s;
+}
+.cta-emergency:hover {
+  transform: translateY(-2px);
+  background: rgba(244, 67, 54, 0.1);
+}
+section { padding: 6rem 2rem; }
+.section-header { text-align: center; margin-bottom: 4rem; }
+.section-header h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem; }
+.section-header p { color: var(--text-secondary); max-width: 550px; margin-inline: auto; }
+.accent-line { width: 60px; height: 3px; background: var(--accent); margin: 1rem auto; border-radius: 2px; }
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+}
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-5px); border-color: var(--accent);
+  box-shadow: 0 10px 40px rgba(76, 175, 80, 0.08);
+}
+.card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent-light); }
+.card p { color: var(--text-secondary); font-size: 0.95rem; }
+.about {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+}
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; max-width: 1100px; margin: 0 auto; align-items: center;
+}
+.about-visual {
+  background: linear-gradient(135deg, var(--glass), transparent);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px; padding: 3rem;
+  text-align: center; font-size: 5rem;
+  aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;
+}
+.about-text h2 { font-size: 2rem; margin-bottom: 1rem; }
+.about-text p { color: var(--text-secondary); margin-bottom: 1rem; }
+.team-badges {
+  display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem;
+}
+.badge {
+  padding: 0.4rem 1rem;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: 50px; font-size: 0.85rem; color: var(--accent-light);
+}
+.contact-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem; max-width: 900px; margin: 0 auto;
+}
+.contact-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 2rem; text-align: center;
+}
+.contact-card .icon { font-size: 2rem; margin-bottom: 1rem; }
+.contact-card h3 { color: var(--accent-light); margin-bottom: 0.5rem; }
+.contact-card p { color: var(--text-secondary); font-size: 0.95rem; }
+.emergency-note {
+  color: #EF5350; font-weight: 600; font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--glass-border);
+  padding: 3rem 2rem; text-align: center;
+}
+.footer-hours {
+  display: inline-block;
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: 12px; padding: 1.5rem 2.5rem; margin-bottom: 1.5rem;
+}
+.footer-hours h3 { color: var(--accent); margin-bottom: 0.75rem; }
+.footer-hours p { color: var(--text-secondary); font-size: 0.9rem; margin: 0.25rem 0; }
+.footer-copy { color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px; cursor: pointer;
+  background: none; border: none; padding: 0.5rem;
+}
+.hamburger span { width: 25px; height: 2px; background: var(--text-secondary); transition: 0.3s; }
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+  .nav-links {
+    display: none; position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; background: rgba(8, 12, 8, 0.95);
+    padding: 1.5rem 2rem; gap: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .nav-links.open { display: flex; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-visual { aspect-ratio: 16/9; font-size: 3rem; }
+  .cta-emergency { margin-left: 0; margin-top: 1rem; }
+  .hero .cta-wrapper { display: flex; flex-direction: column; align-items: center; gap: 0; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Dr. Waldner Tierarztpraxis</div>
+  <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#ueber-uns">Unser Team</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-badge">Ihr Tier in besten Haenden</span>
+    <h1>Weil jedes Tier zaehlt</h1>
+    <p>Moderne Tiermedizin mit Herz. Von der Vorsorge bis zur OP - wir kuemmern uns um Ihren Liebling. Klein- und Grosstierpraxis mit Hausbesuch-Service.</p>
+    <div class="cta-wrapper">
+      <a href="#kontakt" class="cta-btn">Termin vereinbaren</a>
+      <a href="tel:+4331245678" class="cta-emergency">Notfall-Telefon</a>
+    </div>
+  </div>
+</section>
+
+<section id="leistungen">
+  <div class="section-header fade-in">
+    <h2>Unsere Leistungen</h2>
+    <div class="accent-line"></div>
+    <p>Umfassende tiermedizinische Versorgung fuer Klein- und Grosstiere.</p>
+  </div>
+  <div class="cards">
+    <div class="card fade-in">
+      <div class="card-icon">🐕</div>
+      <h3>Kleintiere</h3>
+      <p>Vorsorgeuntersuchungen, Impfungen, Zahnbehandlungen und Innere Medizin fuer Hund, Katze und Kleintiere. Sanfte Behandlung in ruhiger Atmosphaere.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">🐄</div>
+      <h3>Grosstiere</h3>
+      <p>Bestandsbetreuung fuer Rinder, Pferde und Nutztiere. Fruchtbarkeitsmanagement, Klauenpflege und Beratung - direkt auf Ihrem Hof.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">🏥</div>
+      <h3>Chirurgie</h3>
+      <p>Weichteil- und Knochenchirurgie mit modernstem Equipment. Narkoseueberwachung, Schmerzmanagement und liebevolle Nachbetreuung inklusive.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">🏡</div>
+      <h3>Hausbesuche</h3>
+      <p>Wir kommen zu Ihnen - fuer aeltere Tiere, Angsthaserl oder wenn der Transport schwierig ist. Auch Einschlaeferungen in vertrauter Umgebung.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="ueber-uns">
+  <div class="about-grid">
+    <div class="about-visual fade-in">🩺</div>
+    <div class="about-text fade-in">
+      <h2>Ein Team, das Tiere liebt</h2>
+      <p>Dr. Maria Waldner fuehrt die Praxis seit 2008 mit einem kleinen aber feinen Team. Jeder bei uns hat mindestens ein eigenes Haustier - wir wissen also genau, wie sich Tierbesitzer fuehlen, wenn der Liebling krank ist.</p>
+      <p>Unsere Praxis ist mit digitalem Roentgen, Ultraschall, hauseigenem Labor und einem modernen OP-Saal ausgestattet. Schnelle Diagnosen und kurze Wartezeiten sind uns wichtig.</p>
+      <div class="team-badges">
+        <span class="badge">Dr. Maria Waldner</span>
+        <span class="badge">Dr. Thomas Berger</span>
+        <span class="badge">3 Tierarzthelferinnen</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="section-header fade-in">
+    <h2>Kontakt &amp; Notfall</h2>
+    <div class="accent-line"></div>
+    <p>Wir sind fuer Sie und Ihre Tiere da.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-card fade-in">
+      <div class="icon">📞</div>
+      <h3>Telefon</h3>
+      <p>+43 3124 / 56 789</p>
+      <p class="emergency-note">Notfall: +43 664 / 12 34 567</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">✉️</div>
+      <h3>E-Mail</h3>
+      <p>praxis@tierarzt-waldner.at</p>
+      <p>Online-Terminbuchung bald</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">📍</div>
+      <h3>Praxis</h3>
+      <p>Hauptplatz 22</p>
+      <p>8160 Weiz</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-hours">
+    <h3>Ordinationszeiten</h3>
+    <p>Montag - Freitag: 8:00 - 12:00 &amp; 15:00 - 18:00</p>
+    <p>Samstag: 9:00 - 12:00</p>
+    <p>Notdienst: taeglich erreichbar</p>
+    <p>Termine nach Vereinbarung bevorzugt</p>
+  </div>
+  <p class="footer-copy">&copy; 2026 Tierarztpraxis Dr. Waldner. Alle Rechte vorbehalten.</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

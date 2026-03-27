@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gasthaus zum Goldenen Hirsch | Regionale Kueche mit Herz</title>
+<style>
+:root {
+  --accent: #FF8F00;
+  --accent-light: #FFA726;
+  --accent-dark: #E67E00;
+  --bg-primary: #0C0A08;
+  --bg-secondary: #141210;
+  --bg-card: rgba(255, 143, 0, 0.05);
+  --glass: rgba(255, 143, 0, 0.07);
+  --glass-border: rgba(255, 143, 0, 0.14);
+  --text-primary: #F0E8E0;
+  --text-secondary: #B8A899;
+  --text-muted: #6E6258;
+  --warm: #FF5722;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg-primary); color: var(--text-primary);
+  line-height: 1.7; overflow-x: hidden;
+}
+.fade-in {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: rgba(12, 10, 8, 0.85); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 1rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.logo {
+  font-size: 1.4rem; font-weight: 700; color: var(--accent);
+  font-style: italic;
+}
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  color: var(--text-secondary); text-decoration: none;
+  font-size: 0.9rem; transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--accent); }
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 6rem 2rem 4rem;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 143, 0, 0.08) 0%, transparent 50%),
+              radial-gradient(ellipse at 30% 70%, rgba(255, 87, 34, 0.04) 0%, transparent 40%),
+              var(--bg-primary);
+  position: relative;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 200px;
+  background: linear-gradient(to top, var(--bg-primary), transparent);
+}
+.hero-content { position: relative; z-index: 1; max-width: 800px; }
+.hero-badge {
+  display: inline-block; padding: 0.4rem 1.2rem;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: 50px; font-size: 0.85rem; color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--text-secondary); margin-bottom: 2.5rem;
+  max-width: 600px; margin-inline: auto;
+}
+.cta-btn {
+  display: inline-block; padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: var(--bg-primary); font-weight: 700; font-size: 1rem;
+  text-decoration: none; border-radius: 50px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 25px rgba(255, 143, 0, 0.3);
+}
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 35px rgba(255, 143, 0, 0.45);
+}
+.cta-secondary {
+  display: inline-block; margin-left: 1rem; padding: 1rem 2.5rem;
+  background: transparent; border: 2px solid var(--glass-border);
+  color: var(--accent-light); font-weight: 700; font-size: 1rem;
+  text-decoration: none; border-radius: 50px;
+  transition: transform 0.3s, background 0.3s;
+}
+.cta-secondary:hover {
+  transform: translateY(-2px);
+  background: var(--glass);
+}
+section { padding: 6rem 2rem; }
+.section-header { text-align: center; margin-bottom: 4rem; }
+.section-header h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem; }
+.section-header p { color: var(--text-secondary); max-width: 550px; margin-inline: auto; }
+.accent-line { width: 60px; height: 3px; background: var(--accent); margin: 1rem auto; border-radius: 2px; }
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+}
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s, border-color 0.3s;
+}
+.card:hover {
+  transform: translateY(-5px); border-color: var(--accent);
+}
+.card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent-light); }
+.card p { color: var(--text-secondary); font-size: 0.95rem; }
+.about {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+}
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; max-width: 1100px; margin: 0 auto; align-items: center;
+}
+.about-visual {
+  background: linear-gradient(135deg, rgba(255, 87, 34, 0.05), var(--glass), transparent);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px; padding: 3rem;
+  text-align: center; font-size: 5rem;
+  aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;
+}
+.about-text h2 { font-size: 2rem; margin-bottom: 1rem; }
+.about-text p { color: var(--text-secondary); margin-bottom: 1rem; }
+.about-text .highlight {
+  color: var(--accent); font-weight: 600; font-style: italic;
+}
+.menu-preview {
+  margin-top: 2rem; padding: 1.5rem;
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+.menu-preview h4 { color: var(--accent); margin-bottom: 0.75rem; font-size: 1.1rem; }
+.menu-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.4rem 0; border-bottom: 1px dashed var(--glass-border);
+  color: var(--text-secondary); font-size: 0.9rem;
+}
+.menu-item:last-child { border: none; }
+.menu-item .price { color: var(--accent-light); font-weight: 600; }
+.contact-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem; max-width: 900px; margin: 0 auto;
+}
+.contact-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 2rem; text-align: center;
+}
+.contact-card .icon { font-size: 2rem; margin-bottom: 1rem; }
+.contact-card h3 { color: var(--accent-light); margin-bottom: 0.5rem; }
+.contact-card p { color: var(--text-secondary); font-size: 0.95rem; }
+footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--glass-border);
+  padding: 3rem 2rem; text-align: center;
+}
+.footer-hours {
+  display: inline-block;
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: 12px; padding: 1.5rem 2.5rem; margin-bottom: 1.5rem;
+}
+.footer-hours h3 { color: var(--accent); margin-bottom: 0.75rem; }
+.footer-hours p { color: var(--text-secondary); font-size: 0.9rem; margin: 0.25rem 0; }
+.footer-copy { color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px; cursor: pointer;
+  background: none; border: none; padding: 0.5rem;
+}
+.hamburger span { width: 25px; height: 2px; background: var(--text-secondary); transition: 0.3s; }
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+  .nav-links {
+    display: none; position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; background: rgba(12, 10, 8, 0.95);
+    padding: 1.5rem 2rem; gap: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .nav-links.open { display: flex; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-visual { aspect-ratio: 16/9; font-size: 3rem; }
+  .cta-secondary { margin-left: 0; margin-top: 1rem; display: block; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Zum Goldenen Hirsch</div>
+  <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="#kueche">Unsere Kueche</a></li>
+    <li><a href="#ueber-uns">Ueber uns</a></li>
+    <li><a href="#kontakt">Reservierung</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-badge">Regionale Kueche seit 1952</span>
+    <h1>Wo Genuss daheim ist</h1>
+    <p>Ehrliche steirische Kueche mit Produkten von unseren Bauern. Vom Backhendl bis zum Schweinsbraten - bei uns schmeckt's wie bei der Oma, nur besser.</p>
+    <a href="#kontakt" class="cta-btn">Tisch reservieren</a>
+    <a href="#kueche" class="cta-secondary">Speisekarte</a>
+  </div>
+</section>
+
+<section id="kueche">
+  <div class="section-header fade-in">
+    <h2>Das erwartet Sie</h2>
+    <div class="accent-line"></div>
+    <p>Fuer jeden Anlass das passende Erlebnis.</p>
+  </div>
+  <div class="cards">
+    <div class="card fade-in">
+      <div class="card-icon">🥩</div>
+      <h3>Regionale Kueche</h3>
+      <p>Saisonale Gerichte mit Zutaten von regionalen Bauern und Produzenten. Vom Kernoel bis zum Almochsen - alles aus der Steiermark.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">🎉</div>
+      <h3>Catering</h3>
+      <p>Ob Firmenfeier oder Gartenparty - wir liefern frisch gekocht an jeden Ort. Buffets, Menueservice oder Grillcatering nach Ihren Wuenschen.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">🥂</div>
+      <h3>Feiern &amp; Events</h3>
+      <p>Unser Festsaal bietet Platz fuer bis zu 80 Gaeste. Hochzeiten, Geburtstage, Firmenfeiern - wir kuemmern uns um alles.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">🍽️</div>
+      <h3>Mittagsmenue</h3>
+      <p>Jeden Werktag frisch: Suppe + Hauptspeise ab 9,90. Taeglich wechselnd, immer hausgemacht. Auch zum Mitnehmen.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="ueber-uns">
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <h2>Familienbetrieb in dritter Generation</h2>
+      <p>Was 1952 als kleines Dorfwirtshaus begonnen hat, ist heute ein beliebter Treffpunkt fuer Geniesser. <span class="highlight">Kueche Maria und Wirt Franz</span> fuehren das Gasthaus mit der gleichen Leidenschaft wie schon die Grosseltern.</p>
+      <p>Wir kochen ohne Fertigprodukte, backen unser Brot selbst und beziehen Fleisch, Gemuese und Kaese von Bauern aus der Umgebung. Denn guter Geschmack braucht keine Tricks.</p>
+      <div class="menu-preview">
+        <h4>Aus unserer Karte</h4>
+        <div class="menu-item"><span>Steirisches Backhendl mit Vogerl</span><span class="price">14,90</span></div>
+        <div class="menu-item"><span>Schweinsbraten mit Knodel</span><span class="price">13,50</span></div>
+        <div class="menu-item"><span>Kaesnockerl mit Blattsalat</span><span class="price">11,90</span></div>
+        <div class="menu-item"><span>Topfenstrudel hausgemacht</span><span class="price">6,50</span></div>
+      </div>
+    </div>
+    <div class="about-visual fade-in">🍻</div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="section-header fade-in">
+    <h2>Reservierung &amp; Kontakt</h2>
+    <div class="accent-line"></div>
+    <p>Reservieren Sie am besten telefonisch - wir freuen uns auf Sie!</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-card fade-in">
+      <div class="icon">📞</div>
+      <h3>Reservierung</h3>
+      <p>+43 3452 / 78 901</p>
+      <p>Tischreservierung empfohlen</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">✉️</div>
+      <h3>E-Mail</h3>
+      <p>info@goldener-hirsch.at</p>
+      <p>Catering-Anfragen jederzeit</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">📍</div>
+      <h3>Standort</h3>
+      <p>Dorfstrasse 8</p>
+      <p>8430 Leibnitz</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-hours">
+    <h3>Oeffnungszeiten</h3>
+    <p>Dienstag - Samstag: 11:00 - 22:00</p>
+    <p>Sonntag: 11:00 - 15:00</p>
+    <p>Montag: Ruhetag</p>
+    <p>Warme Kueche bis 21:00</p>
+  </div>
+  <p class="footer-copy">&copy; 2026 Gasthaus zum Goldenen Hirsch. Alle Rechte vorbehalten.</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

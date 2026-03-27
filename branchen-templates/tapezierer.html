@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meisterbetrieb Tapezierung | Ihr Raumgestalter</title>
+<style>
+:root {
+  --accent: #7B1FA2;
+  --accent-light: #CE93D8;
+  --accent-glow: rgba(123, 31, 162, 0.4);
+  --bg-dark: #0a0a0f;
+  --bg-card: rgba(255, 255, 255, 0.05);
+  --bg-card-hover: rgba(123, 31, 162, 0.12);
+  --text: #e8e8f0;
+  --text-muted: #9090a0;
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --radius: 16px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Navigation */
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 1rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+nav .logo { font-size: 1.3rem; font-weight: 700; color: var(--accent-light); }
+nav ul { list-style: none; display: flex; gap: 2rem; }
+nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+nav a:hover { color: var(--accent-light); }
+
+/* Hero */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center; padding: 6rem 2rem 4rem;
+  background: radial-gradient(ellipse at 50% 0%, var(--accent-glow), transparent 60%),
+              linear-gradient(180deg, var(--bg-dark) 0%, #12101a 100%);
+}
+.hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.15; }
+.hero h1 span { color: var(--accent-light); }
+.hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin-bottom: 2.5rem; }
+.btn {
+  display: inline-block; padding: 0.9rem 2.4rem; border-radius: 50px;
+  background: linear-gradient(135deg, var(--accent), #9C27B0);
+  color: #fff; text-decoration: none; font-weight: 600; font-size: 1rem;
+  transition: transform 0.3s, box-shadow 0.3s; border: none; cursor: pointer;
+}
+.btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px var(--accent-glow); }
+
+/* Section */
+section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+.section-title {
+  text-align: center; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: 0.5rem;
+}
+.section-title span { color: var(--accent-light); }
+.section-sub { text-align: center; color: var(--text-muted); margin-bottom: 3rem; max-width: 600px; margin-inline: auto; }
+
+/* Service Cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: background 0.4s, transform 0.3s, box-shadow 0.3s;
+}
+.card:hover { background: var(--bg-card-hover); transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
+.card .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--accent-light); }
+.card p { font-size: 0.95rem; color: var(--text-muted); }
+
+/* About */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.about-text h3 { font-size: 1.4rem; margin-bottom: 1rem; color: var(--accent-light); }
+.about-text p { color: var(--text-muted); margin-bottom: 1rem; }
+.stats { display: flex; gap: 2rem; margin-top: 1.5rem; }
+.stat-item .num { font-size: 2rem; font-weight: 800; color: var(--accent-light); }
+.stat-item .label { font-size: 0.8rem; color: var(--text-muted); }
+
+/* Contact */
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+.contact-card {
+  background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: var(--radius);
+  padding: 2rem; text-align: center;
+}
+.contact-card .icon { font-size: 2rem; margin-bottom: 0.8rem; color: var(--accent-light); }
+.contact-card h4 { margin-bottom: 0.4rem; }
+.contact-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+/* Footer */
+footer {
+  text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--glass-border);
+  color: var(--text-muted); font-size: 0.9rem;
+}
+footer .hours { margin-bottom: 1rem; }
+footer .hours span { color: var(--accent-light); font-weight: 600; }
+
+/* Mobile */
+@media (max-width: 768px) {
+  nav ul { display: none; }
+  .about-grid { grid-template-columns: 1fr; }
+  .stats { flex-wrap: wrap; }
+  section { padding: 3rem 1.2rem; }
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">&#9670; Raumkunst Steiner</div>
+  <ul>
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#ueber">Ueber uns</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <h1>Ihr Raum. <span>Unsere Leidenschaft.</span></h1>
+  <p>Meisterbetrieb fuer Tapezierung und Raumgestaltung in der Steiermark. Wir verwandeln Ihre vier Waende in ein Zuhause mit Charakter.</p>
+  <a href="#kontakt" class="btn">Beratung anfragen &#10132;</a>
+</section>
+
+<section id="leistungen">
+  <h2 class="section-title fade-in">Unsere <span>Leistungen</span></h2>
+  <p class="section-sub fade-in">Vom klassischen Handwerk bis zur modernen Raumgestaltung - alles aus einer Hand.</p>
+  <div class="cards">
+    <div class="card fade-in">
+      <div class="icon">&#9634;</div>
+      <h3>Tapezieren</h3>
+      <p>Vliestapeten, Designtapeten, Fototapeten - fachgerecht verarbeitet fuer ein perfektes Ergebnis an jeder Wand.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="icon">&#9731;</div>
+      <h3>Polsterung</h3>
+      <p>Neupolsterung und Restaurierung Ihrer Lieblingsmoebel. Wir hauchen alten Stuecken neues Leben ein.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="icon">&#9788;</div>
+      <h3>Sonnenschutz</h3>
+      <p>Rollos, Jalousien, Plissees und Markisen - massgefertigt fuer optimalen Licht- und Waermeschutz.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="icon">&#9638;</div>
+      <h3>Bodenbelaege</h3>
+      <p>Teppich, Vinyl, Linoleum oder Designbelaege. Professionelle Verlegung fuer jeden Anspruch.</p>
+    </div>
+  </div>
+</section>
+
+<section id="ueber">
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <h2 class="section-title" style="text-align:left">Ueber <span>uns</span></h2>
+      <h3>Meisterbetrieb seit 1987</h3>
+      <p>Seit ueber drei Jahrzehnten steht die Firma Steiner fuer erstklassige Qualitaet im Tapeziererhandwerk. Als Meisterbetrieb verbinden wir traditionelles Handwerk mit modernen Materialien und Techniken.</p>
+      <p>Unser Team aus erfahrenen Fachkraeften beratet Sie individuell und setzt Ihre Wuensche mit Praezision und Leidenschaft um. Jeder Raum erzaehlt eine Geschichte - wir helfen Ihnen, Ihre zu gestalten.</p>
+      <div class="stats">
+        <div class="stat-item"><div class="num">35+</div><div class="label">Jahre Erfahrung</div></div>
+        <div class="stat-item"><div class="num">2.400+</div><div class="label">Zufriedene Kunden</div></div>
+        <div class="stat-item"><div class="num">8</div><div class="label">Fachkraefte im Team</div></div>
+      </div>
+    </div>
+    <div class="fade-in" style="background:var(--bg-card);border-radius:var(--radius);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;font-size:4rem;border:1px solid var(--glass-border);">
+      &#127912;
+    </div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <h2 class="section-title fade-in">Kontaktieren <span>Sie uns</span></h2>
+  <p class="section-sub fade-in">Wir freuen uns auf Ihre Anfrage - kostenlose Erstberatung inklusive!</p>
+  <div class="contact-grid">
+    <div class="contact-card fade-in">
+      <div class="icon">&#9742;</div>
+      <h4>Telefon</h4>
+      <p>+43 3172 12345</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">&#9993;</div>
+      <h4>E-Mail</h4>
+      <p>office@raumkunst-steiner.at</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">&#9873;</div>
+      <h4>Adresse</h4>
+      <p>Hauptstrasse 42, 8101 Gratkorn</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="hours">
+    <span>Oeffnungszeiten:</span> Mo-Fr 07:30 - 17:00 Uhr | Sa 08:00 - 12:00 Uhr
+  </div>
+  <p>&copy; 2026 Raumkunst Steiner | Meisterbetrieb fuer Tapezierung &amp; Raumgestaltung</p>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

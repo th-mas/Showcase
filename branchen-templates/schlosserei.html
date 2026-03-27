@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schlosserei Eisenhart | Stark in Stahl</title>
+<style>
+:root {
+  --accent: #5C6B73;
+  --accent-light: #7D8C94;
+  --accent-dark: #455058;
+  --accent-glow: #8FA5B0;
+  --bg-primary: #0A0C0E;
+  --bg-secondary: #111416;
+  --bg-card: rgba(92, 107, 115, 0.07);
+  --glass: rgba(92, 107, 115, 0.1);
+  --glass-border: rgba(92, 107, 115, 0.18);
+  --text-primary: #E0E5E8;
+  --text-secondary: #98A4AB;
+  --text-muted: #5E6A70;
+  --spark: #FF6B35;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+.fade-in {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: rgba(10, 12, 14, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 1rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.logo { font-size: 1.4rem; font-weight: 700; color: var(--accent-glow); letter-spacing: 1px; text-transform: uppercase; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  color: var(--text-secondary); text-decoration: none;
+  font-size: 0.9rem; transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--accent-glow); }
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 6rem 2rem 4rem;
+  background: radial-gradient(ellipse at 60% 40%, rgba(255, 107, 53, 0.06) 0%, transparent 50%),
+              radial-gradient(ellipse at 40% 60%, rgba(92, 107, 115, 0.1) 0%, transparent 50%),
+              var(--bg-primary);
+  position: relative;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 200px;
+  background: linear-gradient(to top, var(--bg-primary), transparent);
+}
+.hero-content { position: relative; z-index: 1; max-width: 800px; }
+.hero-badge {
+  display: inline-block; padding: 0.4rem 1.2rem;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: 50px; font-size: 0.85rem; color: var(--spark);
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800; line-height: 1.1;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent-glow) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--text-secondary); margin-bottom: 2.5rem;
+  max-width: 600px; margin-inline: auto;
+}
+.cta-btn {
+  display: inline-block; padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, var(--spark), #D4551E);
+  color: #fff; font-weight: 700; font-size: 1rem;
+  text-decoration: none; border-radius: 50px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 25px rgba(255, 107, 53, 0.25);
+}
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 35px rgba(255, 107, 53, 0.4);
+}
+section { padding: 6rem 2rem; }
+.section-header { text-align: center; margin-bottom: 4rem; }
+.section-header h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem; }
+.section-header p { color: var(--text-secondary); max-width: 550px; margin-inline: auto; }
+.accent-line { width: 60px; height: 3px; background: var(--spark); margin: 1rem auto; border-radius: 2px; }
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+}
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  position: relative; overflow: hidden;
+}
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--spark), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.card:hover { transform: translateY(-5px); border-color: var(--accent-glow); }
+.card:hover::before { opacity: 1; }
+.card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent-glow); }
+.card p { color: var(--text-secondary); font-size: 0.95rem; }
+.about {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+}
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; max-width: 1100px; margin: 0 auto; align-items: center;
+}
+.about-visual {
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.05), var(--glass), transparent);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px; padding: 3rem;
+  text-align: center; font-size: 5rem;
+  aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;
+}
+.about-text h2 { font-size: 2rem; margin-bottom: 1rem; }
+.about-text p { color: var(--text-secondary); margin-bottom: 1rem; }
+.stats {
+  display: flex; gap: 2rem; margin-top: 2rem;
+  padding-top: 2rem; border-top: 1px solid var(--glass-border);
+}
+.stat-item .stat-num { font-size: 2rem; font-weight: 800; color: var(--spark); }
+.stat-item .stat-label { font-size: 0.85rem; color: var(--text-muted); }
+.contact-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem; max-width: 900px; margin: 0 auto;
+}
+.contact-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 2rem; text-align: center;
+}
+.contact-card .icon { font-size: 2rem; margin-bottom: 1rem; }
+.contact-card h3 { color: var(--accent-glow); margin-bottom: 0.5rem; }
+.contact-card p { color: var(--text-secondary); font-size: 0.95rem; }
+footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--glass-border);
+  padding: 3rem 2rem; text-align: center;
+}
+.footer-hours {
+  display: inline-block;
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: 12px; padding: 1.5rem 2.5rem; margin-bottom: 1.5rem;
+}
+.footer-hours h3 { color: var(--spark); margin-bottom: 0.75rem; }
+.footer-hours p { color: var(--text-secondary); font-size: 0.9rem; margin: 0.25rem 0; }
+.footer-copy { color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px; cursor: pointer;
+  background: none; border: none; padding: 0.5rem;
+}
+.hamburger span { width: 25px; height: 2px; background: var(--text-secondary); transition: 0.3s; }
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+  .nav-links {
+    display: none; position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; background: rgba(10, 12, 14, 0.95);
+    padding: 1.5rem 2rem; gap: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .nav-links.open { display: flex; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-visual { aspect-ratio: 16/9; font-size: 3rem; }
+  .stats { flex-wrap: wrap; gap: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Eisenhart Schlosserei</div>
+  <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#ueber-uns">Ueber uns</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-badge">24h Notdienst verfuegbar</span>
+    <h1>Hart im Nehmen. Stark im Machen.</h1>
+    <p>Industriemontage, Schweissarbeiten, Reparaturen - wenn's drauf ankommt, sind wir zur Stelle. Ihre Schlosserei fuer alle Faelle in Graz und Umgebung.</p>
+    <a href="#kontakt" class="cta-btn">Jetzt anrufen</a>
+  </div>
+</section>
+
+<section id="leistungen">
+  <div class="section-header fade-in">
+    <h2>Unsere Leistungen</h2>
+    <div class="accent-line"></div>
+    <p>Robust, zuverlaessig und schnell - das zeichnet uns aus.</p>
+  </div>
+  <div class="cards">
+    <div class="card fade-in">
+      <div class="card-icon">🔨</div>
+      <h3>Schlosserarbeiten</h3>
+      <p>Klassische Schlosserarbeiten aller Art. Tueren, Gitter, Beschlaege, Sicherheitstechnik - massgeschneidert und solide ausgefuehrt.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">🏭</div>
+      <h3>Industriemontage</h3>
+      <p>Montage und Demontage von Anlagen, Maschinen und Stahlkonstruktionen. Termingerecht, sicher und mit eigenem Kranfahrzeug.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">🔧</div>
+      <h3>Reparatur &amp; Service</h3>
+      <p>Schnelle Reparaturen vor Ort oder in unserer Werkstatt. Tore, Gelaender, Maschinen - wir bringen alles wieder zum Laufen.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">🔥</div>
+      <h3>Schweissarbeiten</h3>
+      <p>WIG, MAG, Elektrodenschweissen - alle Verfahren fuer Stahl, Edelstahl und Aluminium. Auch mobile Schweissarbeiten auf Ihrer Baustelle.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="ueber-uns">
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <h2>Wenn andere aufhoeren, fangen wir an</h2>
+      <p>Die Schlosserei Eisenhart steht seit ueber 20 Jahren fuer zuverlaessige Handwerksarbeit ohne Schnickschnack. Unser Chef, Schlossermeister seit 1998, packt immer noch selbst an.</p>
+      <p>Egal ob Grossauftrag oder schnelle Reparatur - bei uns zaehlt das Ergebnis. Wir kommen, wir machen, wir liefern. Punkt. Unser 24h-Notdienst ist fuer Sie da, wenn's wirklich pressiert.</p>
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-num">20+</div>
+          <div class="stat-label">Jahre im Einsatz</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">24h</div>
+          <div class="stat-label">Notdienst</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">6</div>
+          <div class="stat-label">Fachkraefte</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual fade-in">⚒️</div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="section-header fade-in">
+    <h2>Kontakt</h2>
+    <div class="accent-line"></div>
+    <p>Schnell, unkompliziert und direkt - so erreichen Sie uns.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-card fade-in">
+      <div class="icon">📞</div>
+      <h3>Telefon</h3>
+      <p>+43 316 / 34 567</p>
+      <p>Notdienst: +43 664 / 98 76 543</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">✉️</div>
+      <h3>E-Mail</h3>
+      <p>office@eisenhart.at</p>
+      <p>Angebote innerhalb 24h</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">📍</div>
+      <h3>Werkstatt</h3>
+      <p>Schlossergasse 3</p>
+      <p>8020 Graz</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-hours">
+    <h3>Oeffnungszeiten</h3>
+    <p>Montag - Freitag: 6:30 - 16:00</p>
+    <p>Samstag: nach Vereinbarung</p>
+    <p>Notdienst: rund um die Uhr</p>
+  </div>
+  <p class="footer-copy">&copy; 2026 Eisenhart Schlosserei e.U. Alle Rechte vorbehalten.</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

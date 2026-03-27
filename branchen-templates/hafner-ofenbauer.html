@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wärmekunst Steiner | Hafner & Ofenbauer</title>
+<style>
+:root {
+  --accent: #FF5722;
+  --accent-glow: rgba(255, 87, 34, 0.35);
+  --bg: #0f0f0f;
+  --bg2: #1a1a1a;
+  --card: rgba(255,255,255,0.05);
+  --card-border: rgba(255,255,255,0.08);
+  --text: #e8e8e8;
+  --text-muted: #999;
+  --radius: 16px;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+a { color: var(--accent); text-decoration: none; }
+
+/* NAV */
+nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(15,15,15,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--card-border); }
+.logo { font-size: 1.4rem; font-weight: 700; color: var(--accent); }
+.nav-links { display: flex; gap: 1.5rem; list-style: none; }
+.nav-links a { color: var(--text-muted); font-size: .9rem; transition: color .3s; }
+.nav-links a:hover { color: var(--accent); }
+.menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+
+/* HERO */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 6rem 2rem 4rem; position: relative; background: radial-gradient(ellipse at 50% 0%, var(--accent-glow), transparent 60%), var(--bg); }
+.hero-icon { font-size: 4rem; margin-bottom: 1rem; }
+.hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; }
+.hero h1 span { color: var(--accent); }
+.hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin-bottom: 2rem; }
+.btn { display: inline-block; padding: .9rem 2.2rem; background: var(--accent); color: #fff; border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform .3s, box-shadow .3s; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+
+/* SECTIONS */
+section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+.section-title { text-align: center; margin-bottom: 3rem; }
+.section-title h2 { font-size: 2rem; font-weight: 700; margin-bottom: .5rem; }
+.section-title p { color: var(--text-muted); }
+
+/* CARDS */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1.5rem; }
+.card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; backdrop-filter: blur(10px); transition: transform .3s, border-color .3s; }
+.card:hover { transform: translateY(-4px); border-color: var(--accent); }
+.card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.card h3 { font-size: 1.2rem; margin-bottom: .5rem; color: var(--accent); }
+.card p { color: var(--text-muted); font-size: .95rem; }
+
+/* ABOUT */
+.about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.about-text h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+.about-text p { color: var(--text-muted); margin-bottom: 1rem; }
+.about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.stat { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 1.5rem; text-align: center; backdrop-filter: blur(10px); }
+.stat-number { font-size: 2.2rem; font-weight: 800; color: var(--accent); }
+.stat-label { font-size: .85rem; color: var(--text-muted); }
+
+/* CONTACT */
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 1.5rem; }
+.contact-card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; text-align: center; backdrop-filter: blur(10px); }
+.contact-card .icon { font-size: 2rem; margin-bottom: .8rem; }
+.contact-card h4 { margin-bottom: .3rem; }
+.contact-card p { color: var(--text-muted); font-size: .95rem; }
+
+/* FOOTER */
+footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: .9rem; }
+footer .hours { margin: 1rem 0; }
+footer .hours span { color: var(--accent); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(15,15,15,0.95); padding: 1rem 2rem; gap: 1rem; }
+  .nav-links.open { display: flex; }
+  .menu-toggle { display: block; }
+  .about-content { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">&#x1F525; Wärmekunst Steiner</div>
+  <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+  <ul class="nav-links">
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#ueber">Über uns</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-icon">&#x1F525;</div>
+  <h1>Wärme, die von <span>Herzen</span> kommt</h1>
+  <p>Ihr Meisterbetrieb für Kachelöfen, Kamine und individuelle Feuerstätten in der Steiermark. Seit über 30 Jahren verbinden wir traditionelles Handwerk mit moderner Technik.</p>
+  <a href="#kontakt" class="btn">Jetzt Beratung anfragen</a>
+</section>
+
+<section id="leistungen">
+  <div class="section-title fade-in">
+    <h2>Unsere Leistungen</h2>
+    <p>Vom klassischen Kachelofen bis zum modernen Designkamin</p>
+  </div>
+  <div class="card-grid">
+    <div class="card fade-in">
+      <div class="card-icon">&#x2B50;</div>
+      <h3>Kachelöfen</h3>
+      <p>Individuell geplante Kachelöfen nach Maß. Wir setzen Ihre Wünsche um — vom traditionellen Bauernkachelofen bis zur modernen Ganzhausheizung.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#x1F525;</div>
+      <h3>Kamine</h3>
+      <p>Offene und geschlossene Kaminsysteme für wohlige Atmosphäre. Moderne Heiztechnik trifft auf zeitloses Design in Ihrem Wohnraum.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#x1F355;</div>
+      <h3>Pizzaöfen</h3>
+      <p>Holzbefeuerte Pizzaöfen für Ihren Garten. Authentischer Geschmack wie in Bella Italia — gebaut für die steirische Lebensfreude.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#x1F527;</div>
+      <h3>Ofensanierung</h3>
+      <p>Fachgerechte Sanierung und Restaurierung bestehender Öfen. Wir hauchen Ihrem alten Ofen neues Leben ein und erfüllen alle Normen.</p>
+    </div>
+  </div>
+</section>
+
+<section id="ueber">
+  <div class="section-title fade-in">
+    <h2>Über uns</h2>
+    <p>Tradition und Leidenschaft seit 1992</p>
+  </div>
+  <div class="about-content fade-in">
+    <div class="about-text">
+      <h3>Meisterbetrieb mit Herzblut</h3>
+      <p>Als Familienunternehmen in dritter Generation leben wir das Hafnerhandwerk mit jeder Faser. Jeder Ofen, den wir bauen, ist ein Unikat — maßgeschneidert auf Ihre Bedürfnisse und Ihren Wohnraum.</p>
+      <p>Unsere Materialien beziehen wir von regionalen Lieferanten. Qualität und Nachhaltigkeit sind für uns keine Schlagwörter, sondern gelebte Praxis.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat"><div class="stat-number">30+</div><div class="stat-label">Jahre Erfahrung</div></div>
+      <div class="stat"><div class="stat-number">1.200</div><div class="stat-label">Öfen gebaut</div></div>
+      <div class="stat"><div class="stat-number">100%</div><div class="stat-label">Meisterqualität</div></div>
+      <div class="stat"><div class="stat-number">4,9</div><div class="stat-label">Google Bewertung</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="section-title fade-in">
+    <h2>Kontakt</h2>
+    <p>Wir freuen uns auf Ihre Anfrage</p>
+  </div>
+  <div class="contact-grid fade-in">
+    <div class="contact-card">
+      <div class="icon">&#x1F4DE;</div>
+      <h4>Telefon</h4>
+      <p>+43 3172 12345</p>
+    </div>
+    <div class="contact-card">
+      <div class="icon">&#x2709;</div>
+      <h4>E-Mail</h4>
+      <p>office@waermekunst-steiner.at</p>
+    </div>
+    <div class="contact-card">
+      <div class="icon">&#x1F4CD;</div>
+      <h4>Adresse</h4>
+      <p>Hauptstraße 42<br>8160 Weiz, Steiermark</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">&#x1F525; Wärmekunst Steiner</div>
+  <div class="hours">
+    <span>Öffnungszeiten:</span> Mo–Fr 07:30–17:00 | Sa 08:00–12:00
+  </div>
+  <p>&copy; 2026 Wärmekunst Steiner GmbH. Alle Rechte vorbehalten.</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

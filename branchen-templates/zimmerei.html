@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Holzbau Egger | Zimmerei & Holzbau</title>
+<style>
+:root {
+  --accent: #2E7D32;
+  --accent-glow: rgba(46, 125, 50, 0.3);
+  --accent-light: #4CAF50;
+  --bg: #0a0f0a;
+  --bg2: #121812;
+  --card: rgba(46,125,50,0.06);
+  --card-border: rgba(46,125,50,0.15);
+  --text: #e8ece8;
+  --text-muted: #8a9a8a;
+  --radius: 16px;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+a { color: var(--accent-light); text-decoration: none; }
+
+nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(10,15,10,0.88); backdrop-filter: blur(12px); border-bottom: 1px solid var(--card-border); }
+.logo { font-size: 1.4rem; font-weight: 700; color: var(--accent-light); }
+.nav-links { display: flex; gap: 1.5rem; list-style: none; }
+.nav-links a { color: var(--text-muted); font-size: .9rem; transition: color .3s; }
+.nav-links a:hover { color: var(--accent-light); }
+.menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 6rem 2rem 4rem; background: radial-gradient(ellipse at 30% 80%, rgba(46,125,50,0.12), transparent 50%), radial-gradient(ellipse at 70% 20%, var(--accent-glow), transparent 55%), var(--bg); }
+.hero-icon { font-size: 4rem; margin-bottom: 1rem; }
+.hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; }
+.hero h1 span { color: var(--accent-light); }
+.hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 620px; margin-bottom: 2rem; }
+.btn { display: inline-block; padding: .9rem 2.2rem; background: var(--accent); color: #fff; border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform .3s, box-shadow .3s; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+
+section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+.section-title { text-align: center; margin-bottom: 3rem; }
+.section-title h2 { font-size: 2rem; font-weight: 700; margin-bottom: .5rem; }
+.section-title p { color: var(--text-muted); }
+
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1.5rem; }
+.card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; backdrop-filter: blur(10px); transition: transform .3s, border-color .3s; position: relative; }
+.card:hover { transform: translateY(-4px); border-color: var(--accent-light); }
+.card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.card h3 { font-size: 1.2rem; margin-bottom: .5rem; color: var(--accent-light); }
+.card p { color: var(--text-muted); font-size: .95rem; }
+
+/* TIMBER PROCESS SECTION */
+.process { background: var(--bg2); border-radius: var(--radius); padding: 3rem; margin-top: 2rem; }
+.process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 2rem; text-align: center; }
+.step { position: relative; }
+.step-num { display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 1.3rem; font-weight: 700; margin-bottom: .8rem; }
+.step h4 { margin-bottom: .3rem; }
+.step p { color: var(--text-muted); font-size: .9rem; }
+
+.about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.about-text h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+.about-text p { color: var(--text-muted); margin-bottom: 1rem; }
+.cert-badges { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+.badge { background: var(--card); border: 1px solid var(--card-border); border-radius: 8px; padding: .5rem 1rem; font-size: .85rem; color: var(--accent-light); }
+.about-image { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 3rem; text-align: center; font-size: 5rem; }
+
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 1.5rem; }
+.contact-card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; text-align: center; }
+.contact-card:hover { border-color: var(--accent-light); }
+.contact-card .icon { font-size: 2rem; margin-bottom: .8rem; }
+.contact-card h4 { margin-bottom: .3rem; }
+.contact-card p { color: var(--text-muted); font-size: .95rem; }
+
+footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: .9rem; }
+footer .hours { margin: 1rem 0; }
+footer .hours span { color: var(--accent-light); }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(10,15,10,0.95); padding: 1rem 2rem; gap: 1rem; }
+  .nav-links.open { display: flex; }
+  .menu-toggle { display: block; }
+  .about-content { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">&#x1F332; Holzbau Egger</div>
+  <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+  <ul class="nav-links">
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#ablauf">Ablauf</a></li>
+    <li><a href="#ueber">Über uns</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-icon">&#x1F332;</div>
+  <h1>Bauen mit <span>Holz</span> — bauen mit Zukunft</h1>
+  <p>Zimmerei und Holzbau aus dem Herzen der Steiermark. Nachhaltig, präzise und mit Liebe zum natürlichsten aller Baustoffe.</p>
+  <a href="#kontakt" class="btn">Projekt besprechen</a>
+</section>
+
+<section id="leistungen">
+  <div class="section-title fade-in">
+    <h2>Unsere Leistungen</h2>
+    <p>Vom Dachstuhl bis zum kompletten Holzhaus</p>
+  </div>
+  <div class="card-grid">
+    <div class="card fade-in">
+      <div class="card-icon">&#x1F3D8;</div>
+      <h3>Dachstühle</h3>
+      <p>Klassische und moderne Dachkonstruktionen. Satteldach, Walmdach oder Pultdach — wir planen und errichten Ihren Dachstuhl nach Maß.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#x1F3E1;</div>
+      <h3>Holzhäuser</h3>
+      <p>Wohnhäuser in Holzriegelbauweise. Energieeffizient, wohngesund und in kürzester Bauzeit bezugsfertig. Ihr Traumhaus aus Holz.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#x1F697;</div>
+      <h3>Carports</h3>
+      <p>Elegante Carports und Überdachungen aus heimischen Hölzern. Freistehend oder ans Haus angebaut — wir finden die perfekte Lösung.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#x1F3DB;</div>
+      <h3>Altholzsanierung</h3>
+      <p>Fachgerechte Sanierung historischer Holzkonstruktionen. Wir bewahren das Alte und verbinden es behutsam mit dem Neuen.</p>
+    </div>
+  </div>
+</section>
+
+<section id="ablauf">
+  <div class="section-title fade-in">
+    <h2>Unser Ablauf</h2>
+    <p>In 4 Schritten zu Ihrem Holzbauprojekt</p>
+  </div>
+  <div class="process fade-in">
+    <div class="process-steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Beratung</h4>
+        <p>Kostenlose Erstberatung vor Ort</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Planung</h4>
+        <p>3D-Planung und Angebot</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Fertigung</h4>
+        <p>Präzise CNC-Vorfertigung</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>Montage</h4>
+        <p>Schnelle Montage vor Ort</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="ueber">
+  <div class="section-title fade-in">
+    <h2>Über uns</h2>
+    <p>Holz ist unsere Leidenschaft</p>
+  </div>
+  <div class="about-content fade-in">
+    <div class="about-text">
+      <h3>Tradition trifft Innovation</h3>
+      <p>Seit 1978 verbindet die Zimmerei Egger traditionelles Handwerk mit modernster Technik. Unsere CNC-Abbundanlage garantiert millimetergenaue Präzision, während unsere Zimmerleute das Wissen von Generationen einbringen.</p>
+      <p>Wir verwenden ausschließlich PEFC-zertifiziertes Holz aus der Region und setzen auf kurze Transportwege und nachhaltige Forstwirtschaft.</p>
+      <div class="cert-badges">
+        <span class="badge">&#x2714; PEFC-zertifiziert</span>
+        <span class="badge">&#x2714; Meisterbetrieb</span>
+        <span class="badge">&#x2714; klimaaktiv Partner</span>
+      </div>
+    </div>
+    <div class="about-image">&#x1F3D7;</div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="section-title fade-in">
+    <h2>Kontakt</h2>
+    <p>Planen wir gemeinsam Ihr nächstes Holzprojekt</p>
+  </div>
+  <div class="contact-grid fade-in">
+    <div class="contact-card">
+      <div class="icon">&#x1F4DE;</div>
+      <h4>Telefon</h4>
+      <p>+43 3452 76543</p>
+    </div>
+    <div class="contact-card">
+      <div class="icon">&#x2709;</div>
+      <h4>E-Mail</h4>
+      <p>office@holzbau-egger.at</p>
+    </div>
+    <div class="contact-card">
+      <div class="icon">&#x1F4CD;</div>
+      <h4>Adresse</h4>
+      <p>Waldweg 8<br>8530 Deutschlandsberg</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">&#x1F332; Holzbau Egger</div>
+  <div class="hours">
+    <span>Öffnungszeiten:</span> Mo–Do 06:30–16:00 | Fr 06:30–12:30
+  </div>
+  <p>&copy; 2026 Holzbau Egger GmbH. Alle Rechte vorbehalten.</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
