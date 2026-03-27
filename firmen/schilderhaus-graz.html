@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schilder- und Stempelhaus Graz | Full Service Werbetechnik</title>
+<style>
+:root {
+  --accent: #00E5FF;
+  --accent-light: #80F0FF;
+  --accent-glow: rgba(0, 229, 255, 0.35);
+  --bg-dark: #070b12;
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --bg-card-hover: rgba(0, 229, 255, 0.08);
+  --text: #e6edf5;
+  --text-muted: #8899aa;
+  --glass-border: rgba(255, 255, 255, 0.07);
+  --radius: 16px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg-dark); color: var(--text); line-height: 1.7; overflow-x: hidden;
+}
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: rgba(7, 11, 18, 0.88); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+}
+nav .logo { font-size: 1.3rem; font-weight: 700; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; }
+nav ul { list-style: none; display: flex; gap: 2rem; }
+nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+nav a:hover { color: var(--accent); }
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center; padding: 6rem 2rem 4rem;
+  background: radial-gradient(ellipse at 30% 20%, var(--accent-glow), transparent 50%),
+              radial-gradient(ellipse at 70% 80%, rgba(0, 100, 255, 0.15), transparent 50%),
+              var(--bg-dark);
+}
+.hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.15; }
+.hero h1 span { color: var(--accent); text-shadow: 0 0 40px var(--accent-glow); }
+.hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 620px; margin-bottom: 2.5rem; }
+.btn {
+  display: inline-block; padding: 0.9rem 2.4rem; border-radius: 50px;
+  background: linear-gradient(135deg, #0097A7, var(--accent));
+  color: #000; text-decoration: none; font-weight: 700; font-size: 1rem;
+  transition: transform 0.3s, box-shadow 0.3s; border: none; cursor: pointer;
+}
+.btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px var(--accent-glow); }
+section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+.section-title { text-align: center; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: 0.5rem; }
+.section-title span { color: var(--accent); }
+.section-sub { text-align: center; color: var(--text-muted); margin-bottom: 3rem; max-width: 600px; margin-inline: auto; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+.card {
+  background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: var(--radius);
+  padding: 2rem; backdrop-filter: blur(10px);
+  transition: background 0.4s, transform 0.3s, box-shadow 0.3s;
+  position: relative; overflow: hidden;
+}
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0;
+  transition: opacity 0.4s;
+}
+.card:hover::before { opacity: 1; }
+.card:hover { background: var(--bg-card-hover); transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
+.card .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--accent); }
+.card p { font-size: 0.95rem; color: var(--text-muted); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.about-text h3 { font-size: 1.4rem; margin-bottom: 1rem; color: var(--accent); }
+.about-text p { color: var(--text-muted); margin-bottom: 1rem; }
+.stats { display: flex; gap: 2rem; margin-top: 1.5rem; }
+.stat-item .num { font-size: 2rem; font-weight: 800; color: var(--accent); }
+.stat-item .label { font-size: 0.8rem; color: var(--text-muted); }
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+.contact-card {
+  background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: var(--radius);
+  padding: 2rem; text-align: center;
+}
+.contact-card .icon { font-size: 2rem; margin-bottom: 0.8rem; color: var(--accent); }
+.contact-card h4 { margin-bottom: 0.4rem; }
+.contact-card p { color: var(--text-muted); font-size: 0.95rem; }
+footer {
+  text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--glass-border);
+  color: var(--text-muted); font-size: 0.9rem;
+}
+footer .hours { margin-bottom: 1rem; }
+footer .hours span { color: var(--accent); font-weight: 600; }
+@media (max-width: 768px) {
+  nav ul { display: none; }
+  .about-grid { grid-template-columns: 1fr; }
+  .stats { flex-wrap: wrap; }
+  section { padding: 3rem 1.2rem; }
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">&#9889; Schilder &amp; Stempelhaus</div>
+  <ul>
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#ueber">Ueber uns</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <h1>Ihr Full Service-Partner. <span>Sichtbar gemacht.</span></h1>
+  <p>Das Schilder- und Stempelhaus versteht sich als Full Service-Partner Ihres Unternehmens. Wir produzieren Beschriftungen, Beschilderungen, Werbelichtanlagen, Gravuren, Stempel, Werbetuerme, Schilder, Fraesungen, Stahl- und Aluminiumkonstruktionen, Digitaldrucke, LED-Loesungen und viele weitere Produkte der Werbetechnik.</p>
+  <a href="#kontakt" class="btn">Projekt besprechen &#10132;</a>
+</section>
+
+<section id="leistungen">
+  <h2 class="section-title fade-in">Unsere <span>Leistungen</span></h2>
+  <p class="section-sub fade-in">Vom Entwurf bis zur Montage - kreative Werbeloesungen die wirken.</p>
+  <div class="cards">
+    <div class="card fade-in">
+      <div class="icon">&#9645;</div>
+      <h3>Schilder &amp; Beschilderungen</h3>
+      <p>Firmenschilder, Hinweistafeln, Bauschilder, Verkehrsschilder, Tuerschilder - robust, witterungsbestaendig und professionell gestaltet.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="icon">&#9641;</div>
+      <h3>Beschriftungen &amp; Folierungen</h3>
+      <p>Kfz-Beschriftung, Autobeschriftung, Schaufensterfolierung, Fassadengestaltung und Hausbeschriftung - mobile Werbung die faehrt.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="icon">&#10031;</div>
+      <h3>Leuchtschriften &amp; LED</h3>
+      <p>LED-Leuchtbuchstaben, Leuchtschilder, Leuchtkaeaesten, Neonreklame, Werbetuerme und Pylone - Tag und Nacht praesent.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="icon">&#10070;</div>
+      <h3>Stempel &amp; Gravur</h3>
+      <p>Stempelautomaten, Firmenstempel, Datumstempel, Praegestempel, Namensschilder und Gravuren aller Art - praezise und individuell.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="icon">&#128296;</div>
+      <h3>CNC-Fraesungen</h3>
+      <p>CNC-Fraestechnik fuer praezise Buchstaben, Logos und Sonderformen aus verschiedensten Materialien.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="icon">&#127463;</div>
+      <h3>Konstruktionen &amp; Digitaldruck</h3>
+      <p>Stahl- und Aluminiumkonstruktionen, Grossformatdruck, Fahnen, Fahnenmaste, Schaukaesten und Plakatstaender.</p>
+    </div>
+  </div>
+</section>
+
+<section id="ueber">
+  <div class="about-grid">
+    <div class="fade-in" style="background:var(--bg-card);border-radius:var(--radius);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;font-size:4rem;border:1px solid var(--glass-border);">
+      &#127912;
+    </div>
+    <div class="about-text fade-in">
+      <h2 class="section-title" style="text-align:left">Ueber <span>uns</span></h2>
+      <h3>25+ Jahre Werbetechnik aus Graz</h3>
+      <p>Das Schilder- und Stempelhaus wurde vor ueber 25 Jahren gegruendet und entwickelte sich zum mittelstaendigen Unternehmen in der Werbetechnik-Branche.</p>
+      <p>Zur Zeit koennen wir Auftraege aus dem gesamten EU-Raum uebernehmen. Senden Sie uns Ihre Vorstellungen und wir werden diese in der Realitaet umsetzen. Aussendienst-Termine sind nach telefonischer Terminvereinbarung oesterreichweit moeglich.</p>
+      <div class="stats">
+        <div class="stat-item"><div class="num">25+</div><div class="label">Jahre Erfahrung</div></div>
+        <div class="stat-item"><div class="num">EU</div><div class="label">weit taetig</div></div>
+        <div class="stat-item"><div class="num">Graz</div><div class="label">Standort</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <h2 class="section-title fade-in">Kontaktieren <span>Sie uns</span></h2>
+  <p class="section-sub fade-in">Lassen Sie uns Ihre naechste Werbeloesung gemeinsam planen!</p>
+  <div class="contact-grid">
+    <div class="contact-card fade-in">
+      <div class="icon">&#9742;</div>
+      <h4>Telefon</h4>
+      <p>+43 (0) 316 26 14 26</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">&#9993;</div>
+      <h4>E-Mail</h4>
+      <p>office@schilderhaus.at</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">&#9873;</div>
+      <h4>Adresse</h4>
+      <p>Vinzenz Muchitschstrasse 2, 8020 Graz</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="hours">
+    <span>Oeffnungszeiten Geschaeft und Produktion:</span><br>
+    Mo-Do 8:00 - 17:00 Uhr | Fr 8:00 - 13:00 Uhr | Montagen nach Vereinbarung
+  </div>
+  <p>&copy; 2026 Schilder &amp; Stempelhaus e.U. | Vinzenz Muchitschstrasse 2, 8020 Graz</p>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

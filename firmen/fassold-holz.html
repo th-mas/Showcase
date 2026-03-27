@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fassold Holz | Saegewerk &amp; Holzhandel seit 1958</title>
+<style>
+:root {
+  --accent: #795548;
+  --accent-light: #BCAAA4;
+  --accent-warm: #D7CCC8;
+  --accent-glow: rgba(121, 85, 72, 0.3);
+  --bg-dark: #0c0a08;
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --bg-card-hover: rgba(121, 85, 72, 0.1);
+  --text: #f0ebe5;
+  --text-muted: #a09080;
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --radius: 16px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg-dark); color: var(--text); line-height: 1.7; overflow-x: hidden;
+}
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: rgba(12, 10, 8, 0.88); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+}
+nav .logo { font-size: 1.3rem; font-weight: 700; color: var(--accent-warm); }
+nav ul { list-style: none; display: flex; gap: 2rem; }
+nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+nav a:hover { color: var(--accent-warm); }
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center; padding: 6rem 2rem 4rem;
+  background: radial-gradient(ellipse at 50% 50%, var(--accent-glow), transparent 55%),
+              linear-gradient(180deg, var(--bg-dark) 0%, #151008 100%);
+}
+.hero-icon { font-size: 3.5rem; margin-bottom: 1.5rem; }
+.hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.15; }
+.hero h1 span { color: var(--accent-light); }
+.hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 620px; margin-bottom: 2.5rem; }
+.btn {
+  display: inline-block; padding: 0.9rem 2.4rem; border-radius: 50px;
+  background: linear-gradient(135deg, var(--accent), #8D6E63);
+  color: #fff; text-decoration: none; font-weight: 700; font-size: 1rem;
+  transition: transform 0.3s, box-shadow 0.3s; border: none; cursor: pointer;
+}
+.btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px var(--accent-glow); }
+section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+.section-title { text-align: center; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: 0.5rem; }
+.section-title span { color: var(--accent-light); }
+.section-sub { text-align: center; color: var(--text-muted); margin-bottom: 3rem; max-width: 600px; margin-inline: auto; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+.card {
+  background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: var(--radius);
+  padding: 2rem; backdrop-filter: blur(10px);
+  transition: background 0.4s, transform 0.3s, box-shadow 0.3s;
+}
+.card:hover { background: var(--bg-card-hover); transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
+.card .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--accent-light); }
+.card p { font-size: 0.95rem; color: var(--text-muted); }
+.wood-types { display: flex; gap: 1rem; margin-top: 3rem; flex-wrap: wrap; justify-content: center; }
+.wood-tag {
+  padding: 0.5rem 1.2rem; border-radius: 50px; font-size: 0.85rem;
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  color: var(--accent-light); transition: background 0.3s;
+}
+.wood-tag:hover { background: var(--bg-card-hover); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.about-text h3 { font-size: 1.4rem; margin-bottom: 1rem; color: var(--accent-light); }
+.about-text p { color: var(--text-muted); margin-bottom: 1rem; }
+.about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.feature {
+  display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem 1rem;
+  background: var(--bg-card); border-radius: 10px; border: 1px solid var(--glass-border);
+}
+.feature .f-icon { font-size: 1.2rem; color: var(--accent-light); }
+.feature span { font-size: 0.9rem; color: var(--text-muted); }
+.stats { display: flex; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
+.stat-item .num { font-size: 2rem; font-weight: 800; color: var(--accent-light); }
+.stat-item .label { font-size: 0.8rem; color: var(--text-muted); }
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+.contact-card {
+  background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: var(--radius);
+  padding: 2rem; text-align: center;
+}
+.contact-card .icon { font-size: 2rem; margin-bottom: 0.8rem; color: var(--accent-light); }
+.contact-card h4 { margin-bottom: 0.4rem; }
+.contact-card p { color: var(--text-muted); font-size: 0.95rem; }
+footer {
+  text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--glass-border);
+  color: var(--text-muted); font-size: 0.9rem;
+}
+footer .hours { margin-bottom: 1rem; }
+footer .hours span { color: var(--accent-light); font-weight: 600; }
+@media (max-width: 768px) {
+  nav ul { display: none; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-features { grid-template-columns: 1fr; }
+  section { padding: 3rem 1.2rem; }
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">&#127794; Fassold Holz</div>
+  <ul>
+    <li><a href="#sortiment">Produkte</a></li>
+    <li><a href="#ueber">Ueber uns</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-icon">&#127794;</div>
+  <h1>Willkommen bei <span>Fassold</span></h1>
+  <p>Saegewerk und Holzhandels Ges.m.b.H - seit 1958 in Eggersdorf bei Graz. Deckschichtlamellen, Barfussterrassen und Aussenfassaden in hoechster Qualitaet.</p>
+  <a href="#sortiment" class="btn">Zu unseren Produkten &#10132;</a>
+</section>
+
+<section id="sortiment">
+  <h2 class="section-title fade-in">Unsere <span>Produkte</span></h2>
+  <p class="section-sub fade-in">Qualitaetsprodukte aus heimischem Holz - fuer Industrie und Privatkunden.</p>
+  <div class="cards">
+    <div class="card fade-in">
+      <div class="icon">&#9638;</div>
+      <h3>Deckschichtlamellen</h3>
+      <p>Seit 2004 produzieren wir Deckschichten. Durch langjaehrige Erfahrung und Prozessoptimierung fertigen wir qualitativ hochwertigste Rohprodukte fuer die Holzindustrie.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="icon">&#9878;</div>
+      <h3>Barfussterrasse</h3>
+      <p>Robinie/Eiche Terrassenholz mit Unterkonstruktion in Akazie oder Aluminium. Sichtbare oder unsichtbare Verschraubung - formstabil und dauerhaft.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="icon">&#9733;</div>
+      <h3>Aussenfassade</h3>
+      <p>Rhombus-Profil in Robinie/Akazie fuer verdeckte Montage ohne sichtbare Verschraubung. Unbehandelt und nachhaltig fuer Ihr Bauprojekt.</p>
+    </div>
+  </div>
+  <div class="wood-types fade-in">
+    <div class="wood-tag">Robinie</div>
+    <div class="wood-tag">Eiche</div>
+    <div class="wood-tag">Akazie</div>
+    <div class="wood-tag">Deckschichten</div>
+    <div class="wood-tag">Terrassenholz</div>
+    <div class="wood-tag">Fassadenholz</div>
+  </div>
+</section>
+
+<section id="ueber">
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <h2 class="section-title" style="text-align:left">Ueber <span>uns</span></h2>
+      <h3>Tradition seit 1958 - 4 Generationen Holzkompetenz</h3>
+      <p>Seit 1958 steht die Familie Fassold fuer Qualitaet und Kompetenz im Holzhandel. Heute fuehren wir den Betrieb in der 4. Generation mit modernster Produktionstechnik und einem erfahrenen Team von 15 Mitarbeitern.</p>
+      <p>Mit einem jaehrlichen Produktionsvolumen von 400.000 m2 gehoeren wir zu den fuehrenden Deckschichtproduzenten der Region. Unser Standort in Eggersdorf bei Graz verbindet uns mit der steirischen Holztradition.</p>
+      <div class="stats">
+        <div class="stat-item"><div class="num">1958</div><div class="label">Gegruendet</div></div>
+        <div class="stat-item"><div class="num">400.000 m2</div><div class="label">Produktion/Jahr</div></div>
+        <div class="stat-item"><div class="num">15</div><div class="label">Mitarbeiter</div></div>
+      </div>
+    </div>
+    <div class="about-features fade-in">
+      <div class="feature"><span class="f-icon">&#10003;</span><span>4 Generationen</span></div>
+      <div class="feature"><span class="f-icon">&#10003;</span><span>Eigenes Saegewerk</span></div>
+      <div class="feature"><span class="f-icon">&#10003;</span><span>Heimisches Holz</span></div>
+      <div class="feature"><span class="f-icon">&#10003;</span><span>Modernste Produktion</span></div>
+      <div class="feature"><span class="f-icon">&#10003;</span><span>Qualitaetskontrolle</span></div>
+      <div class="feature"><span class="f-icon">&#10003;</span><span>Nachhaltig</span></div>
+      <div class="feature"><span class="f-icon">&#10003;</span><span>Beratung vor Ort</span></div>
+      <div class="feature"><span class="f-icon">&#10003;</span><span>Lieferservice</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <h2 class="section-title fade-in">Kontaktieren <span>Sie uns</span></h2>
+  <p class="section-sub fade-in">Besuchen Sie unser Saegewerk oder fordern Sie Ihr individuelles Angebot an!</p>
+  <div class="contact-grid">
+    <div class="contact-card fade-in">
+      <div class="icon">&#9742;</div>
+      <h4>Telefon</h4>
+      <p>+43 (0) 3117 2206</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">&#9993;</div>
+      <h4>E-Mail</h4>
+      <p>kontakt@fassold-holz.at</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">&#9873;</div>
+      <h4>Saegewerk</h4>
+      <p>Stuhlsdorfer Strasse 42<br>8063 Eggersdorf bei Graz</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="hours">
+    <span>Oeffnungszeiten:</span> Kontaktieren Sie uns fuer Terminvereinbarung | <span>Standort:</span> Eggersdorf bei Graz, Steiermark
+  </div>
+  <p>&copy; 2026 Fassold Saegewerk und Holzhandels Ges.m.b.H | Seit 1958 in Familienhand</p>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

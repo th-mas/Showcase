@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juwelier Hafner | Uhren &amp; Schmuck in Voitsberg &amp; Baernbach</title>
+<style>
+:root {
+  --accent: #FFD700;
+  --accent-glow: rgba(255, 215, 0, 0.2);
+  --accent-dark: #C9A800;
+  --accent-soft: #FFF3B0;
+  --bg: #08080a;
+  --bg2: #0e0e12;
+  --card: rgba(255,215,0,0.04);
+  --card-border: rgba(255,215,0,0.1);
+  --text: #f0ece0;
+  --text-muted: #8a8578;
+  --radius: 16px;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Georgia', 'Times New Roman', serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+h1, h2, h3, h4, nav, .btn, footer { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+.fade-in { opacity: 0; transform: translateY(25px); transition: opacity .9s ease, transform .9s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+a { color: var(--accent); text-decoration: none; }
+
+nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(8,8,10,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--card-border); }
+.logo { font-size: 1.3rem; font-weight: 700; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; }
+.nav-links { display: flex; gap: 1.5rem; list-style: none; }
+.nav-links a { color: var(--text-muted); font-size: .85rem; transition: color .3s; letter-spacing: 1px; text-transform: uppercase; }
+.nav-links a:hover { color: var(--accent); }
+.menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 6rem 2rem 4rem; background: radial-gradient(ellipse at 50% 40%, var(--accent-glow), transparent 55%), radial-gradient(circle at 30% 70%, rgba(255,215,0,0.05), transparent 40%), var(--bg); position: relative; }
+.hero::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFD700' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); pointer-events: none; }
+.hero-icon { font-size: 3rem; margin-bottom: 1.5rem; }
+.hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 300; line-height: 1.2; margin-bottom: 1rem; letter-spacing: 2px; }
+.hero h1 span { font-weight: 700; color: var(--accent); }
+.hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 550px; margin-bottom: 2.5rem; font-family: Georgia, serif; }
+.btn { display: inline-block; padding: .85rem 2.5rem; background: linear-gradient(135deg, var(--accent-dark), var(--accent)); color: #0a0a0a; border: none; border-radius: 50px; font-size: .95rem; font-weight: 600; cursor: pointer; transition: transform .3s, box-shadow .3s; letter-spacing: 1px; text-transform: uppercase; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+
+section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+.section-title { text-align: center; margin-bottom: 3rem; }
+.section-title h2 { font-size: 1.8rem; font-weight: 300; margin-bottom: .5rem; letter-spacing: 2px; }
+.section-title h2 strong { font-weight: 700; color: var(--accent); }
+.section-title p { color: var(--text-muted); }
+.divider { width: 40px; height: 1px; background: var(--accent); margin: 1rem auto 0; }
+
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1.5rem; }
+.card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; backdrop-filter: blur(10px); transition: transform .3s, border-color .3s, box-shadow .3s; text-align: center; }
+.card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+.card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.card h3 { font-size: 1.1rem; margin-bottom: .5rem; color: var(--accent); font-weight: 500; letter-spacing: 1px; }
+.card p { color: var(--text-muted); font-size: .95rem; font-family: Georgia, serif; }
+
+.showcase { background: var(--bg2); padding: 4rem 2rem; }
+.showcase-inner { max-width: 1100px; margin: 0 auto; text-align: center; }
+.showcase h3 { font-size: 1.3rem; font-weight: 300; letter-spacing: 2px; margin-bottom: 2rem; }
+.showcase-items { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+.showcase-item { text-align: center; }
+.showcase-item .gem { font-size: 3rem; display: block; margin-bottom: .5rem; }
+.showcase-item span { font-size: .85rem; color: var(--text-muted); letter-spacing: 1px; }
+
+.about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.about-text h3 { font-size: 1.4rem; margin-bottom: 1rem; font-weight: 300; letter-spacing: 1px; }
+.about-text h3 strong { font-weight: 700; }
+.about-text p { color: var(--text-muted); margin-bottom: 1rem; font-family: Georgia, serif; }
+.about-visual { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 3rem; text-align: center; backdrop-filter: blur(10px); }
+.about-visual .symbol { font-size: 4rem; margin-bottom: 1rem; }
+.about-visual p { font-style: italic; color: var(--text-muted); font-size: 1.05rem; }
+
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 1.5rem; }
+.contact-card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; text-align: center; transition: border-color .3s; }
+.contact-card:hover { border-color: var(--accent); }
+.contact-card .icon { font-size: 1.8rem; margin-bottom: .8rem; }
+.contact-card h4 { margin-bottom: .3rem; font-weight: 500; letter-spacing: .5px; }
+.contact-card p { color: var(--text-muted); font-size: .95rem; }
+
+footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: .85rem; letter-spacing: .5px; }
+footer .hours { margin: 1rem 0; }
+footer .hours span { color: var(--accent); }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(8,8,10,0.96); padding: 1rem 2rem; gap: 1rem; }
+  .nav-links.open { display: flex; }
+  .menu-toggle { display: block; }
+  .about-content { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">&#x2726; Juwelier Hafner</div>
+  <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+  <ul class="nav-links">
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#ueber">Ueber uns</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-icon">&#x1F48D;</div>
+  <h1>Ihre erste Adresse fuer <span>Schmuck &amp; Uhren</span></h1>
+  <p>Juwelier Hafner in Voitsberg und im WEZ Baernbach. Hochwertiger Schmuck und Uhren - seit 1997 begeistern, inspirieren und Freude schenken.</p>
+  <a href="#kontakt" class="btn">Besuchen Sie uns</a>
+</section>
+
+<section id="leistungen">
+  <div class="section-title fade-in">
+    <h2>Unsere <strong>Leistungen</strong></h2>
+    <p>Qualitaet und Leidenschaft seit 1997</p>
+    <div class="divider"></div>
+  </div>
+  <div class="card-grid">
+    <div class="card fade-in">
+      <div class="card-icon">&#x1F48E;</div>
+      <h3>Schmuck</h3>
+      <p>Erlesene Schmuckkollektionen fuer jeden Anlass. Eheringe, Verlobungsringe, Ketten, Ohrringe und vieles mehr in Gold, Weissgold und Platin.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#x231A;</div>
+      <h3>Uhren</h3>
+      <p>Ausgewaehlte Uhrenmarken wie Junghans, Boccia und weitere. Von der klassischen Armbanduhr bis zur edlen Taschenuhr, Wand- und Standuhr.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#x1F527;</div>
+      <h3>Reparatur &amp; Service</h3>
+      <p>Professionelle Schmuck- und Uhrenreparatur. Ringgrössen-Aenderung, Neufassung von Steinen, Uhrwerk-Revision und Batteriewechsel.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#x270D;</div>
+      <h3>Gravuren &amp; Beratung</h3>
+      <p>Persoenliche Gravuren auf Schmuck und Geschenken. Individuelle Beratung fuer Ihren besonderen Anlass - Hochzeit, Jubilaeaum oder Geschenk.</p>
+    </div>
+  </div>
+</section>
+
+<div class="showcase fade-in">
+  <div class="showcase-inner">
+    <h3>Unsere Marken &amp; Materialien</h3>
+    <div class="showcase-items">
+      <div class="showcase-item"><span class="gem">&#x2726;</span><span>Gold</span></div>
+      <div class="showcase-item"><span class="gem">&#x26AA;</span><span>Weissgold</span></div>
+      <div class="showcase-item"><span class="gem">&#x1F48E;</span><span>Brillanten</span></div>
+      <div class="showcase-item"><span class="gem">&#x231A;</span><span>Junghans</span></div>
+      <div class="showcase-item"><span class="gem">&#x1F534;</span><span>Boccia</span></div>
+      <div class="showcase-item"><span class="gem">&#x1F7E2;</span><span>Platin</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="ueber">
+  <div class="section-title fade-in">
+    <h2>Ueber <strong>uns</strong></h2>
+    <p>Ihr Juwelier in der Lipizzanerheimat</p>
+    <div class="divider"></div>
+  </div>
+  <div class="about-content fade-in">
+    <div class="about-text">
+      <h3>Begeistern, inspirieren, <strong>Freude schenken</strong></h3>
+      <p>Juwelier Hafner ist seit 1997 Ihre erste Adresse, wenn es um hochwertigen Schmuck und Uhren geht. An zwei Standorten - in Voitsberg und im WEZ Baernbach - leben wir den Anspruch, unsere Kunden zu begeistern.</p>
+      <p>Mit einem breiten Sortiment an Eheringen, Verlobungsringen, Luxusuhren und Schmuck fuer jeden Anlass beraten wir Sie kompetent und persoenlich. Besuchen Sie auch unseren Onlineshop auf uhrenhafner.at.</p>
+    </div>
+    <div class="about-visual">
+      <div class="symbol">&#x2726;</div>
+      <p>&bdquo;Schmuck ist mehr als ein Accessoire - er erzaehlt Ihre Geschichte und begleitet besondere Momente.&ldquo;</p>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="section-title fade-in">
+    <h2>Kontakt</h2>
+    <p>Besuchen Sie uns in Voitsberg oder im WEZ Baernbach</p>
+    <div class="divider"></div>
+  </div>
+  <div class="contact-grid fade-in">
+    <div class="contact-card">
+      <div class="icon">&#x1F4CD;</div>
+      <h4>Standort Voitsberg</h4>
+      <p>Juwelier Hafner<br>Voitsberg</p>
+    </div>
+    <div class="contact-card">
+      <div class="icon">&#x1F4CD;</div>
+      <h4>Standort WEZ Baernbach</h4>
+      <p>Juwelier Hafner<br>im WEZ Baernbach</p>
+    </div>
+    <div class="contact-card">
+      <div class="icon">&#x1F4BB;</div>
+      <h4>Online Shop</h4>
+      <p>www.uhrenhafner.at</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">&#x2726; Juwelier Hafner</div>
+  <div class="hours">
+    <span>Standorte:</span> Voitsberg &amp; WEZ Baernbach | <span>Seit:</span> 1997
+  </div>
+  <p>&copy; 2026 Juwelier Hafner. Alle Rechte vorbehalten.</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

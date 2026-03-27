@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elektro Greier | Ihr Elektriker</title>
+<style>
+:root {
+  --accent: #FFD600;
+  --accent-light: #FFE040;
+  --accent-dark: #F0C800;
+  --bg-primary: #0A0A06;
+  --bg-secondary: #12120C;
+  --bg-card: rgba(255, 214, 0, 0.04);
+  --glass: rgba(255, 214, 0, 0.06);
+  --glass-border: rgba(255, 214, 0, 0.12);
+  --text-primary: #F0ECE0;
+  --text-secondary: #AAA690;
+  --text-muted: #666350;
+  --electric: #00E5FF;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg-primary); color: var(--text-primary);
+  line-height: 1.7; overflow-x: hidden;
+}
+.fade-in {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: rgba(10, 10, 6, 0.85); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 1rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.logo { font-size: 1.4rem; font-weight: 700; color: var(--accent); letter-spacing: 0.5px; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  color: var(--text-secondary); text-decoration: none;
+  font-size: 0.9rem; transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--accent); }
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 6rem 2rem 4rem;
+  background: radial-gradient(ellipse at 50% 30%, rgba(255, 214, 0, 0.06) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 60%, rgba(0, 229, 255, 0.03) 0%, transparent 40%),
+              var(--bg-primary);
+  position: relative;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 200px;
+  background: linear-gradient(to top, var(--bg-primary), transparent);
+}
+.hero-content { position: relative; z-index: 1; max-width: 800px; }
+.hero-badge {
+  display: inline-block; padding: 0.4rem 1.2rem;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: 50px; font-size: 0.85rem; color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--text-primary) 20%, var(--accent) 80%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--text-secondary); margin-bottom: 2.5rem;
+  max-width: 600px; margin-inline: auto;
+}
+.cta-btn {
+  display: inline-block; padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: var(--bg-primary); font-weight: 700; font-size: 1rem;
+  text-decoration: none; border-radius: 50px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 25px rgba(255, 214, 0, 0.25);
+}
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 35px rgba(255, 214, 0, 0.4);
+}
+.cta-emergency {
+  display: inline-block; margin-left: 1rem; padding: 1rem 2.5rem;
+  background: transparent; border: 2px solid rgba(0, 229, 255, 0.4);
+  color: var(--electric); font-weight: 700; font-size: 1rem;
+  text-decoration: none; border-radius: 50px;
+  transition: transform 0.3s, background 0.3s;
+}
+.cta-emergency:hover { transform: translateY(-2px); background: rgba(0, 229, 255, 0.08); }
+section { padding: 6rem 2rem; }
+.section-header { text-align: center; margin-bottom: 4rem; }
+.section-header h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem; }
+.section-header p { color: var(--text-secondary); max-width: 550px; margin-inline: auto; }
+.accent-line { width: 60px; height: 3px; background: var(--accent); margin: 1rem auto; border-radius: 2px; }
+.cards {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+}
+.card {
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 2rem; backdrop-filter: blur(10px);
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  position: relative; overflow: hidden;
+}
+.card::after {
+  content: ''; position: absolute; top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle, rgba(255, 214, 0, 0.03) 0%, transparent 50%);
+  opacity: 0; transition: opacity 0.5s;
+}
+.card:hover::after { opacity: 1; }
+.card:hover {
+  transform: translateY(-5px); border-color: var(--accent);
+  box-shadow: 0 10px 40px rgba(255, 214, 0, 0.08);
+}
+.card-icon { font-size: 2.5rem; margin-bottom: 1rem; position: relative; z-index: 1; }
+.card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent-light); position: relative; z-index: 1; }
+.card p { color: var(--text-secondary); font-size: 0.95rem; position: relative; z-index: 1; }
+.about {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+}
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; max-width: 1100px; margin: 0 auto; align-items: center;
+}
+.about-visual {
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.04), var(--glass), transparent);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px; padding: 3rem;
+  text-align: center; font-size: 5rem;
+  aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;
+}
+.about-text h2 { font-size: 2rem; margin-bottom: 1rem; }
+.about-text p { color: var(--text-secondary); margin-bottom: 1rem; }
+.cert-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.cert-item { display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem; }
+.cert-item .check { color: var(--accent); font-weight: 700; }
+.contact-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem; max-width: 900px; margin: 0 auto;
+}
+.contact-card {
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 2rem; text-align: center;
+}
+.contact-card .icon { font-size: 2rem; margin-bottom: 1rem; }
+.contact-card h3 { color: var(--accent-light); margin-bottom: 0.5rem; }
+.contact-card p { color: var(--text-secondary); font-size: 0.95rem; }
+.emergency-note { color: var(--electric); font-weight: 600; font-size: 0.9rem; margin-top: 0.5rem; }
+footer {
+  background: var(--bg-secondary); border-top: 1px solid var(--glass-border);
+  padding: 3rem 2rem; text-align: center;
+}
+.footer-hours {
+  display: inline-block;
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: 12px; padding: 1.5rem 2.5rem; margin-bottom: 1.5rem;
+}
+.footer-hours h3 { color: var(--accent); margin-bottom: 0.75rem; }
+.footer-hours p { color: var(--text-secondary); font-size: 0.9rem; margin: 0.25rem 0; }
+.footer-copy { color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px; cursor: pointer;
+  background: none; border: none; padding: 0.5rem;
+}
+.hamburger span { width: 25px; height: 2px; background: var(--text-secondary); transition: 0.3s; }
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+  .nav-links {
+    display: none; position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; background: rgba(10, 10, 6, 0.95);
+    padding: 1.5rem 2rem; gap: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .nav-links.open { display: flex; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-visual { aspect-ratio: 16/9; font-size: 3rem; }
+  .cta-emergency { margin-left: 0; margin-top: 1rem; display: block; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Elektro Greier</div>
+  <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#ueber-uns">Ueber uns</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-badge">Elektro Greier - Ihr Elektrotechnikbetrieb</span>
+    <h1>Strom ist unsere Sprache</h1>
+    <p>Elektroinstallationen, Smart Home, Photovoltaik und Stoerungsdienst. Wir bringen Energie in Ihr Zuhause - sicher, effizient und zukunftssicher.</p>
+    <a href="#kontakt" class="cta-btn">Angebot anfragen</a>
+    <a href="#kontakt" class="cta-emergency">Stoerungsdienst</a>
+  </div>
+</section>
+
+<section id="leistungen">
+  <div class="section-header fade-in">
+    <h2>Unsere Leistungen</h2>
+    <div class="accent-line"></div>
+    <p>Von der Steckdose bis zur Solaranlage - alles aus einer Hand.</p>
+  </div>
+  <div class="cards">
+    <div class="card fade-in">
+      <div class="card-icon">&#128268;</div>
+      <h3>Elektroinstallation</h3>
+      <p>Neuinstallation, Sanierung und Erweiterung. Vom Einfamilienhaus bis zum Gewerbebetrieb - normgerecht, sauber und termingerecht ausgefuehrt.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#127968;</div>
+      <h3>Smart Home</h3>
+      <p>Intelligente Steuerung fuer Licht, Heizung, Jalousien und Sicherheit. Wir finden die beste Loesung fuer Ihr Zuhause.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#9728;</div>
+      <h3>Photovoltaik</h3>
+      <p>PV-Anlagen mit Batteriespeicher fuer maximale Eigennutzung. Planung, Installation und Foerderberatung komplett aus einer Hand.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#9889;</div>
+      <h3>Stoerungsdienst</h3>
+      <p>Stromausfall oder Kurzschluss? Unser Stoerungsdienst ist fuer Sie erreichbar - schnell und zuverlaessig.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="ueber-uns">
+  <div class="about-grid">
+    <div class="about-visual fade-in">&#128161;</div>
+    <div class="about-text fade-in">
+      <h2>Elektro Greier - Ihr Elektriker</h2>
+      <p>Elektro Greier ist Ihr zuverlaessiger Partner fuer alle elektrotechnischen Anforderungen. Mit Fachkompetenz und modernster Technik realisieren wir Projekte jeder Groesse.</p>
+      <p>Ob Neubau, Sanierung oder die Nachruestung mit PV und E-Ladestation - wir denken voraus und installieren so, dass Sie auch in 20 Jahren noch zufrieden sind.</p>
+      <div class="cert-list">
+        <div class="cert-item"><span class="check">&#10003;</span> Konzessionierter Elektrotechnikbetrieb</div>
+        <div class="cert-item"><span class="check">&#10003;</span> Fachgerechte Installation</div>
+        <div class="cert-item"><span class="check">&#10003;</span> Beratung und Planung</div>
+        <div class="cert-item"><span class="check">&#10003;</span> Zuverlaessiger Service</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="section-header fade-in">
+    <h2>Kontakt</h2>
+    <div class="accent-line"></div>
+    <p>Wir beraten Sie gerne - kostenlos und unverbindlich.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-card fade-in">
+      <div class="icon">&#128222;</div>
+      <h3>Telefon</h3>
+      <p>Elektro Greier</p>
+      <p class="emergency-note">Kontakt auf Anfrage</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">&#9993;</div>
+      <h3>E-Mail</h3>
+      <p>Elektro Greier</p>
+      <p>Kontaktieren Sie uns</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">&#128205;</div>
+      <h3>Standort</h3>
+      <p>Elektro Greier</p>
+      <p>Oesterreich</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-hours">
+    <h3>Buerozeiten</h3>
+    <p>Montag - Donnerstag: 7:30 - 17:00</p>
+    <p>Freitag: 7:30 - 12:00</p>
+    <p>Stoerungsdienst: nach Vereinbarung</p>
+  </div>
+  <p class="footer-copy">&copy; 2026 Elektro Greier. Alle Rechte vorbehalten.</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

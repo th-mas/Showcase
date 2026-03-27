@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autohaus Scherz GmbH | SsangYong Vertragshändler</title>
+<style>
+:root {
+  --accent: #D32F2F;
+  --accent-glow: rgba(211, 47, 47, 0.3);
+  --accent-light: #EF5350;
+  --bg: #0a0a0a;
+  --bg2: #111;
+  --card: rgba(211,47,47,0.05);
+  --card-border: rgba(255,255,255,0.08);
+  --text: #eaeaea;
+  --text-muted: #888;
+  --radius: 16px;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+a { color: var(--accent-light); text-decoration: none; }
+
+nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(10,10,10,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--card-border); }
+.logo { font-size: 1.4rem; font-weight: 800; color: #fff; }
+.logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 1.5rem; list-style: none; }
+.nav-links a { color: var(--text-muted); font-size: .9rem; transition: color .3s; text-transform: uppercase; letter-spacing: .5px; font-weight: 500; }
+.nav-links a:hover { color: var(--accent-light); }
+.menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 6rem 2rem 4rem; background: linear-gradient(180deg, rgba(211,47,47,0.1) 0%, transparent 40%), radial-gradient(ellipse at 60% 80%, rgba(211,47,47,0.08), transparent 50%), var(--bg); }
+.hero-icon { font-size: 4rem; margin-bottom: 1rem; }
+.hero h1 { font-size: clamp(2.2rem, 6vw, 4.2rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; text-transform: uppercase; }
+.hero h1 span { color: var(--accent); }
+.hero p { font-size: 1.15rem; color: var(--text-muted); max-width: 620px; margin-bottom: 2rem; }
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+.btn { display: inline-block; padding: .9rem 2.2rem; background: var(--accent); color: #fff; border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform .3s, box-shadow .3s; text-transform: uppercase; letter-spacing: .5px; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+.btn-outline { background: transparent; border: 1.5px solid var(--accent); color: var(--accent-light); }
+.btn-outline:hover { background: var(--accent); color: #fff; }
+
+section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+.section-title { text-align: center; margin-bottom: 3rem; }
+.section-title h2 { font-size: 2rem; font-weight: 700; margin-bottom: .5rem; text-transform: uppercase; letter-spacing: 1px; }
+.section-title p { color: var(--text-muted); }
+
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1.5rem; }
+.card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; transition: transform .3s, border-color .3s; }
+.card:hover { transform: translateY(-4px); border-color: var(--accent); }
+.card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.card h3 { font-size: 1.2rem; margin-bottom: .5rem; color: var(--accent-light); }
+.card p { color: var(--text-muted); font-size: .95rem; }
+
+.highlights { padding: 3rem 2rem; }
+.highlights-inner { max-width: 1100px; margin: 0 auto; }
+.highlights h3 { text-align: center; font-size: 1.3rem; margin-bottom: 2rem; }
+.vehicle-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 1.5rem; }
+.vehicle-card { background: var(--bg2); border: 1px solid var(--card-border); border-radius: var(--radius); overflow: hidden; transition: border-color .3s; }
+.vehicle-card:hover { border-color: var(--accent); }
+.vehicle-img { height: 180px; background: linear-gradient(135deg, #1a1a2e, #16213e); display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+.vehicle-info { padding: 1.5rem; }
+.vehicle-info h4 { font-size: 1.1rem; margin-bottom: .3rem; }
+.vehicle-info .price { color: var(--accent); font-size: 1.3rem; font-weight: 700; }
+.vehicle-info .details { color: var(--text-muted); font-size: .85rem; margin-top: .3rem; }
+
+.about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.about-text h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+.about-text p { color: var(--text-muted); margin-bottom: 1rem; }
+.about-perks { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-top: 1rem; }
+.about-perks li { background: var(--card); border: 1px solid var(--card-border); border-radius: 8px; padding: .6rem 1rem; font-size: .9rem; color: var(--text-muted); }
+.about-perks li::before { content: '\2714'; color: var(--accent); margin-right: .5rem; }
+.about-image { background: var(--bg2); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 3rem; text-align: center; font-size: 5rem; }
+
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 1.5rem; }
+.contact-card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; text-align: center; transition: border-color .3s; }
+.contact-card:hover { border-color: var(--accent); }
+.contact-card .icon { font-size: 2rem; margin-bottom: .8rem; }
+.contact-card h4 { margin-bottom: .3rem; }
+.contact-card p { color: var(--text-muted); font-size: .95rem; }
+
+footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: .9rem; }
+footer .hours { margin: 1rem 0; }
+footer .hours span { color: var(--accent-light); }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(10,10,10,0.95); padding: 1rem 2rem; gap: 1rem; }
+  .nav-links.open { display: flex; }
+  .menu-toggle { display: block; }
+  .about-content { grid-template-columns: 1fr; }
+  .about-perks { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Autohaus <span>Scherz</span></div>
+  <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+  <ul class="nav-links">
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#fahrzeuge">Fahrzeuge</a></li>
+    <li><a href="#ueber">Ueber uns</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-icon">&#x1F697;</div>
+  <h1>Autohaus <span>Scherz</span></h1>
+  <p>Ihr SsangYong Vertragshaendler in Kainach bei Voitsberg. Gebrauchtwagen, Service und Werkstatt - bei uns ist Ihr Fahrzeug in guten Haenden.</p>
+  <div class="hero-btns">
+    <a href="#fahrzeuge" class="btn">Fahrzeuge ansehen</a>
+    <a href="#kontakt" class="btn btn-outline">Werkstatttermin</a>
+  </div>
+</section>
+
+<section id="leistungen">
+  <div class="section-title fade-in">
+    <h2>Unsere Leistungen</h2>
+    <p>SsangYong - SUV Made in Korea. Alles rund ums Auto.</p>
+  </div>
+  <div class="card-grid">
+    <div class="card fade-in">
+      <div class="card-icon">&#x2B50;</div>
+      <h3>Neuwagen</h3>
+      <p>SsangYong Neufahrzeuge: Korando, Tivoli, Rexton und Rexton Sports XL. Probefahrt jederzeit moeglich - Konfiguration nach Ihren Wuenschen.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#x1F50D;</div>
+      <h3>Gebrauchtwagen</h3>
+      <p>Gepflegte Gebrauchtwagen mit Garantie. Faire Preise und volle Transparenz bei der Fahrzeughistorie. Finanzierung moeglich.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#x1F527;</div>
+      <h3>Werkstatt &amp; Service</h3>
+      <p>Meisterwerkstatt fuer alle Marken. Service, Reparatur, Pickerl-Ueberpruefung und Reifenwechsel. Modernste Diagnosetechnik.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#x1F4B3;</div>
+      <h3>Probefahrt &amp; Beratung</h3>
+      <p>Vereinbaren Sie eine Probefahrt mit Ihrem Wunschmodell. Persoenliche Beratung und Broschueren zu allen SsangYong Modellen.</p>
+    </div>
+  </div>
+</section>
+
+<section id="fahrzeuge" class="highlights">
+  <div class="highlights-inner">
+    <div class="section-title fade-in">
+      <h2>SsangYong Modelle</h2>
+      <p>Aktuelle Modellpalette bei Autohaus Scherz</p>
+    </div>
+    <div class="vehicle-grid fade-in">
+      <div class="vehicle-card">
+        <div class="vehicle-img">&#x1F699;</div>
+        <div class="vehicle-info">
+          <h4>SsangYong Korando</h4>
+          <div class="price">Der neue SUV der 4. Generation</div>
+          <div class="details">9" HD-Navigation | Smarte Heckklappe | 551L Kofferraum</div>
+        </div>
+      </div>
+      <div class="vehicle-card">
+        <div class="vehicle-img">&#x1F6FB;</div>
+        <div class="vehicle-info">
+          <h4>SsangYong Rexton Sports XL</h4>
+          <div class="price">Vorsteuerabzugsberechtigt</div>
+          <div class="details">Pick-up | 5,5m Gesamtlaenge | Modernes Design</div>
+        </div>
+      </div>
+      <div class="vehicle-card">
+        <div class="vehicle-img">&#x1F697;</div>
+        <div class="vehicle-info">
+          <h4>SsangYong Tivoli</h4>
+          <div class="price">Kompakt-SUV</div>
+          <div class="details">Sportlich | Wendig | Vielseitig</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="ueber">
+  <div class="section-title fade-in">
+    <h2>Ueber uns</h2>
+    <p>Ihr Partner fuer Mobilitaet in der Region</p>
+  </div>
+  <div class="about-content fade-in">
+    <div class="about-text">
+      <h3>Herzlich Willkommen im Autohaus Scherz</h3>
+      <p>Das Autohaus Scherz GmbH in Kainach bei Voitsberg ist Ihr SsangYong Vertragshaendler in der Steiermark. Wir bieten Ihnen persoenliche Beratung, faire Preise und zuverlaessigen Service.</p>
+      <ul class="about-perks">
+        <li>SsangYong Vertragshaendler</li>
+        <li>Gebrauchtwagengarantie</li>
+        <li>Probefahrt jederzeit</li>
+        <li>Finanzierungsloesungen</li>
+        <li>Meisterwerkstatt</li>
+        <li>Persoenliche Beratung</li>
+      </ul>
+    </div>
+    <div class="about-image">&#x1F3CE;</div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="section-title fade-in">
+    <h2>Kontakt</h2>
+    <p>Kommen Sie vorbei oder rufen Sie uns an</p>
+  </div>
+  <div class="contact-grid fade-in">
+    <div class="contact-card">
+      <div class="icon">&#x1F4DE;</div>
+      <h4>Telefon</h4>
+      <p>+43 3148 7206</p>
+      <p>Handy: +43 664 2560738</p>
+    </div>
+    <div class="contact-card">
+      <div class="icon">&#x2709;</div>
+      <h4>E-Mail</h4>
+      <p>auto-scherz@aon.at</p>
+    </div>
+    <div class="contact-card">
+      <div class="icon">&#x1F4CD;</div>
+      <h4>Adresse</h4>
+      <p>Breitenbach 60<br>8573 Kainach</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">Autohaus <span style="color:var(--accent)">Scherz</span> GmbH</div>
+  <div class="hours">
+    <span>Verkauf &amp; Werkstatt:</span> Mo-Fr 08:00-12:00 &amp; 13:00-17:00<br>
+    <span>Samstag:</span> nach Vereinbarung
+  </div>
+  <p>&copy; 2026 Autohaus Scherz GmbH. Alle Rechte vorbehalten.</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Friseur Heribert &amp; Team | Voitsberg</title>
+<style>
+:root {
+  --accent: #E91E63;
+  --accent-light: #F06292;
+  --accent-dark: #C2185B;
+  --bg-primary: #0C080A;
+  --bg-secondary: #140E11;
+  --bg-card: rgba(233, 30, 99, 0.05);
+  --glass: rgba(233, 30, 99, 0.07);
+  --glass-border: rgba(233, 30, 99, 0.14);
+  --text-primary: #F0E6EB;
+  --text-secondary: #B8A0AA;
+  --text-muted: #6E5A62;
+  --gold: #D4AF37;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg-primary); color: var(--text-primary);
+  line-height: 1.7; overflow-x: hidden;
+}
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: rgba(12, 8, 10, 0.85); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+}
+.logo { font-size: 1.4rem; font-weight: 700; color: var(--accent); font-style: italic; letter-spacing: 1px; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+.nav-links a:hover { color: var(--accent); }
+.hero {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 6rem 2rem 4rem;
+  background: radial-gradient(ellipse at 40% 30%, rgba(233, 30, 99, 0.08) 0%, transparent 50%),
+              radial-gradient(ellipse at 60% 70%, rgba(212, 175, 55, 0.04) 0%, transparent 40%),
+              var(--bg-primary);
+  position: relative;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 200px;
+  background: linear-gradient(to top, var(--bg-primary), transparent);
+}
+.hero-content { position: relative; z-index: 1; max-width: 800px; }
+.hero-badge {
+  display: inline-block; padding: 0.4rem 1.2rem;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: 50px; font-size: 0.85rem; color: var(--gold); margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 60%, var(--gold) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero p { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-secondary); margin-bottom: 2.5rem; max-width: 600px; margin-inline: auto; }
+.cta-btn {
+  display: inline-block; padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff; font-weight: 700; font-size: 1rem; text-decoration: none; border-radius: 50px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 25px rgba(233, 30, 99, 0.3);
+}
+.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 35px rgba(233, 30, 99, 0.45); }
+section { padding: 6rem 2rem; }
+.section-header { text-align: center; margin-bottom: 4rem; }
+.section-header h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem; }
+.section-header p { color: var(--text-secondary); max-width: 550px; margin-inline: auto; }
+.accent-line { width: 60px; height: 3px; background: var(--accent); margin: 1rem auto; border-radius: 2px; }
+.cards {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+}
+.card {
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 2rem; backdrop-filter: blur(10px);
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  position: relative; overflow: hidden;
+}
+.card::before {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent));
+  opacity: 0; transition: opacity 0.3s;
+}
+.card:hover { transform: translateY(-5px); border-color: var(--accent-light); }
+.card:hover::before { opacity: 1; }
+.card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent-light); }
+.card p { color: var(--text-secondary); font-size: 0.95rem; }
+.about {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+}
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; max-width: 1100px; margin: 0 auto; align-items: center;
+}
+.about-visual {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), var(--glass), transparent);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px; padding: 3rem;
+  text-align: center; font-size: 5rem;
+  aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;
+}
+.about-text h2 { font-size: 2rem; margin-bottom: 1rem; }
+.about-text p { color: var(--text-secondary); margin-bottom: 1rem; }
+.team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+.team-member {
+  padding: 1rem; background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: 12px; text-align: center;
+}
+.team-member .name { color: var(--accent-light); font-weight: 600; font-size: 0.95rem; }
+.team-member .role { color: var(--text-muted); font-size: 0.8rem; }
+.contact-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem; max-width: 900px; margin: 0 auto;
+}
+.contact-card {
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 2rem; text-align: center;
+}
+.contact-card .icon { font-size: 2rem; margin-bottom: 1rem; }
+.contact-card h3 { color: var(--accent-light); margin-bottom: 0.5rem; }
+.contact-card p { color: var(--text-secondary); font-size: 0.95rem; }
+footer {
+  background: var(--bg-secondary); border-top: 1px solid var(--glass-border);
+  padding: 3rem 2rem; text-align: center;
+}
+.footer-hours {
+  display: inline-block; background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: 12px; padding: 1.5rem 2.5rem; margin-bottom: 1.5rem;
+}
+.footer-hours h3 { color: var(--accent); margin-bottom: 0.75rem; }
+.footer-hours p { color: var(--text-secondary); font-size: 0.9rem; margin: 0.25rem 0; }
+.footer-copy { color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px; cursor: pointer;
+  background: none; border: none; padding: 0.5rem;
+}
+.hamburger span { width: 25px; height: 2px; background: var(--text-secondary); transition: 0.3s; }
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+  .nav-links {
+    display: none; position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; background: rgba(12, 8, 10, 0.95);
+    padding: 1.5rem 2rem; gap: 1rem; border-bottom: 1px solid var(--glass-border);
+  }
+  .nav-links.open { display: flex; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-visual { aspect-ratio: 16/9; font-size: 3rem; }
+  .team-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Heribert &amp; Team</div>
+  <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#ueber-uns">Unser Team</a></li>
+    <li><a href="#kontakt">Termin</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-badge">Typgerechtes Styling &amp; kompetente Beratung</span>
+    <h1>Heribert &amp; Team macht's persoenlich!</h1>
+    <p>Ihr Friseur in Voitsberg. Egal ob Kurzhaarschnitt, angesagte Farbkombinationen, stylische Steckfrisuren oder glamouroese Haarverlaengerungen - wir stehen fuer Ihre Wuensche bereit.</p>
+    <a href="#kontakt" class="cta-btn">Termin vereinbaren: 03142 - 22 7 44</a>
+  </div>
+</section>
+
+<section id="leistungen">
+  <div class="section-header fade-in">
+    <h2>Unsere Leistungen</h2>
+    <div class="accent-line"></div>
+    <p>Aktuelle Styles, Schnitte, Farben und Kreationen passend fuer jeden Haartyp.</p>
+  </div>
+  <div class="cards">
+    <div class="card fade-in">
+      <div class="card-icon">&#9986;</div>
+      <h3>Schneiden, Waschen, Faerben</h3>
+      <p>Damen-, Herren- und Kinderhaarschnitte. Straehnen, Kompletfaerbung und Farbberatung - individuell auf Sie abgestimmt.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#10024;</div>
+      <h3>Haarverlaengerungen</h3>
+      <p>Haarverlaengerungen und Haarverdichtungen fuer mehr Fuelle und Laenge. Professionell angebracht fuer ein natuerliches Ergebnis.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#128142;</div>
+      <h3>Frisuren fuer jeden Anlass</h3>
+      <p>Hochsteckfrisuren, Ball- und Brautfrisuren. Locken und Wellen. Make-up auf Wunsch - fuer Ihren perfekten Auftritt.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">&#128156;</div>
+      <h3>Wohlfuehlerlebnis</h3>
+      <p>Kopfmassage, Haar- und Kopfhautberatung, Augenbrauen &amp; Wimpern faerben. Entspannung pur bei HERIBERT &amp; TEAM.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="ueber-uns">
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <h2>Friseur und Hairstylist aus Leidenschaft</h2>
+      <p>Heribert Pfaff laesst jede Frau erstrahlen, stellt Individualitaet am Kopf an erster Stelle und weiss stets um die heissesten Trends Bescheid. Seit ueber 20 Jahren betreibt er seinen Salon in Voitsberg und hat sich unter die Topfriseure des Landes geschnitten.</p>
+      <p>Lassen Sie sich von unseren Fachkraeften im angenehmen Ambiente beraten und verwoehnen. Staendige Schulungen und Fortbildungsseminare sowie die enge Zusammenarbeit mit WELLA garantieren optimale Ergebnisse.</p>
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="name">Heribert Pfaff</div>
+          <div class="role">Inhaber &amp; Hairstylist</div>
+        </div>
+        <div class="team-member">
+          <div class="name">Michaela</div>
+          <div class="role">Stylistin</div>
+        </div>
+        <div class="team-member">
+          <div class="name">Natalie</div>
+          <div class="role">Stylistin</div>
+        </div>
+        <div class="team-member">
+          <div class="name">Michi</div>
+          <div class="role">Stylistin</div>
+        </div>
+        <div class="team-member">
+          <div class="name">Barbara</div>
+          <div class="role">Stylistin</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual fade-in">&#9986;</div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="section-header fade-in">
+    <h2>Termin &amp; Kontakt</h2>
+    <div class="accent-line"></div>
+    <p>Terminvereinbarung unter 03142 - 22 7 44</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-card fade-in">
+      <div class="icon">&#128222;</div>
+      <h3>Telefon</h3>
+      <p>03142 - 22 7 44</p>
+      <p>Terminvereinbarung</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">&#128205;</div>
+      <h3>Salon</h3>
+      <p>Bahnhofstrasse 14</p>
+      <p>8570 Voitsberg</p>
+    </div>
+    <div class="contact-card fade-in">
+      <div class="icon">&#127760;</div>
+      <h3>Social Media</h3>
+      <p>Facebook: Heribert und Team</p>
+      <p>www.heribertundteam.com</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-hours">
+    <h3>Oeffnungszeiten</h3>
+    <p>Dienstag - Freitag: 08:00 - 18:00 Uhr</p>
+    <p>Samstag, Sonntag &amp; Montag: geschlossen</p>
+  </div>
+  <p class="footer-copy">&copy; 2026 Friseur Heribert &amp; Team | Voitsberg</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
