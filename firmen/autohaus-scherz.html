@@ -20,8 +20,6 @@
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
 body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
-.fade-in { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
 a { color: var(--accent-light); text-decoration: none; }
 
 nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(10,10,10,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--card-border); }
@@ -32,53 +30,75 @@ nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; j
 .nav-links a:hover { color: var(--accent-light); }
 .menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
 
-.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 6rem 2rem 4rem; background: linear-gradient(180deg, rgba(211,47,47,0.1) 0%, transparent 40%), radial-gradient(ellipse at 60% 80%, rgba(211,47,47,0.08), transparent 50%), var(--bg); }
-.hero-icon { font-size: 4rem; margin-bottom: 1rem; }
-.hero h1 { font-size: clamp(2.2rem, 6vw, 4.2rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; text-transform: uppercase; }
+/* Hero with 3D Parallax Depth */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 6rem 2rem 4rem; perspective: 1000px; position: relative; overflow: hidden; background: var(--bg); }
+.hero-bg-layer { position: absolute; inset: 0; pointer-events: none; }
+.hero-bg-layer.l1 { background: radial-gradient(ellipse at 60% 80%, rgba(211,47,47,0.12), transparent 50%); transform: translateZ(-50px) scale(1.1); }
+.hero-bg-layer.l2 { background: radial-gradient(ellipse at 30% 30%, rgba(211,47,47,0.06), transparent 40%); transform: translateZ(-100px) scale(1.2); }
+.hero-bg-layer.l3 { background: linear-gradient(180deg, rgba(211,47,47,0.08) 0%, transparent 40%); transform: translateZ(-150px) scale(1.3); }
+.hero-content { position: relative; z-index: 2; }
+.hero-icon { font-size: 4rem; margin-bottom: 1rem; animation: float3d 4s ease-in-out infinite; }
+@keyframes float3d { 0%,100% { transform: translateY(0) translateZ(0); } 50% { transform: translateY(-15px) translateZ(20px); } }
+.hero h1 { font-size: clamp(2.2rem, 6vw, 4.2rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; text-transform: uppercase; text-shadow: 0 1px 0 #c62828, 0 2px 0 #b71c1c, 0 3px 0 #a31515, 0 4px 8px rgba(0,0,0,0.4); }
 .hero h1 span { color: var(--accent); }
 .hero p { font-size: 1.15rem; color: var(--text-muted); max-width: 620px; margin-bottom: 2rem; }
 .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-.btn { display: inline-block; padding: .9rem 2.2rem; background: var(--accent); color: #fff; border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform .3s, box-shadow .3s; text-transform: uppercase; letter-spacing: .5px; }
-.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
-.btn-outline { background: transparent; border: 1.5px solid var(--accent); color: var(--accent-light); }
+
+/* 3D Press Buttons */
+.btn { display: inline-block; padding: .9rem 2.2rem; background: var(--accent); color: #fff; border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: .5px; transform: translateZ(0); box-shadow: 0 6px 0 #b71c1c, 0 8px 20px rgba(0,0,0,0.3); transition: transform .15s, box-shadow .15s; }
+.btn:hover { transform: translateY(-2px) translateZ(0); box-shadow: 0 8px 0 #b71c1c, 0 12px 30px var(--accent-glow); }
+.btn:active { transform: translateY(4px) translateZ(0); box-shadow: 0 2px 0 #b71c1c, 0 3px 10px rgba(0,0,0,0.3); }
+.btn-outline { background: transparent; border: 1.5px solid var(--accent); color: var(--accent-light); box-shadow: 0 6px 0 rgba(183,28,28,0.4), 0 8px 20px rgba(0,0,0,0.2); }
 .btn-outline:hover { background: var(--accent); color: #fff; }
+.btn-outline:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(183,28,28,0.4); }
 
 section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
 .section-title { text-align: center; margin-bottom: 3rem; }
-.section-title h2 { font-size: 2rem; font-weight: 700; margin-bottom: .5rem; text-transform: uppercase; letter-spacing: 1px; }
+.section-title h2 { font-size: 2rem; font-weight: 700; margin-bottom: .5rem; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 1px 0 #b71c1c, 0 2px 0 #a31515, 0 3px 6px rgba(0,0,0,0.3); }
 .section-title p { color: var(--text-muted); }
 
-.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1.5rem; }
-.card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; transition: transform .3s, border-color .3s; }
-.card:hover { transform: translateY(-4px); border-color: var(--accent); }
+/* 3D Flip Cards */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1.5rem; perspective: 1000px; }
+.card-flip { height: 280px; perspective: 1000px; }
+.card-flip-inner { position: relative; width: 100%; height: 100%; transition: transform .7s cubic-bezier(.4,.2,.2,1); transform-style: preserve-3d; }
+.card-flip:hover .card-flip-inner { transform: rotateY(180deg); }
+.card-front, .card-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: var(--radius); padding: 2rem; display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--card-border); }
+.card-front { background: var(--card); align-items: center; text-align: center; }
+.card-back { background: linear-gradient(135deg, rgba(211,47,47,0.12), rgba(211,47,47,0.04)); transform: rotateY(180deg); }
 .card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-.card h3 { font-size: 1.2rem; margin-bottom: .5rem; color: var(--accent-light); }
-.card p { color: var(--text-muted); font-size: .95rem; }
+.card-front h3 { font-size: 1.2rem; color: var(--accent-light); }
+.card-back h3 { font-size: 1.1rem; margin-bottom: .5rem; color: var(--accent-light); }
+.card-back p { color: var(--text-muted); font-size: .93rem; }
 
+/* 3D Vehicle Cards with Tilt */
 .highlights { padding: 3rem 2rem; }
 .highlights-inner { max-width: 1100px; margin: 0 auto; }
 .highlights h3 { text-align: center; font-size: 1.3rem; margin-bottom: 2rem; }
-.vehicle-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 1.5rem; }
-.vehicle-card { background: var(--bg2); border: 1px solid var(--card-border); border-radius: var(--radius); overflow: hidden; transition: border-color .3s; }
-.vehicle-card:hover { border-color: var(--accent); }
-.vehicle-img { height: 180px; background: linear-gradient(135deg, #1a1a2e, #16213e); display: flex; align-items: center; justify-content: center; font-size: 4rem; }
-.vehicle-info { padding: 1.5rem; }
+.vehicle-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 1.5rem; perspective: 1200px; }
+.vehicle-card { background: var(--bg2); border: 1px solid var(--card-border); border-radius: var(--radius); overflow: hidden; transition: transform .4s, box-shadow .4s; transform-style: preserve-3d; }
+.vehicle-card:hover { box-shadow: 0 20px 60px rgba(211,47,47,0.15); }
+.vehicle-img { height: 180px; background: linear-gradient(135deg, #1a1a2e, #16213e); display: flex; align-items: center; justify-content: center; font-size: 4rem; transform: translateZ(20px); }
+.vehicle-info { padding: 1.5rem; transform: translateZ(10px); }
 .vehicle-info h4 { font-size: 1.1rem; margin-bottom: .3rem; }
 .vehicle-info .price { color: var(--accent); font-size: 1.3rem; font-weight: 700; }
 .vehicle-info .details { color: var(--text-muted); font-size: .85rem; margin-top: .3rem; }
 
+/* About with Glassmorphism 3D */
 .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
 .about-text h3 { font-size: 1.5rem; margin-bottom: 1rem; }
 .about-text p { color: var(--text-muted); margin-bottom: 1rem; }
 .about-perks { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-top: 1rem; }
-.about-perks li { background: var(--card); border: 1px solid var(--card-border); border-radius: 8px; padding: .6rem 1rem; font-size: .9rem; color: var(--text-muted); }
+.about-perks li { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid var(--card-border); border-radius: 8px; padding: .6rem 1rem; font-size: .9rem; color: var(--text-muted); transition: transform .3s; }
+.about-perks li:hover { transform: translateZ(10px) scale(1.03); }
 .about-perks li::before { content: '\2714'; color: var(--accent); margin-right: .5rem; }
-.about-image { background: var(--bg2); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 3rem; text-align: center; font-size: 5rem; }
+.about-image { background: var(--bg2); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 3rem; text-align: center; font-size: 5rem; perspective: 800px; transform: rotateX(5deg) rotateY(-5deg); transition: transform .5s; box-shadow: 10px 10px 30px rgba(0,0,0,0.4); }
+.about-image:hover { transform: rotateX(0) rotateY(0); }
 
-.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 1.5rem; }
-.contact-card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; text-align: center; transition: border-color .3s; }
-.contact-card:hover { border-color: var(--accent); }
-.contact-card .icon { font-size: 2rem; margin-bottom: .8rem; }
+/* 3D Contact Cards - Glassmorphism */
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 1.5rem; perspective: 1000px; }
+.contact-card { background: rgba(255,255,255,0.03); backdrop-filter: blur(12px); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; text-align: center; transition: transform .4s, box-shadow .4s; transform-style: preserve-3d; }
+.contact-card:hover { transform: translateZ(15px) rotateX(3deg); box-shadow: 0 15px 40px rgba(211,47,47,0.1); }
+.contact-card .icon { font-size: 2rem; margin-bottom: .8rem; transform: translateZ(20px); }
 .contact-card h4 { margin-bottom: .3rem; }
 .contact-card p { color: var(--text-muted); font-size: .95rem; }
 
@@ -86,16 +106,33 @@ footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--car
 footer .hours { margin: 1rem 0; }
 footer .hours span { color: var(--accent-light); }
 
+/* Scroll-triggered 3D */
+.reveal-3d { opacity: 0; transform: translateZ(-80px) translateY(40px) rotateX(8deg); transition: opacity .8s ease, transform .8s ease; }
+.reveal-3d.visible { opacity: 1; transform: translateZ(0) translateY(0) rotateX(0); }
+
+/* Decorative 3D Cubes */
+.deco-cube { position: fixed; width: 40px; height: 40px; transform-style: preserve-3d; animation: spinCube 12s linear infinite; opacity: 0.04; pointer-events: none; z-index: 0; }
+.deco-cube .face { position: absolute; width: 40px; height: 40px; border: 1px solid var(--accent); }
+.deco-cube .face:nth-child(1) { transform: translateZ(20px); }
+.deco-cube .face:nth-child(2) { transform: rotateY(180deg) translateZ(20px); }
+.deco-cube .face:nth-child(3) { transform: rotateY(90deg) translateZ(20px); }
+.deco-cube .face:nth-child(4) { transform: rotateY(-90deg) translateZ(20px); }
+@keyframes spinCube { from { transform: rotateX(0) rotateY(0); } to { transform: rotateX(360deg) rotateY(360deg); } }
+
 @media (max-width: 768px) {
   .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(10,10,10,0.95); padding: 1rem 2rem; gap: 1rem; }
   .nav-links.open { display: flex; }
   .menu-toggle { display: block; }
   .about-content { grid-template-columns: 1fr; }
   .about-perks { grid-template-columns: 1fr; }
+  .card-flip { height: auto; min-height: 200px; }
 }
 </style>
 </head>
 <body>
+
+<div class="deco-cube" style="top:20%;left:5%;"><div class="face"></div><div class="face"></div><div class="face"></div><div class="face"></div></div>
+<div class="deco-cube" style="top:60%;right:8%;animation-delay:-4s;"><div class="face"></div><div class="face"></div><div class="face"></div><div class="face"></div></div>
 
 <nav>
   <div class="logo">Autohaus <span>Scherz</span></div>
@@ -109,52 +146,61 @@ footer .hours span { color: var(--accent-light); }
 </nav>
 
 <section class="hero">
-  <div class="hero-icon">&#x1F697;</div>
-  <h1>Autohaus <span>Scherz</span></h1>
-  <p>Ihr SsangYong Vertragshaendler in Kainach bei Voitsberg. Gebrauchtwagen, Service und Werkstatt - bei uns ist Ihr Fahrzeug in guten Haenden.</p>
-  <div class="hero-btns">
-    <a href="#fahrzeuge" class="btn">Fahrzeuge ansehen</a>
-    <a href="#kontakt" class="btn btn-outline">Werkstatttermin</a>
+  <div class="hero-bg-layer l1"></div>
+  <div class="hero-bg-layer l2"></div>
+  <div class="hero-bg-layer l3"></div>
+  <div class="hero-content">
+    <div class="hero-icon">&#x1F697;</div>
+    <h1>Autohaus <span>Scherz</span></h1>
+    <p>Ihr SsangYong Vertragshaendler in Kainach bei Voitsberg. Gebrauchtwagen, Service und Werkstatt - bei uns ist Ihr Fahrzeug in guten Haenden.</p>
+    <div class="hero-btns">
+      <a href="#fahrzeuge" class="btn">Fahrzeuge ansehen</a>
+      <a href="#kontakt" class="btn btn-outline">Werkstatttermin</a>
+    </div>
   </div>
 </section>
 
 <section id="leistungen">
-  <div class="section-title fade-in">
+  <div class="section-title reveal-3d">
     <h2>Unsere Leistungen</h2>
     <p>SsangYong - SUV Made in Korea. Alles rund ums Auto.</p>
   </div>
   <div class="card-grid">
-    <div class="card fade-in">
-      <div class="card-icon">&#x2B50;</div>
-      <h3>Neuwagen</h3>
-      <p>SsangYong Neufahrzeuge: Korando, Tivoli, Rexton und Rexton Sports XL. Probefahrt jederzeit moeglich - Konfiguration nach Ihren Wuenschen.</p>
+    <div class="card-flip reveal-3d">
+      <div class="card-flip-inner">
+        <div class="card-front"><div class="card-icon">&#x2B50;</div><h3>Neuwagen</h3></div>
+        <div class="card-back"><h3>Neuwagen</h3><p>SsangYong Neufahrzeuge: Korando, Tivoli, Rexton und Rexton Sports XL. Probefahrt jederzeit moeglich - Konfiguration nach Ihren Wuenschen.</p></div>
+      </div>
     </div>
-    <div class="card fade-in">
-      <div class="card-icon">&#x1F50D;</div>
-      <h3>Gebrauchtwagen</h3>
-      <p>Gepflegte Gebrauchtwagen mit Garantie. Faire Preise und volle Transparenz bei der Fahrzeughistorie. Finanzierung moeglich.</p>
+    <div class="card-flip reveal-3d">
+      <div class="card-flip-inner">
+        <div class="card-front"><div class="card-icon">&#x1F50D;</div><h3>Gebrauchtwagen</h3></div>
+        <div class="card-back"><h3>Gebrauchtwagen</h3><p>Gepflegte Gebrauchtwagen mit Garantie. Faire Preise und volle Transparenz bei der Fahrzeughistorie. Finanzierung moeglich.</p></div>
+      </div>
     </div>
-    <div class="card fade-in">
-      <div class="card-icon">&#x1F527;</div>
-      <h3>Werkstatt &amp; Service</h3>
-      <p>Meisterwerkstatt fuer alle Marken. Service, Reparatur, Pickerl-Ueberpruefung und Reifenwechsel. Modernste Diagnosetechnik.</p>
+    <div class="card-flip reveal-3d">
+      <div class="card-flip-inner">
+        <div class="card-front"><div class="card-icon">&#x1F527;</div><h3>Werkstatt &amp; Service</h3></div>
+        <div class="card-back"><h3>Werkstatt &amp; Service</h3><p>Meisterwerkstatt fuer alle Marken. Service, Reparatur, Pickerl-Ueberpruefung und Reifenwechsel. Modernste Diagnosetechnik.</p></div>
+      </div>
     </div>
-    <div class="card fade-in">
-      <div class="card-icon">&#x1F4B3;</div>
-      <h3>Probefahrt &amp; Beratung</h3>
-      <p>Vereinbaren Sie eine Probefahrt mit Ihrem Wunschmodell. Persoenliche Beratung und Broschueren zu allen SsangYong Modellen.</p>
+    <div class="card-flip reveal-3d">
+      <div class="card-flip-inner">
+        <div class="card-front"><div class="card-icon">&#x1F4B3;</div><h3>Probefahrt &amp; Beratung</h3></div>
+        <div class="card-back"><h3>Probefahrt &amp; Beratung</h3><p>Vereinbaren Sie eine Probefahrt mit Ihrem Wunschmodell. Persoenliche Beratung und Broschueren zu allen SsangYong Modellen.</p></div>
+      </div>
     </div>
   </div>
 </section>
 
 <section id="fahrzeuge" class="highlights">
   <div class="highlights-inner">
-    <div class="section-title fade-in">
+    <div class="section-title reveal-3d">
       <h2>SsangYong Modelle</h2>
       <p>Aktuelle Modellpalette bei Autohaus Scherz</p>
     </div>
-    <div class="vehicle-grid fade-in">
-      <div class="vehicle-card">
+    <div class="vehicle-grid">
+      <div class="vehicle-card tilt-card reveal-3d">
         <div class="vehicle-img">&#x1F699;</div>
         <div class="vehicle-info">
           <h4>SsangYong Korando</h4>
@@ -162,7 +208,7 @@ footer .hours span { color: var(--accent-light); }
           <div class="details">9" HD-Navigation | Smarte Heckklappe | 551L Kofferraum</div>
         </div>
       </div>
-      <div class="vehicle-card">
+      <div class="vehicle-card tilt-card reveal-3d">
         <div class="vehicle-img">&#x1F6FB;</div>
         <div class="vehicle-info">
           <h4>SsangYong Rexton Sports XL</h4>
@@ -170,7 +216,7 @@ footer .hours span { color: var(--accent-light); }
           <div class="details">Pick-up | 5,5m Gesamtlaenge | Modernes Design</div>
         </div>
       </div>
-      <div class="vehicle-card">
+      <div class="vehicle-card tilt-card reveal-3d">
         <div class="vehicle-img">&#x1F697;</div>
         <div class="vehicle-info">
           <h4>SsangYong Tivoli</h4>
@@ -183,11 +229,11 @@ footer .hours span { color: var(--accent-light); }
 </section>
 
 <section id="ueber">
-  <div class="section-title fade-in">
+  <div class="section-title reveal-3d">
     <h2>Ueber uns</h2>
     <p>Ihr Partner fuer Mobilitaet in der Region</p>
   </div>
-  <div class="about-content fade-in">
+  <div class="about-content reveal-3d">
     <div class="about-text">
       <h3>Herzlich Willkommen im Autohaus Scherz</h3>
       <p>Das Autohaus Scherz GmbH in Kainach bei Voitsberg ist Ihr SsangYong Vertragshaendler in der Steiermark. Wir bieten Ihnen persoenliche Beratung, faire Preise und zuverlaessigen Service.</p>
@@ -205,23 +251,23 @@ footer .hours span { color: var(--accent-light); }
 </section>
 
 <section id="kontakt">
-  <div class="section-title fade-in">
+  <div class="section-title reveal-3d">
     <h2>Kontakt</h2>
     <p>Kommen Sie vorbei oder rufen Sie uns an</p>
   </div>
-  <div class="contact-grid fade-in">
-    <div class="contact-card">
+  <div class="contact-grid">
+    <div class="contact-card reveal-3d tilt-card">
       <div class="icon">&#x1F4DE;</div>
       <h4>Telefon</h4>
       <p>+43 3148 7206</p>
       <p>Handy: +43 664 2560738</p>
     </div>
-    <div class="contact-card">
+    <div class="contact-card reveal-3d tilt-card">
       <div class="icon">&#x2709;</div>
       <h4>E-Mail</h4>
       <p>auto-scherz@aon.at</p>
     </div>
-    <div class="contact-card">
+    <div class="contact-card reveal-3d tilt-card">
       <div class="icon">&#x1F4CD;</div>
       <h4>Adresse</h4>
       <p>Breitenbach 60<br>8573 Kainach</p>
@@ -239,10 +285,21 @@ footer .hours span { color: var(--accent-light); }
 </footer>
 
 <script>
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
 }, { threshold: 0.1 });
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+document.querySelectorAll('.reveal-3d').forEach(el => obs.observe(el));
+
+document.querySelectorAll('.tilt-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = `perspective(800px) rotateY(${x * 15}deg) rotateX(${-y * 15}deg) scale(1.02)`;
+  });
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; card.style.transition = 'transform 0.5s'; });
+  card.addEventListener('mouseenter', () => { card.style.transition = 'none'; });
+});
 </script>
 </body>
 </html>

@@ -9,6 +9,7 @@
   --accent: #2E7D32;
   --accent-glow: rgba(46, 125, 50, 0.3);
   --accent-light: #4CAF50;
+  --accent-dark: #1B5E20;
   --bg: #0a0f0a;
   --bg2: #121812;
   --card: rgba(46,125,50,0.06);
@@ -20,58 +21,88 @@
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
 body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
-.fade-in { opacity: 0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
 a { color: var(--accent-light); text-decoration: none; }
+
+/* 3D SCROLL */
+.reveal-3d { opacity: 0; transform: perspective(800px) translateZ(-80px) rotateX(8deg); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal-3d.visible { opacity: 1; transform: perspective(800px) translateZ(0) rotateX(0); }
+
 nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(10,15,10,0.88); backdrop-filter: blur(12px); border-bottom: 1px solid var(--card-border); }
 .logo { font-size: 1.4rem; font-weight: 700; color: var(--accent-light); }
 .nav-links { display: flex; gap: 1.5rem; list-style: none; }
 .nav-links a { color: var(--text-muted); font-size: .9rem; transition: color .3s; }
 .nav-links a:hover { color: var(--accent-light); }
 .menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
-.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 6rem 2rem 4rem; background: radial-gradient(ellipse at 30% 80%, rgba(46,125,50,0.12), transparent 50%), radial-gradient(ellipse at 70% 20%, var(--accent-glow), transparent 55%), var(--bg); }
-.hero-icon { font-size: 4rem; margin-bottom: 1rem; }
-.hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; }
+
+/* HERO 3D PARALLAX */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 6rem 2rem 4rem; position: relative; perspective: 1200px; overflow: hidden; }
+.hero-depth { position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 80%, rgba(46,125,50,0.12), transparent 50%), radial-gradient(ellipse at 70% 20%, var(--accent-glow), transparent 55%), var(--bg); transform: translateZ(-60px) scale(1.06); pointer-events: none; }
+.hero-content { position: relative; z-index: 2; }
+.hero-icon { font-size: 4rem; margin-bottom: 1rem; animation: treeFloat 5s ease-in-out infinite; }
+@keyframes treeFloat { 0%, 100% { transform: perspective(600px) translateZ(0) translateY(0) rotate(0); } 50% { transform: perspective(600px) translateZ(25px) translateY(-8px) rotate(2deg); } }
+.hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; text-shadow: 0 1px 0 rgba(46,125,50,0.4), 0 2px 0 rgba(46,125,50,0.3), 0 3px 0 rgba(46,125,50,0.2), 0 4px 8px rgba(0,0,0,0.5); }
 .hero h1 span { color: var(--accent-light); }
 .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 620px; margin-bottom: 2rem; }
-.btn { display: inline-block; padding: .9rem 2.2rem; background: var(--accent); color: #fff; border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform .3s, box-shadow .3s; }
-.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+
+/* 3D BUTTON */
+.btn { display: inline-block; padding: .9rem 2.2rem; background: var(--accent); color: #fff; border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform .2s, box-shadow .2s; box-shadow: 0 4px 0 var(--accent-dark), 0 6px 20px var(--accent-glow); }
+.btn:hover { transform: perspective(500px) translateZ(5px) translateY(-2px); box-shadow: 0 6px 0 var(--accent-dark), 0 10px 30px var(--accent-glow); }
+.btn:active { transform: perspective(500px) translateZ(-5px) translateY(2px); box-shadow: 0 1px 0 var(--accent-dark), 0 2px 10px var(--accent-glow); }
+
 section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
 .section-title { text-align: center; margin-bottom: 3rem; }
 .section-title h2 { font-size: 2rem; font-weight: 700; margin-bottom: .5rem; }
 .section-title p { color: var(--text-muted); }
-.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1.5rem; }
-.card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; backdrop-filter: blur(10px); transition: transform .3s, border-color .3s; position: relative; }
-.card:hover { transform: translateY(-4px); border-color: var(--accent-light); }
-.card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-.card h3 { font-size: 1.2rem; margin-bottom: .5rem; color: var(--accent-light); }
-.card p { color: var(--text-muted); font-size: .95rem; }
-.process { background: var(--bg2); border-radius: var(--radius); padding: 3rem; margin-top: 2rem; }
+
+/* 3D TILT CARDS */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1.5rem; perspective: 1000px; }
+.card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; backdrop-filter: blur(10px); transition: transform .3s, border-color .3s, box-shadow .3s; transform-style: preserve-3d; will-change: transform; }
+.card:hover { border-color: var(--accent-light); box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 20px var(--accent-glow); }
+.card-icon { font-size: 2.5rem; margin-bottom: 1rem; transform: translateZ(30px); display: block; }
+.card h3 { font-size: 1.2rem; margin-bottom: .5rem; color: var(--accent-light); transform: translateZ(20px); }
+.card p { color: var(--text-muted); font-size: .95rem; transform: translateZ(10px); }
+
+/* 3D PROCESS STEPS */
+.process { background: var(--bg2); border-radius: var(--radius); padding: 3rem; margin-top: 2rem; perspective: 800px; }
 .process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 2rem; text-align: center; }
-.step { position: relative; }
-.step-num { display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 1.3rem; font-weight: 700; margin-bottom: .8rem; }
+.step { position: relative; transition: transform 0.4s; }
+.step:hover { transform: perspective(800px) translateZ(20px) rotateY(5deg); }
+.step-num { display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 1.3rem; font-weight: 700; margin-bottom: .8rem; box-shadow: 0 4px 15px var(--accent-glow); }
 .step h4 { margin-bottom: .3rem; }
 .step p { color: var(--text-muted); font-size: .9rem; }
+
+/* ABOUT */
 .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
 .about-text h3 { font-size: 1.5rem; margin-bottom: 1rem; }
 .about-text p { color: var(--text-muted); margin-bottom: 1rem; }
 .cert-badges { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
-.badge { background: var(--card); border: 1px solid var(--card-border); border-radius: 8px; padding: .5rem 1rem; font-size: .85rem; color: var(--accent-light); }
-.about-image { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 3rem; text-align: center; font-size: 5rem; }
-.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 1.5rem; }
-.contact-card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; text-align: center; }
-.contact-card:hover { border-color: var(--accent-light); }
+.badge { background: var(--card); border: 1px solid var(--card-border); border-radius: 8px; padding: .5rem 1rem; font-size: .85rem; color: var(--accent-light); transition: transform 0.3s; }
+.badge:hover { transform: perspective(400px) translateZ(10px); }
+.about-image { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 3rem; text-align: center; font-size: 5rem; transition: transform 0.5s; }
+.about-image:hover { transform: perspective(800px) rotateY(10deg) rotateX(-5deg); }
+
+/* CONTACT 3D */
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 1.5rem; perspective: 800px; }
+.contact-card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; text-align: center; transition: transform 0.4s, box-shadow 0.4s; }
+.contact-card:hover { border-color: var(--accent-light); transform: perspective(800px) rotateY(5deg) translateZ(15px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
 .contact-card .icon { font-size: 2rem; margin-bottom: .8rem; }
 .contact-card h4 { margin-bottom: .3rem; }
 .contact-card p { color: var(--text-muted); font-size: .95rem; }
+
 footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: .9rem; }
 footer .hours { margin: 1rem 0; }
 footer .hours span { color: var(--accent-light); }
+
+/* DECORATIVE 3D */
+.deco-3d { position: absolute; width: 50px; height: 50px; border: 2px solid rgba(46,125,50,0.15); border-radius: 10px; animation: spinSlow 15s linear infinite; pointer-events: none; }
+@keyframes spinSlow { 0% { transform: perspective(400px) rotateX(0) rotateY(0); } 100% { transform: perspective(400px) rotateX(360deg) rotateY(360deg); } }
+
 @media (max-width: 768px) {
   .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(10,15,10,0.95); padding: 1rem 2rem; gap: 1rem; }
   .nav-links.open { display: flex; }
   .menu-toggle { display: block; }
   .about-content { grid-template-columns: 1fr; }
+  .deco-3d { display: none; }
 }
 </style>
 </head>
@@ -89,34 +120,39 @@ footer .hours span { color: var(--accent-light); }
 </nav>
 
 <section class="hero">
-  <div class="hero-icon">&#x1F332;</div>
-  <h1>Holzbau Zimmerei <span>Wiesinger</span></h1>
-  <p>Ihr Holzbaubetrieb in Krottendorf-Gaisfeld. Vom Dachstuhl bis zum Gartenhaus - nachhaltig, praezise und mit Liebe zum natuerlichsten aller Baustoffe.</p>
-  <a href="#kontakt" class="btn">Projekt besprechen</a>
+  <div class="hero-depth"></div>
+  <div class="deco-3d" style="top:18%;left:8%"></div>
+  <div class="deco-3d" style="top:55%;right:10%;animation-delay:-5s"></div>
+  <div class="hero-content">
+    <div class="hero-icon">&#x1F332;</div>
+    <h1>Holzbau Zimmerei <span>Wiesinger</span></h1>
+    <p>Ihr Holzbaubetrieb in Krottendorf-Gaisfeld. Vom Dachstuhl bis zum Gartenhaus - nachhaltig, praezise und mit Liebe zum natuerlichsten aller Baustoffe.</p>
+    <a href="#kontakt" class="btn">Projekt besprechen</a>
+  </div>
 </section>
 
 <section id="leistungen">
-  <div class="section-title fade-in">
+  <div class="section-title reveal-3d">
     <h2>Unsere Leistungen</h2>
     <p>Vom Dachstuhl bis zum kompletten Holzbau</p>
   </div>
   <div class="card-grid">
-    <div class="card fade-in">
+    <div class="card reveal-3d" data-tilt>
       <div class="card-icon">&#x1F3D8;</div>
       <h3>Dachstuehle</h3>
       <p>Klassische und moderne Dachkonstruktionen. Satteldach, Walmdach oder Pultdach - wir planen und errichten Ihren Dachstuhl nach Mass.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card reveal-3d" data-tilt>
       <div class="card-icon">&#x1F3E1;</div>
       <h3>Holzhaeuser</h3>
       <p>Wohnhaeuser und Gartenhaeuser mit Wohneinheit in Holzbauweise. Energieeffizient, wohngesund und in kuerzester Bauzeit bezugsfertig.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card reveal-3d" data-tilt>
       <div class="card-icon">&#127757;</div>
       <h3>Terrassen &amp; Carports</h3>
       <p>Terrassenboeden aus Thermoesche, elegante Carports und Ueberdachungen aus heimischen Hoelzern. Massanfertigung fuer Ihren Aussenbereich.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card reveal-3d" data-tilt>
       <div class="card-icon">&#x1F3DB;</div>
       <h3>Sanierung</h3>
       <p>Fachgerechte Sanierung historischer Holzkonstruktionen wie Zwiebeltuermen und Denkmalschutz-Objekte. Wir bewahren das Alte mit Fachkenntnis.</p>
@@ -125,11 +161,11 @@ footer .hours span { color: var(--accent-light); }
 </section>
 
 <section id="ablauf">
-  <div class="section-title fade-in">
+  <div class="section-title reveal-3d">
     <h2>Unser Ablauf</h2>
     <p>In 4 Schritten zu Ihrem Holzbauprojekt</p>
   </div>
-  <div class="process fade-in">
+  <div class="process reveal-3d">
     <div class="process-steps">
       <div class="step">
         <div class="step-num">1</div>
@@ -156,11 +192,11 @@ footer .hours span { color: var(--accent-light); }
 </section>
 
 <section id="ueber">
-  <div class="section-title fade-in">
+  <div class="section-title reveal-3d">
     <h2>Ueber uns</h2>
     <p>Holz ist unsere Leidenschaft</p>
   </div>
-  <div class="about-content fade-in">
+  <div class="about-content reveal-3d">
     <div class="about-text">
       <h3>Holzbau Wiesinger - Ihr Partner in der Weststeiermark</h3>
       <p>Holzbau Zimmerei Wiesinger aus Krottendorf-Gaisfeld steht fuer handwerkliche Qualitaet und zuverlaessige Umsetzung. Von Dachstuehlen ueber Terrassenboeden bis zu Sanierungsprojekten - wir verbinden traditionelles Handwerk mit modernster Technik.</p>
@@ -176,11 +212,11 @@ footer .hours span { color: var(--accent-light); }
 </section>
 
 <section id="kontakt">
-  <div class="section-title fade-in">
+  <div class="section-title reveal-3d">
     <h2>Kontakt</h2>
     <p>Planen wir gemeinsam Ihr naechstes Holzprojekt</p>
   </div>
-  <div class="contact-grid fade-in">
+  <div class="contact-grid reveal-3d">
     <div class="contact-card">
       <div class="icon">&#x1F4DE;</div>
       <h4>Telefon</h4>
@@ -211,7 +247,19 @@ footer .hours span { color: var(--accent-light); }
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
 }, { threshold: 0.1 });
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+document.querySelectorAll('.reveal-3d').forEach(el => observer.observe(el));
+
+document.querySelectorAll('[data-tilt]').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `perspective(1000px) rotateY(${x * 15}deg) rotateX(${y * -15}deg) translateZ(10px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0) translateZ(0)';
+  });
+});
 </script>
 </body>
 </html>

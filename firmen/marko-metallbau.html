@@ -9,6 +9,7 @@
   --accent: #4A90D9;
   --accent-light: #6BA3E0;
   --accent-dark: #3570B0;
+  --accent-glow: rgba(74, 144, 217, 0.25);
   --bg-primary: #090B10;
   --bg-secondary: #0F1218;
   --bg-card: rgba(74, 144, 217, 0.06);
@@ -20,177 +21,92 @@
 }
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; font-size: 16px; }
-body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.7;
-  overflow-x: hidden;
-}
-.fade-in {
-  opacity: 0; transform: translateY(30px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.fade-in.visible { opacity: 1; transform: translateY(0); }
-nav {
-  position: fixed; top: 0; width: 100%; z-index: 100;
-  background: rgba(9, 11, 16, 0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--glass-border);
-  padding: 1rem 2rem;
-  display: flex; justify-content: space-between; align-items: center;
-}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.7; overflow-x: hidden; }
+
+/* 3D SCROLL */
+.reveal-3d { opacity: 0; transform: perspective(800px) translateZ(-80px) rotateX(8deg); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal-3d.visible { opacity: 1; transform: perspective(800px) translateZ(0) rotateX(0); }
+
+nav { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(9, 11, 16, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
 .logo { font-size: 1.4rem; font-weight: 700; color: var(--accent); letter-spacing: 0.5px; }
 .nav-links { display: flex; gap: 2rem; list-style: none; }
-.nav-links a {
-  color: var(--text-secondary); text-decoration: none;
-  font-size: 0.9rem; transition: color 0.3s;
-}
+.nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
 .nav-links a:hover { color: var(--accent); }
-.hero {
-  min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  text-align: center; padding: 6rem 2rem 4rem;
-  background: radial-gradient(ellipse at 50% 30%, rgba(74, 144, 217, 0.1) 0%, transparent 60%),
-              linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-  position: relative;
-}
-.hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: repeating-linear-gradient(
-    0deg, transparent, transparent 50px,
-    rgba(74, 144, 217, 0.02) 50px, rgba(74, 144, 217, 0.02) 51px
-  );
-}
-.hero::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-  height: 200px;
-  background: linear-gradient(to top, var(--bg-primary), transparent);
-}
-.hero-content { position: relative; z-index: 1; max-width: 800px; }
-.hero-badge {
-  display: inline-block; padding: 0.4rem 1.2rem;
-  background: var(--glass); border: 1px solid var(--glass-border);
-  border-radius: 50px; font-size: 0.85rem; color: var(--accent);
-  margin-bottom: 1.5rem; backdrop-filter: blur(10px);
-}
-.hero h1 {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 800; line-height: 1.1;
-  margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.hero p {
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  color: var(--text-secondary); margin-bottom: 2.5rem;
-  max-width: 600px; margin-inline: auto;
-}
-.cta-btn {
-  display: inline-block; padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-  color: #fff; font-weight: 700; font-size: 1rem;
-  text-decoration: none; border-radius: 50px;
-  transition: transform 0.3s, box-shadow 0.3s;
-  box-shadow: 0 4px 25px rgba(74, 144, 217, 0.3);
-}
-.cta-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 35px rgba(74, 144, 217, 0.45);
-}
+
+/* HERO 3D PARALLAX */
+.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 6rem 2rem 4rem; position: relative; perspective: 1200px; overflow: hidden; }
+.hero-depth { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, rgba(74, 144, 217, 0.12) 0%, transparent 60%), linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); transform: translateZ(-80px) scale(1.08); pointer-events: none; }
+.hero-grid { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(74, 144, 217, 0.03) 50px, rgba(74, 144, 217, 0.03) 51px), repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(74, 144, 217, 0.02) 50px, rgba(74, 144, 217, 0.02) 51px); transform: translateZ(-40px) scale(1.04); pointer-events: none; }
+.hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 200px; background: linear-gradient(to top, var(--bg-primary), transparent); z-index: 1; }
+.hero-content { position: relative; z-index: 2; max-width: 800px; }
+.hero-badge { display: inline-block; padding: 0.4rem 1.2rem; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 50px; font-size: 0.85rem; color: var(--accent); margin-bottom: 1.5rem; backdrop-filter: blur(10px); }
+.hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 1px 0 rgba(74,144,217,0.3), 0 2px 0 rgba(74,144,217,0.2), 0 3px 0 rgba(74,144,217,0.1), 0 4px 10px rgba(0,0,0,0.5); }
+.hero p { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-secondary); margin-bottom: 2.5rem; max-width: 600px; margin-inline: auto; }
+
+/* 3D FLOATING METAL */
+.metal-float { position: absolute; font-size: 2rem; opacity: 0.12; pointer-events: none; animation: metalDrift 8s ease-in-out infinite; }
+@keyframes metalDrift { 0%, 100% { transform: perspective(500px) translateZ(0) translateY(0) rotateY(0); } 50% { transform: perspective(500px) translateZ(30px) translateY(-10px) rotateY(15deg); } }
+
+/* 3D BUTTON */
+.cta-btn { display: inline-block; padding: 1rem 2.5rem; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #fff; font-weight: 700; font-size: 1rem; text-decoration: none; border-radius: 50px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 0 #2A5A90, 0 6px 25px var(--accent-glow); }
+.cta-btn:hover { transform: perspective(500px) translateZ(5px) translateY(-2px); box-shadow: 0 6px 0 #2A5A90, 0 10px 35px rgba(74, 144, 217, 0.45); }
+.cta-btn:active { transform: perspective(500px) translateZ(-5px) translateY(2px); box-shadow: 0 1px 0 #2A5A90, 0 2px 10px rgba(74, 144, 217, 0.2); }
+
 section { padding: 6rem 2rem; }
 .section-header { text-align: center; margin-bottom: 4rem; }
 .section-header h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem; }
 .section-header p { color: var(--text-secondary); max-width: 550px; margin-inline: auto; }
 .accent-line { width: 60px; height: 3px; background: var(--accent); margin: 1rem auto; border-radius: 2px; }
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem; max-width: 1100px; margin: 0 auto;
-}
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px; padding: 2rem;
-  backdrop-filter: blur(10px);
-  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-}
-.card:hover {
-  transform: translateY(-5px); border-color: var(--accent);
-  box-shadow: 0 10px 40px rgba(74, 144, 217, 0.1);
-}
-.card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-.card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent-light); }
-.card p { color: var(--text-secondary); font-size: 0.95rem; }
-.about {
-  background: var(--bg-secondary);
-  border-top: 1px solid var(--glass-border);
-  border-bottom: 1px solid var(--glass-border);
-}
-.about-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 4rem; max-width: 1100px; margin: 0 auto; align-items: center;
-}
-.about-visual {
-  background: linear-gradient(135deg, var(--glass), transparent);
-  border: 1px solid var(--glass-border);
-  border-radius: 20px; padding: 3rem;
-  text-align: center; font-size: 5rem;
-  aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;
-}
+
+/* 3D TILT CARDS */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; max-width: 1100px; margin: 0 auto; perspective: 1000px; }
+.card { background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 16px; padding: 2rem; backdrop-filter: blur(10px); transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s; transform-style: preserve-3d; will-change: transform; }
+.card:hover { border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 25px var(--accent-glow); }
+.card-icon { font-size: 2.5rem; margin-bottom: 1rem; transform: translateZ(25px); display: block; }
+.card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent-light); transform: translateZ(15px); }
+.card p { color: var(--text-secondary); font-size: 0.95rem; transform: translateZ(8px); }
+
+/* ABOUT 3D */
+.about { background: var(--bg-secondary); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1100px; margin: 0 auto; align-items: center; }
+.about-visual { background: linear-gradient(135deg, var(--glass), transparent); border: 1px solid var(--glass-border); border-radius: 20px; padding: 3rem; text-align: center; font-size: 5rem; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; transition: transform 0.5s; }
+.about-visual:hover { transform: perspective(800px) rotateY(10deg) rotateX(-5deg); }
 .about-text h2 { font-size: 2rem; margin-bottom: 1rem; }
 .about-text p { color: var(--text-secondary); margin-bottom: 1rem; }
-.stats {
-  display: flex; gap: 2rem; margin-top: 2rem;
-  padding-top: 2rem; border-top: 1px solid var(--glass-border);
-}
+.stats { display: flex; gap: 2rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--glass-border); perspective: 600px; }
+.stat-item { transition: transform 0.3s; }
+.stat-item:hover { transform: perspective(600px) translateZ(15px); }
 .stat-item .stat-num { font-size: 2rem; font-weight: 800; color: var(--accent); }
 .stat-item .stat-label { font-size: 0.85rem; color: var(--text-muted); }
-.contact-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem; max-width: 900px; margin: 0 auto;
-}
-.contact-card {
-  background: var(--bg-card);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px; padding: 2rem; text-align: center;
-  backdrop-filter: blur(10px);
-}
+
+/* CONTACT 3D */
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; max-width: 900px; margin: 0 auto; perspective: 800px; }
+.contact-card { background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 16px; padding: 2rem; text-align: center; backdrop-filter: blur(10px); transition: transform 0.4s, box-shadow 0.4s; }
+.contact-card:hover { transform: perspective(800px) rotateY(5deg) translateZ(15px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
 .contact-card .icon { font-size: 2rem; margin-bottom: 1rem; }
 .contact-card h3 { color: var(--accent-light); margin-bottom: 0.5rem; }
 .contact-card p { color: var(--text-secondary); font-size: 0.95rem; }
-footer {
-  background: var(--bg-secondary);
-  border-top: 1px solid var(--glass-border);
-  padding: 3rem 2rem; text-align: center;
-}
-.footer-hours {
-  display: inline-block;
-  background: var(--bg-card); border: 1px solid var(--glass-border);
-  border-radius: 12px; padding: 1.5rem 2.5rem; margin-bottom: 1.5rem;
-}
+
+footer { background: var(--bg-secondary); border-top: 1px solid var(--glass-border); padding: 3rem 2rem; text-align: center; }
+.footer-hours { display: inline-block; background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 12px; padding: 1.5rem 2.5rem; margin-bottom: 1.5rem; }
 .footer-hours h3 { color: var(--accent); margin-bottom: 0.75rem; }
 .footer-hours p { color: var(--text-secondary); font-size: 0.9rem; margin: 0.25rem 0; }
 .footer-copy { color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; }
-.hamburger {
-  display: none; flex-direction: column; gap: 5px; cursor: pointer;
-  background: none; border: none; padding: 0.5rem;
-}
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 0.5rem; }
 .hamburger span { width: 25px; height: 2px; background: var(--text-secondary); transition: 0.3s; }
+
+/* DECORATIVE 3D SHAPES */
+.deco-hex { position: absolute; width: 40px; height: 40px; border: 2px solid rgba(74,144,217,0.12); transform-style: preserve-3d; animation: hexSpin 14s linear infinite; pointer-events: none; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); }
+@keyframes hexSpin { 0% { transform: perspective(400px) rotateX(0) rotateY(0); } 100% { transform: perspective(400px) rotateX(360deg) rotateY(360deg); } }
+
 @media (max-width: 768px) {
   .hamburger { display: flex; }
-  .nav-links {
-    display: none; position: absolute; top: 100%; left: 0; right: 0;
-    flex-direction: column; background: rgba(9, 11, 16, 0.95);
-    padding: 1.5rem 2rem; gap: 1rem;
-    border-bottom: 1px solid var(--glass-border);
-  }
+  .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: rgba(9, 11, 16, 0.95); padding: 1.5rem 2rem; gap: 1rem; border-bottom: 1px solid var(--glass-border); }
   .nav-links.open { display: flex; }
   .about-grid { grid-template-columns: 1fr; }
   .about-visual { aspect-ratio: 16/9; font-size: 3rem; }
   .stats { flex-wrap: wrap; gap: 1.5rem; }
+  .metal-float, .deco-hex { display: none; }
 }
 </style>
 </head>
@@ -209,6 +125,12 @@ footer {
 </nav>
 
 <section class="hero">
+  <div class="hero-depth"></div>
+  <div class="hero-grid"></div>
+  <div class="deco-hex" style="top:18%;left:8%;background:rgba(74,144,217,0.05)"></div>
+  <div class="deco-hex" style="top:55%;right:10%;animation-delay:-5s;background:rgba(74,144,217,0.04)"></div>
+  <div class="metal-float" style="top:20%;right:15%">&#x1F529;</div>
+  <div class="metal-float" style="bottom:30%;left:10%;animation-delay:-3s">&#x2699;</div>
   <div class="hero-content">
     <span class="hero-badge">Ihr Profi in Graz und Umgebung</span>
     <h1>Stahl praegt Raum und Form</h1>
@@ -218,28 +140,28 @@ footer {
 </section>
 
 <section id="leistungen">
-  <div class="section-header fade-in">
+  <div class="section-header reveal-3d">
     <h2>Unsere Leistungen</h2>
     <div class="accent-line"></div>
     <p>Von der Skizze bis zur Montage - Metallbau auf hoechstem Niveau.</p>
   </div>
   <div class="cards">
-    <div class="card fade-in">
+    <div class="card reveal-3d" data-tilt>
       <div class="card-icon">&#x1F529;</div>
       <h3>Gelaender &amp; Stiegen</h3>
       <p>Elegante Stahl- und Edelstahl-Gelaender, freitragende Stiegen und Handlaeufe. Individuell geplant und millimetergenau gefertigt.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card reveal-3d" data-tilt>
       <div class="card-icon">&#x1F6AA;</div>
       <h3>Tore &amp; Zaeuene</h3>
       <p>Schiebetore, Einfahrtstore und Zaunanlagen in Stahl, Edelstahl oder Aluminium. Sicherheit und Design aus einer Hand.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card reveal-3d" data-tilt>
       <div class="card-icon">&#x1F3D7;</div>
       <h3>Carports &amp; Vordaecher</h3>
       <p>Individuelle Carport-Loesungen, Vordaecher und Wintergaerten. Massgeschneidert fuer Ihr Zuhause in Graz und Umgebung.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card reveal-3d" data-tilt>
       <div class="card-icon">&#x2699;</div>
       <h3>Sonderanfertigungen</h3>
       <p>Inneneinrichtungen, Portalbau, Balkone und Spezialanfertigungen in Edelstahl, Aluminium und Eisen nach Ihren Wuenschen.</p>
@@ -249,8 +171,8 @@ footer {
 
 <section class="about" id="ueber-uns">
   <div class="about-grid">
-    <div class="about-visual fade-in">&#x1F527;</div>
-    <div class="about-text fade-in">
+    <div class="about-visual reveal-3d">&#x1F527;</div>
+    <div class="about-text reveal-3d">
       <h2>Kompetenz seit 1999</h2>
       <p>Marko Metallbau ist ein Metall und Edelstahl verarbeitendes Unternehmen in Kalsdorf bei Graz, das sich auf die Errichtung und Fertigung von Stiegen, Daechern und Gelaendern spezialisiert hat. Unsere breit gefaecherte Produktpalette umfasst unter anderem die Planung und Errichtung von Carports, Zaeunen, Schiebetoren, Vordaechern und Wintergaerten.</p>
       <p>In unserer Werkstatt in Wundschuh verarbeiten wir hochwertige Materialien, um bestmoegliche Resultate zu erzielen. Unser engagiertes Team legt grossen Wert auf Professionalitaet, absolute Termintreue sowie kompetente und freundliche Beratung.</p>
@@ -273,25 +195,25 @@ footer {
 </section>
 
 <section id="kontakt">
-  <div class="section-header fade-in">
+  <div class="section-header reveal-3d">
     <h2>Kontakt</h2>
     <div class="accent-line"></div>
     <p>Kontaktieren Sie uns fuer ein unverbindliches Erstgespraech!</p>
   </div>
   <div class="contact-grid">
-    <div class="contact-card fade-in">
+    <div class="contact-card reveal-3d">
       <div class="icon">&#x1F4DE;</div>
       <h3>Telefon</h3>
       <p>03135 / 52 914</p>
       <p>Mo-Fr 8:00 - 17:00</p>
     </div>
-    <div class="contact-card fade-in">
+    <div class="contact-card reveal-3d">
       <div class="icon">&#x2709;</div>
       <h3>E-Mail</h3>
       <p>office@marko-metallbau.at</p>
       <p>Angebote innerhalb 48h</p>
     </div>
-    <div class="contact-card fade-in">
+    <div class="contact-card reveal-3d">
       <div class="icon">&#x1F4CD;</div>
       <h3>Betrieb</h3>
       <p>Kalsdorf bei Graz</p>
@@ -311,11 +233,21 @@ footer {
 
 <script>
 const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
-  });
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+document.querySelectorAll('.reveal-3d').forEach(el => observer.observe(el));
+
+document.querySelectorAll('[data-tilt]').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `perspective(1000px) rotateY(${x * 15}deg) rotateX(${y * -15}deg) translateZ(10px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0) translateZ(0)';
+  });
+});
 </script>
 </body>
 </html>

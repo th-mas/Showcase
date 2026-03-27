@@ -27,8 +27,12 @@ body {
   background: var(--bg-primary); color: var(--text-primary);
   line-height: 1.7; overflow-x: hidden;
 }
-.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
+.fade-in {
+  opacity: 0; transform: translateY(40px) translateZ(-60px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0) translateZ(0); }
+
 nav {
   position: fixed; top: 0; width: 100%; z-index: 100;
   background: rgba(10, 12, 14, 0.85); backdrop-filter: blur(20px);
@@ -39,9 +43,16 @@ nav {
 .nav-links { display: flex; gap: 2rem; list-style: none; }
 .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
 .nav-links a:hover { color: var(--accent-glow); }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px; cursor: pointer;
+  background: none; border: none; padding: 0.5rem;
+}
+.hamburger span { width: 25px; height: 2px; background: var(--text-secondary); transition: 0.3s; }
+
+/* Hero 3D Parallax */
 .hero {
   min-height: 100vh; display: flex; align-items: center; justify-content: center;
-  text-align: center; padding: 6rem 2rem 4rem;
+  text-align: center; padding: 6rem 2rem 4rem; perspective: 1000px;
   background: radial-gradient(ellipse at 60% 40%, rgba(255, 107, 53, 0.06) 0%, transparent 50%),
               radial-gradient(ellipse at 40% 60%, rgba(92, 107, 115, 0.1) 0%, transparent 50%),
               var(--bg-primary);
@@ -51,34 +62,58 @@ nav {
   content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 200px;
   background: linear-gradient(to top, var(--bg-primary), transparent);
 }
-.hero-content { position: relative; z-index: 1; max-width: 800px; }
+.hero-content { position: relative; z-index: 1; max-width: 800px; transform-style: preserve-3d; }
 .hero-badge {
   display: inline-block; padding: 0.4rem 1.2rem;
   background: var(--glass); border: 1px solid var(--glass-border);
   border-radius: 50px; font-size: 0.85rem; color: var(--spark); margin-bottom: 1.5rem;
+  transform: translateZ(25px);
 }
 .hero h1 {
   font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;
   background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent-glow) 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  transform: translateZ(20px);
 }
 .hero p {
   font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-secondary);
   margin-bottom: 2.5rem; max-width: 600px; margin-inline: auto;
+  transform: translateZ(10px);
 }
 .cta-btn {
   display: inline-block; padding: 1rem 2.5rem;
   background: linear-gradient(135deg, var(--spark), #D4551E);
   color: #fff; font-weight: 700; font-size: 1rem; text-decoration: none; border-radius: 50px;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.2s, box-shadow 0.2s;
   box-shadow: 0 4px 25px rgba(255, 107, 53, 0.25);
+  transform: translateZ(15px);
 }
-.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 35px rgba(255, 107, 53, 0.4); }
-section { padding: 6rem 2rem; }
+.cta-btn:hover { transform: translateZ(15px) translateY(-3px); box-shadow: 0 10px 40px rgba(255, 107, 53, 0.45); }
+.cta-btn:active { transform: translateZ(5px) translateY(0); box-shadow: 0 2px 8px rgba(255, 107, 53, 0.2); }
+
+/* Floating 3D Shapes */
+.float-shape {
+  position: absolute; border-radius: 50%; opacity: 0.06; background: var(--spark);
+  animation: floatShape 9s ease-in-out infinite; pointer-events: none;
+}
+.float-shape:nth-child(1) { width: 70px; height: 70px; top: 18%; left: 12%; animation-delay: 0s; }
+.float-shape:nth-child(2) { width: 90px; height: 90px; top: 55%; right: 10%; animation-delay: 3s; border-radius: 25%; }
+@keyframes floatShape {
+  0%, 100% { transform: translateZ(0) translateY(0) rotate(0deg); }
+  50% { transform: translateZ(40px) translateY(-20px) rotate(10deg); }
+}
+
+section { padding: 6rem 2rem; perspective: 1200px; }
 .section-header { text-align: center; margin-bottom: 4rem; }
-.section-header h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem; }
+.section-header h2 {
+  font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem;
+  text-shadow: 0 1px 0 rgba(255,107,53,0.3), 0 2px 0 rgba(255,107,53,0.15),
+               0 3px 8px rgba(0,0,0,0.3);
+}
 .section-header p { color: var(--text-secondary); max-width: 550px; margin-inline: auto; }
 .accent-line { width: 60px; height: 3px; background: var(--spark); margin: 1rem auto; border-radius: 2px; }
+
+/* 3D Tilt Cards */
 .cards {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem; max-width: 1100px; margin: 0 auto;
@@ -86,19 +121,20 @@ section { padding: 6rem 2rem; }
 .card {
   background: var(--bg-card); border: 1px solid var(--glass-border);
   border-radius: 16px; padding: 2rem; backdrop-filter: blur(10px);
-  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-  position: relative; overflow: hidden;
+  transition: box-shadow 0.3s, border-color 0.3s;
+  position: relative; overflow: hidden; transform-style: preserve-3d;
 }
 .card::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, transparent, var(--spark), transparent);
   opacity: 0; transition: opacity 0.3s;
 }
-.card:hover { transform: translateY(-5px); border-color: var(--accent-glow); }
+.card:hover { border-color: var(--accent-glow); }
 .card:hover::before { opacity: 1; }
-.card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-.card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent-glow); }
-.card p { color: var(--text-secondary); font-size: 0.95rem; }
+.card-icon { font-size: 2.5rem; margin-bottom: 1rem; transform: translateZ(20px); }
+.card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent-glow); transform: translateZ(12px); }
+.card p { color: var(--text-secondary); font-size: 0.95rem; transform: translateZ(8px); }
+
 .about {
   background: var(--bg-secondary);
   border-top: 1px solid var(--glass-border);
@@ -111,9 +147,11 @@ section { padding: 6rem 2rem; }
 .about-visual {
   background: linear-gradient(135deg, rgba(255, 107, 53, 0.05), var(--glass), transparent);
   border: 1px solid var(--glass-border); border-radius: 20px; padding: 3rem;
-  text-align: center; font-size: 5rem;
-  aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;
+  text-align: center; font-size: 5rem; aspect-ratio: 4/3;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.5s; transform-style: preserve-3d;
 }
+.about-visual:hover { transform: rotateY(6deg) rotateX(-3deg); }
 .about-text h2 { font-size: 2rem; margin-bottom: 1rem; }
 .about-text p { color: var(--text-secondary); margin-bottom: 1rem; }
 .stats {
@@ -122,17 +160,25 @@ section { padding: 6rem 2rem; }
 }
 .stat-item .stat-num { font-size: 2rem; font-weight: 800; color: var(--spark); }
 .stat-item .stat-label { font-size: 0.85rem; color: var(--text-muted); }
+
+/* 3D Glass Contact Cards */
 .contact-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem; max-width: 900px; margin: 0 auto;
 }
 .contact-card {
-  background: var(--bg-card); border: 1px solid var(--glass-border);
-  border-radius: 16px; padding: 2rem; text-align: center;
+  background: rgba(92, 107, 115, 0.06); border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 2rem; text-align: center; backdrop-filter: blur(12px);
+  transition: transform 0.4s, box-shadow 0.3s; transform-style: preserve-3d;
 }
-.contact-card .icon { font-size: 2rem; margin-bottom: 1rem; }
+.contact-card:hover {
+  transform: translateY(-8px) rotateX(5deg);
+  box-shadow: 0 20px 40px rgba(255, 107, 53, 0.1);
+}
+.contact-card .icon { font-size: 2rem; margin-bottom: 1rem; transform: translateZ(15px); }
 .contact-card h3 { color: var(--accent-glow); margin-bottom: 0.5rem; }
 .contact-card p { color: var(--text-secondary); font-size: 0.95rem; }
+
 footer {
   background: var(--bg-secondary); border-top: 1px solid var(--glass-border);
   padding: 3rem 2rem; text-align: center;
@@ -144,11 +190,7 @@ footer {
 .footer-hours h3 { color: var(--spark); margin-bottom: 0.75rem; }
 .footer-hours p { color: var(--text-secondary); font-size: 0.9rem; margin: 0.25rem 0; }
 .footer-copy { color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; }
-.hamburger {
-  display: none; flex-direction: column; gap: 5px; cursor: pointer;
-  background: none; border: none; padding: 0.5rem;
-}
-.hamburger span { width: 25px; height: 2px; background: var(--text-secondary); transition: 0.3s; }
+
 @media (max-width: 768px) {
   .hamburger { display: flex; }
   .nav-links {
@@ -178,6 +220,8 @@ footer {
 </nav>
 
 <section class="hero">
+  <div class="float-shape"></div>
+  <div class="float-shape"></div>
   <div class="hero-content">
     <span class="hero-badge">Metalltechnik &amp; Metallgestaltung</span>
     <h1>Schlosserei Ritonja - Meister in Metall</h1>
@@ -193,22 +237,22 @@ footer {
     <p>Vom Metallbau bis zur Kunstschmiede - Qualitaet aus Meisterhand.</p>
   </div>
   <div class="cards">
-    <div class="card fade-in">
+    <div class="card fade-in" data-tilt>
       <div class="card-icon">&#128296;</div>
       <h3>Metalltechnik &amp; Metallbau</h3>
       <p>Konstruktionen aus Stahl und Metall fuer Industrie, Gewerbe und Privat. Treppen, Gelaender, Tore, Gitter und Stahlkonstruktionen nach Mass.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card fade-in" data-tilt>
       <div class="card-icon">&#127912;</div>
       <h3>Metallgestaltung</h3>
       <p>Kreative Metallgestaltung und kunsthandwerkliche Arbeiten. Individuelle Designstuecke, Skulpturen und dekorative Elemente.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card fade-in" data-tilt>
       <div class="card-icon">&#128293;</div>
       <h3>Schweisstechnik</h3>
       <p>Professionelle Schweissarbeiten aller Art. WIG, MAG, Elektrodenschweissen fuer Stahl, Edelstahl und Aluminium.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card fade-in" data-tilt>
       <div class="card-icon">&#9878;</div>
       <h3>Schmiede- &amp; Restaurierungsarbeiten</h3>
       <p>Traditionelle Schmiedearbeiten, Schlosserarbeiten und Metallrestauration. Historische Stuecke fachgerecht erneuert.</p>
@@ -223,18 +267,9 @@ footer {
       <p>Die Schlosserei Ritonja ist ein traditionsreiches Familienunternehmen in Graz, gefuehrt von Inhaberin Daniela Klinser. Wir verbinden traditionelles Schlosserhandwerk mit moderner Technik.</p>
       <p>Unsere Gewerke umfassen Metalltechnik, Metallbau, Metallgestaltung, Metallrestauration, Schweisstechnik sowie Schmiede-, Schlosser- und kunsthandwerkliche Arbeiten. Qualitaet und Zuverlaessigkeit stehen bei uns an erster Stelle.</p>
       <div class="stats">
-        <div class="stat-item">
-          <div class="stat-num">7</div>
-          <div class="stat-label">Gewerke</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">Graz</div>
-          <div class="stat-label">Standort</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">TUeV</div>
-          <div class="stat-label">Zertifiziert</div>
-        </div>
+        <div class="stat-item"><div class="stat-num">7</div><div class="stat-label">Gewerke</div></div>
+        <div class="stat-item"><div class="stat-num">Graz</div><div class="stat-label">Standort</div></div>
+        <div class="stat-item"><div class="stat-num">TUeV</div><div class="stat-label">Zertifiziert</div></div>
       </div>
     </div>
     <div class="about-visual fade-in">&#9878;</div>
@@ -280,10 +315,39 @@ footer {
 <script>
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
+    if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+/* 3D Mouse tracking on hero */
+const heroC = document.querySelector('.hero-content');
+document.querySelector('.hero').addEventListener('mousemove', (e) => {
+  const r = e.currentTarget.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width - 0.5;
+  const y = (e.clientY - r.top) / r.height - 0.5;
+  heroC.style.transform = `rotateY(${x * 7}deg) rotateX(${-y * 4}deg)`;
+});
+document.querySelector('.hero').addEventListener('mouseleave', () => {
+  heroC.style.transition = 'transform 0.5s ease';
+  heroC.style.transform = 'rotateY(0) rotateX(0)';
+  setTimeout(() => heroC.style.transition = '', 500);
+});
+
+/* 3D Card Tilt */
+document.querySelectorAll('[data-tilt]').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = `rotateY(${x * 10}deg) rotateX(${-y * 8}deg) translateZ(8px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transition = 'transform 0.4s ease, box-shadow 0.3s, border-color 0.3s';
+    card.style.transform = 'rotateY(0) rotateX(0) translateZ(0)';
+    setTimeout(() => card.style.transition = 'box-shadow 0.3s, border-color 0.3s', 400);
+  });
+});
 </script>
 </body>
 </html>

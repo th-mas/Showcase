@@ -8,6 +8,7 @@
 :root {
   --accent: #FF5722;
   --accent-glow: rgba(255, 87, 34, 0.35);
+  --accent-dark: #E64A19;
   --bg: #0f0f0f;
   --bg2: #1a1a1a;
   --card: rgba(255,255,255,0.05);
@@ -19,9 +20,14 @@
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
 body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
-.fade-in { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
 a { color: var(--accent); text-decoration: none; }
+
+/* 3D SCROLL ANIMATION */
+.reveal-3d {
+  opacity: 0; transform: perspective(800px) translateZ(-80px) rotateX(8deg);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal-3d.visible { opacity: 1; transform: perspective(800px) translateZ(0) rotateX(0); }
 
 /* NAV */
 nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(15,15,15,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--card-border); }
@@ -31,14 +37,46 @@ nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; j
 .nav-links a:hover { color: var(--accent); }
 .menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
 
-/* HERO */
-.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 6rem 2rem 4rem; position: relative; background: radial-gradient(ellipse at 50% 0%, var(--accent-glow), transparent 60%), var(--bg); }
-.hero-icon { font-size: 4rem; margin-bottom: 1rem; }
-.hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; }
+/* HERO with 3D Parallax */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+  align-items: center; text-align: center; padding: 6rem 2rem 4rem;
+  position: relative; perspective: 1000px;
+  background: radial-gradient(ellipse at 50% 0%, var(--accent-glow), transparent 60%), var(--bg);
+}
+.hero-layer-back {
+  position: absolute; inset: 0; transform: translateZ(-100px) scale(1.1);
+  background: radial-gradient(circle at 30% 70%, rgba(255,87,34,0.08), transparent 50%),
+              radial-gradient(circle at 70% 30%, rgba(255,87,34,0.06), transparent 50%);
+  pointer-events: none;
+}
+.hero-content { position: relative; z-index: 2; }
+.hero-icon {
+  font-size: 4rem; margin-bottom: 1rem;
+  animation: float3d 4s ease-in-out infinite;
+}
+@keyframes float3d {
+  0%, 100% { transform: perspective(600px) translateZ(0px) translateY(0); }
+  50% { transform: perspective(600px) translateZ(30px) translateY(-10px); }
+}
+.hero h1 {
+  font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem;
+  text-shadow: 0 1px 0 rgba(255,87,34,0.4), 0 2px 0 rgba(255,87,34,0.3),
+               0 3px 0 rgba(255,87,34,0.2), 0 4px 8px rgba(0,0,0,0.4);
+}
 .hero h1 span { color: var(--accent); }
 .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin-bottom: 2rem; }
-.btn { display: inline-block; padding: .9rem 2.2rem; background: var(--accent); color: #fff; border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform .3s, box-shadow .3s; }
-.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+
+/* 3D BUTTON */
+.btn {
+  display: inline-block; padding: .9rem 2.2rem; background: var(--accent); color: #fff;
+  border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 4px 0 var(--accent-dark), 0 6px 20px var(--accent-glow);
+  transform: perspective(500px) translateZ(0);
+}
+.btn:hover { transform: perspective(500px) translateZ(5px) translateY(-2px); box-shadow: 0 6px 0 var(--accent-dark), 0 10px 30px var(--accent-glow); }
+.btn:active { transform: perspective(500px) translateZ(-5px) translateY(2px); box-shadow: 0 1px 0 var(--accent-dark), 0 2px 10px var(--accent-glow); }
 
 /* SECTIONS */
 section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
@@ -46,26 +84,44 @@ section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
 .section-title h2 { font-size: 2rem; font-weight: 700; margin-bottom: .5rem; }
 .section-title p { color: var(--text-muted); }
 
-/* CARDS */
-.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1.5rem; }
-.card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; backdrop-filter: blur(10px); transition: transform .3s, border-color .3s; }
-.card:hover { transform: translateY(-4px); border-color: var(--accent); }
-.card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-.card h3 { font-size: 1.2rem; margin-bottom: .5rem; color: var(--accent); }
-.card p { color: var(--text-muted); font-size: .95rem; }
+/* 3D TILT CARDS with mouse tracking */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1.5rem; perspective: 1000px; }
+.card {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 2rem;
+  backdrop-filter: blur(10px); transition: transform .3s, border-color .3s, box-shadow .3s;
+  transform-style: preserve-3d; will-change: transform;
+}
+.card:hover { border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px var(--accent-glow); }
+.card-icon { font-size: 2.5rem; margin-bottom: 1rem; transform: translateZ(30px); display: block; }
+.card h3 { font-size: 1.2rem; margin-bottom: .5rem; color: var(--accent); transform: translateZ(20px); }
+.card p { color: var(--text-muted); font-size: .95rem; transform: translateZ(10px); }
 
 /* ABOUT */
 .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
 .about-text h3 { font-size: 1.5rem; margin-bottom: 1rem; }
 .about-text p { color: var(--text-muted); margin-bottom: 1rem; }
-.about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-.stat { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 1.5rem; text-align: center; backdrop-filter: blur(10px); }
+
+/* GLASSMORPHISM 3D STATS */
+.about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; perspective: 800px; }
+.stat {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius); padding: 1.5rem; text-align: center;
+  backdrop-filter: blur(14px); transition: transform .4s, box-shadow .4s;
+  transform: perspective(800px) rotateX(0) rotateY(0);
+}
+.stat:hover { transform: perspective(800px) rotateX(-5deg) rotateY(5deg); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
 .stat-number { font-size: 2.2rem; font-weight: 800; color: var(--accent); }
 .stat-label { font-size: .85rem; color: var(--text-muted); }
 
 /* CONTACT */
-.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 1.5rem; }
-.contact-card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 2rem; text-align: center; backdrop-filter: blur(10px); }
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 1.5rem; perspective: 800px; }
+.contact-card {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 2rem; text-align: center;
+  backdrop-filter: blur(10px); transition: transform .4s, box-shadow .4s;
+}
+.contact-card:hover { transform: perspective(800px) rotateY(5deg) translateZ(10px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
 .contact-card .icon { font-size: 2rem; margin-bottom: .8rem; }
 .contact-card h4 { margin-bottom: .3rem; }
 .contact-card p { color: var(--text-muted); font-size: .95rem; }
@@ -75,12 +131,23 @@ footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--car
 footer .hours { margin: 1rem 0; }
 footer .hours span { color: var(--accent); }
 
-/* RESPONSIVE */
+/* DECORATIVE 3D SHAPES */
+.shape-3d {
+  position: absolute; width: 60px; height: 60px; border: 2px solid rgba(255,87,34,0.15);
+  border-radius: 12px; transform-style: preserve-3d;
+  animation: spin3d 12s linear infinite; pointer-events: none;
+}
+@keyframes spin3d {
+  0% { transform: perspective(400px) rotateX(0) rotateY(0); }
+  100% { transform: perspective(400px) rotateX(360deg) rotateY(360deg); }
+}
+
 @media (max-width: 768px) {
   .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(15,15,15,0.95); padding: 1rem 2rem; gap: 1rem; }
   .nav-links.open { display: flex; }
   .menu-toggle { display: block; }
   .about-content { grid-template-columns: 1fr; }
+  .shape-3d { display: none; }
 }
 </style>
 </head>
@@ -97,34 +164,40 @@ footer .hours span { color: var(--accent); }
 </nav>
 
 <section class="hero">
-  <div class="hero-icon">&#x1F525;</div>
-  <h1>Waerme, die von <span>Herzen</span> kommt</h1>
-  <p>Hafnermeister Reinhard Gangl - Ihr Meisterbetrieb fuer Kacheloefen, Kamine, Herde und individuelle Feuerstaetten in der Steiermark. Modern, Rustikal und Handkeramik.</p>
-  <a href="#kontakt" class="btn">Jetzt Beratung anfragen</a>
+  <div class="hero-layer-back"></div>
+  <div class="shape-3d" style="top:20%;left:10%"></div>
+  <div class="shape-3d" style="top:60%;right:8%;animation-delay:-4s"></div>
+  <div class="shape-3d" style="bottom:15%;left:25%;animation-delay:-8s"></div>
+  <div class="hero-content">
+    <div class="hero-icon">&#x1F525;</div>
+    <h1>Waerme, die von <span>Herzen</span> kommt</h1>
+    <p>Hafnermeister Reinhard Gangl - Ihr Meisterbetrieb fuer Kacheloefen, Kamine, Herde und individuelle Feuerstaetten in der Steiermark. Modern, Rustikal und Handkeramik.</p>
+    <a href="#kontakt" class="btn">Jetzt Beratung anfragen</a>
+  </div>
 </section>
 
 <section id="leistungen">
-  <div class="section-title fade-in">
+  <div class="section-title reveal-3d">
     <h2>Unsere Leistungen</h2>
     <p>Vom klassischen Kachelofen bis zum modernen Designkamin</p>
   </div>
   <div class="card-grid">
-    <div class="card fade-in">
+    <div class="card reveal-3d" data-tilt>
       <div class="card-icon">&#x2B50;</div>
       <h3>Kacheloefen</h3>
       <p>Individuell geplante Kacheloefen nach Mass - modern, traditionell oder als Handkeramik. Vom Bauernkachelofen bis zur Ganzhausheizung.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card reveal-3d" data-tilt>
       <div class="card-icon">&#x1F525;</div>
       <h3>Kamine</h3>
       <p>Offene und geschlossene Kaminsysteme fuer wohlige Atmosphaere. Moderne Heiztechnik trifft auf zeitloses Design in Ihrem Wohnraum.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card reveal-3d" data-tilt>
       <div class="card-icon">&#x1F373;</div>
       <h3>Herde</h3>
       <p>Holzbefeuerte Herde fuer Kueche und Wohnraum. Kochen und Heizen kombiniert - traditionelles Handwerk fuer moderne Ansprueche.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card reveal-3d" data-tilt>
       <div class="card-icon">&#x1F527;</div>
       <h3>Gangl Spezial</h3>
       <p>Spezialoefen und Sonderanfertigungen nach Ihren Wuenschen. Vorher-Nachher Sanierungen - wir hauchen altem Ofenbau neues Leben ein.</p>
@@ -133,11 +206,11 @@ footer .hours span { color: var(--accent); }
 </section>
 
 <section id="ueber">
-  <div class="section-title fade-in">
+  <div class="section-title reveal-3d">
     <h2>Ueber uns</h2>
     <p>Hafnermeister Reinhard Gangl aus der Steiermark</p>
   </div>
-  <div class="about-content fade-in">
+  <div class="about-content reveal-3d">
     <div class="about-text">
       <h3>Meisterbetrieb mit Herzblut</h3>
       <p>Hafnermeister Reinhard Gangl aus Semriach bei Graz lebt das Hafnerhandwerk mit jeder Faser. Jeder Ofen ist ein Unikat - massgeschneidert auf Ihre Beduerfnisse und Ihren Wohnraum.</p>
@@ -153,11 +226,11 @@ footer .hours span { color: var(--accent); }
 </section>
 
 <section id="kontakt">
-  <div class="section-title fade-in">
+  <div class="section-title reveal-3d">
     <h2>Kontakt</h2>
     <p>Wir freuen uns auf Ihre Anfrage</p>
   </div>
-  <div class="contact-grid fade-in">
+  <div class="contact-grid reveal-3d">
     <div class="contact-card">
       <div class="icon">&#x1F4DE;</div>
       <h4>Telefon</h4>
@@ -185,10 +258,24 @@ footer .hours span { color: var(--accent); }
 </footer>
 
 <script>
+/* Scroll-triggered 3D reveal */
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
 }, { threshold: 0.1 });
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+document.querySelectorAll('.reveal-3d').forEach(el => observer.observe(el));
+
+/* 3D Mouse-tracking tilt on cards */
+document.querySelectorAll('[data-tilt]').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `perspective(1000px) rotateY(${x * 15}deg) rotateX(${y * -15}deg) translateZ(10px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0) translateZ(0)';
+  });
+});
 </script>
 </body>
 </html>

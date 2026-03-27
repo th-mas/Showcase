@@ -19,105 +19,98 @@
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: var(--bg-dark); color: var(--text); line-height: 1.7; overflow-x: hidden;
-}
-.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
-nav {
-  position: fixed; top: 0; width: 100%; z-index: 100;
-  background: rgba(14, 11, 8, 0.88); backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--glass-border);
-  padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
-}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-dark); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+
+nav { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(14, 11, 8, 0.88); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
 nav .logo { font-size: 1.3rem; font-weight: 700; color: var(--accent-light); }
 nav ul { list-style: none; display: flex; gap: 2rem; }
 nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
 nav a:hover { color: var(--accent-light); }
-.hero {
-  min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-  text-align: center; padding: 6rem 2rem 4rem;
-  background: radial-gradient(ellipse at 50% 40%, var(--accent-glow), transparent 55%),
-              linear-gradient(180deg, var(--bg-dark) 0%, #1a1510 100%);
-}
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  padding: 0.5rem 1.2rem; border-radius: 50px; font-size: 0.85rem;
-  background: rgba(230, 81, 0, 0.15); border: 1px solid rgba(230, 81, 0, 0.3);
-  color: var(--accent-light); margin-bottom: 1.5rem;
-}
-.hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.15; }
+
+/* Hero with 3D Parallax Depth */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 6rem 2rem 4rem; position: relative; overflow: hidden; background: var(--bg-dark); }
+.hero-depth { position: absolute; inset: 0; pointer-events: none; }
+.hero-depth.d1 { background: radial-gradient(ellipse at 50% 40%, var(--accent-glow), transparent 55%); }
+.hero-depth.d2 { background: linear-gradient(180deg, var(--bg-dark) 0%, #1a1510 100%); opacity: 0.6; }
+.hero-content { position: relative; z-index: 2; }
+.hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1.2rem; border-radius: 50px; font-size: 0.85rem; background: rgba(230, 81, 0, 0.15); border: 1px solid rgba(230, 81, 0, 0.3); color: var(--accent-light); margin-bottom: 1.5rem; animation: floatBadge 3s ease-in-out infinite; }
+@keyframes floatBadge { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.15; text-shadow: 0 2px 0 #BF4500, 0 3px 0 #A03C00, 0 4px 8px rgba(0,0,0,0.4); }
 .hero h1 span { color: var(--accent-light); }
 .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin-bottom: 2.5rem; }
-.btn {
-  display: inline-block; padding: 0.9rem 2.4rem; border-radius: 50px;
-  background: linear-gradient(135deg, var(--accent), #FF6D00);
-  color: #fff; text-decoration: none; font-weight: 700; font-size: 1rem;
-  transition: transform 0.3s, box-shadow 0.3s; border: none; cursor: pointer;
-}
-.btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px var(--accent-glow); }
-.btn-secondary {
-  display: inline-block; padding: 0.9rem 2.4rem; border-radius: 50px;
-  background: transparent; border: 2px solid var(--accent);
-  color: var(--accent-light); text-decoration: none; font-weight: 600; font-size: 1rem;
-  transition: background 0.3s, transform 0.3s; margin-left: 1rem;
-}
-.btn-secondary:hover { background: rgba(230, 81, 0, 0.15); transform: translateY(-3px); }
+
+/* 3D Press Buttons */
+.btn { display: inline-block; padding: 0.9rem 2.4rem; border-radius: 50px; background: linear-gradient(135deg, var(--accent), #FF6D00); color: #fff; text-decoration: none; font-weight: 700; font-size: 1rem; border: none; cursor: pointer; box-shadow: 0 6px 0 #BF4500, 0 8px 20px rgba(0,0,0,0.3); transition: transform .15s, box-shadow .15s; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #BF4500, 0 12px 30px var(--accent-glow); }
+.btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #BF4500, 0 3px 10px rgba(0,0,0,0.3); }
+.btn-secondary { display: inline-block; padding: 0.9rem 2.4rem; border-radius: 50px; background: transparent; border: 2px solid var(--accent); color: var(--accent-light); text-decoration: none; font-weight: 600; font-size: 1rem; transition: background 0.3s, transform 0.3s, box-shadow .15s; box-shadow: 0 4px 0 rgba(191,69,0,0.3); }
+.btn-secondary:hover { background: rgba(230, 81, 0, 0.15); transform: translateY(-2px); }
+.btn-secondary:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(191,69,0,0.3); }
 .hero-buttons { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+
 section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
-.section-title { text-align: center; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: 0.5rem; }
+.section-title { text-align: center; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: 0.5rem; text-shadow: 0 1px 0 #BF4500, 0 2px 0 #A03C00, 0 3px 6px rgba(0,0,0,0.3); }
 .section-title span { color: var(--accent-light); }
 .section-sub { text-align: center; color: var(--text-muted); margin-bottom: 3rem; max-width: 600px; margin-inline: auto; }
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
-.card {
-  background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: var(--radius);
-  padding: 2rem; backdrop-filter: blur(10px);
-  transition: background 0.4s, transform 0.3s, box-shadow 0.3s;
-}
-.card:hover { background: var(--bg-card-hover); transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
-.card .icon { font-size: 2.5rem; margin-bottom: 1rem; }
-.card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--accent-light); }
-.card p { font-size: 0.95rem; color: var(--text-muted); }
-.emergency-banner {
-  background: linear-gradient(135deg, rgba(230, 81, 0, 0.15), rgba(255, 109, 0, 0.1));
-  border: 1px solid rgba(230, 81, 0, 0.3); border-radius: var(--radius);
-  padding: 2rem 3rem; text-align: center; margin: 3rem auto; max-width: 800px;
-}
+
+/* 3D Tilt Cards with Glassmorphism */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; perspective: 1200px; }
+.card { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 2rem; transition: box-shadow 0.4s; transform-style: preserve-3d; }
+.card:hover { box-shadow: 0 20px 50px rgba(230,81,0,0.12); }
+.card .icon { font-size: 2.5rem; margin-bottom: 1rem; transform: translateZ(30px); }
+.card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--accent-light); transform: translateZ(20px); }
+.card p { font-size: 0.95rem; color: var(--text-muted); transform: translateZ(10px); }
+
+.emergency-banner { background: linear-gradient(135deg, rgba(230, 81, 0, 0.15), rgba(255, 109, 0, 0.1)); border: 1px solid rgba(230, 81, 0, 0.3); border-radius: var(--radius); padding: 2rem 3rem; text-align: center; margin: 3rem auto; max-width: 800px; transform: rotateX(2deg); transition: transform .5s; perspective: 800px; }
+.emergency-banner:hover { transform: rotateX(0); }
 .emergency-banner h3 { color: var(--accent-light); font-size: 1.3rem; margin-bottom: 0.5rem; }
 .emergency-banner p { color: var(--text-muted); }
-.emergency-banner .phone { font-size: 1.6rem; font-weight: 800; color: var(--accent-light); margin-top: 0.5rem; }
+.emergency-banner .phone { font-size: 1.6rem; font-weight: 800; color: var(--accent-light); margin-top: 0.5rem; text-shadow: 0 1px 0 #BF4500, 0 2px 0 #A03C00, 0 3px 6px rgba(0,0,0,0.3); }
+
+/* About with Isometric Cards */
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
 .about-text h3 { font-size: 1.4rem; margin-bottom: 1rem; color: var(--accent-light); }
 .about-text p { color: var(--text-muted); margin-bottom: 1rem; }
 .stats { display: flex; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
-.stat-item .num { font-size: 2rem; font-weight: 800; color: var(--accent-light); }
+.stat-item .num { font-size: 2rem; font-weight: 800; color: var(--accent-light); text-shadow: 0 1px 0 #BF4500, 0 2px 0 #A03C00, 0 3px 6px rgba(0,0,0,0.3); }
 .stat-item .label { font-size: 0.8rem; color: var(--text-muted); }
-.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
-.contact-card {
-  background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: var(--radius);
-  padding: 2rem; text-align: center;
-}
+.about-visual { background: var(--bg-card); border-radius: var(--radius); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; font-size: 4rem; border: 1px solid var(--glass-border); transform: rotateX(8deg) rotateY(-8deg); box-shadow: 10px 15px 30px rgba(0,0,0,0.4); transition: transform .5s; }
+.about-visual:hover { transform: rotateX(0) rotateY(0); }
+
+/* 3D Contact Cards with tilt */
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; perspective: 1000px; }
+.contact-card { background: rgba(255,255,255,0.03); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 2rem; text-align: center; transition: transform .4s, box-shadow .4s; }
+.contact-card:hover { box-shadow: 0 15px 40px rgba(230,81,0,0.1); }
 .contact-card .icon { font-size: 2rem; margin-bottom: 0.8rem; color: var(--accent-light); }
 .contact-card h4 { margin-bottom: 0.4rem; }
 .contact-card p { color: var(--text-muted); font-size: 0.95rem; }
-footer {
-  text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--glass-border);
-  color: var(--text-muted); font-size: 0.9rem;
-}
+
+footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--glass-border); color: var(--text-muted); font-size: 0.9rem; }
 footer .hours { margin-bottom: 1rem; }
 footer .hours span { color: var(--accent-light); font-weight: 600; }
+
+/* Scroll-triggered 3D */
+.reveal-3d { opacity: 0; transform: perspective(800px) translateZ(-60px) translateY(30px) rotateX(5deg); transition: opacity .8s ease, transform .8s ease; }
+.reveal-3d.visible { opacity: 1; transform: perspective(800px) translateZ(0) translateY(0) rotateX(0); }
+
+/* Decorative 3D element */
+.deco-gear { position: fixed; width: 50px; height: 50px; border: 2px solid rgba(230,81,0,0.05); border-radius: 50%; animation: spinGear 15s linear infinite; pointer-events: none; z-index: 0; }
+@keyframes spinGear { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+
 @media (max-width: 768px) {
   nav ul { display: none; }
   .about-grid { grid-template-columns: 1fr; }
   .hero-buttons { flex-direction: column; align-items: center; }
-  .btn-secondary { margin-left: 0; }
   .emergency-banner { padding: 1.5rem; }
   section { padding: 3rem 1.2rem; }
 }
 </style>
 </head>
 <body>
+
+<div class="deco-gear" style="top:25%;right:4%;"></div>
+<div class="deco-gear" style="top:70%;left:3%;animation-delay:-7s;width:35px;height:35px;"></div>
+
 <nav>
   <div class="logo">&#9881; Die Handwerker</div>
   <ul>
@@ -128,41 +121,45 @@ footer .hours span { color: var(--accent-light); font-weight: 600; }
 </nav>
 
 <section class="hero">
-  <div class="hero-badge">#PACKENWIRSAN</div>
-  <h1>Handwerk mit <span>Handschlag.</span></h1>
-  <p>Tueren, Fenster, Sonnenschutz und Ihr persoenlicher Lieblingsplatz - alles aus einer Hand. Schnell, zuverlaessig und mit groesster fachlicher Sorgfalt.</p>
-  <div class="hero-buttons">
-    <a href="#kontakt" class="btn">Angebot anfordern &#10132;</a>
-    <a href="tel:+436642235602" class="btn-secondary">&#9742; +43 664 22 35 602</a>
+  <div class="hero-depth d1"></div>
+  <div class="hero-depth d2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">#PACKENWIRSAN</div>
+    <h1>Handwerk mit <span>Handschlag.</span></h1>
+    <p>Tueren, Fenster, Sonnenschutz und Ihr persoenlicher Lieblingsplatz - alles aus einer Hand. Schnell, zuverlaessig und mit groesster fachlicher Sorgfalt.</p>
+    <div class="hero-buttons">
+      <a href="#kontakt" class="btn">Angebot anfordern &#10132;</a>
+      <a href="tel:+436642235602" class="btn-secondary">&#9742; +43 664 22 35 602</a>
+    </div>
   </div>
 </section>
 
 <section id="leistungen">
-  <h2 class="section-title fade-in">Unsere <span>Leistungen</span></h2>
-  <p class="section-sub fade-in">Ihr "All in One Servicebetrieb" - von der Planung bis zur Umsetzung.</p>
+  <h2 class="section-title reveal-3d">Unsere <span>Leistungen</span></h2>
+  <p class="section-sub reveal-3d">Ihr "All in One Servicebetrieb" - von der Planung bis zur Umsetzung.</p>
   <div class="cards">
-    <div class="card fade-in">
+    <div class="card tilt-card reveal-3d">
       <div class="icon">&#128422;</div>
       <h3>Tueren &amp; Fenster</h3>
       <p>Beratung, Ausmessen, Lieferung und Montage von Tueren und Fenstern. Ab- und Aufbau inklusive Entsorgung - alles aus einer Hand.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card tilt-card reveal-3d">
       <div class="icon">&#9728;</div>
       <h3>Sonnenschutz</h3>
       <p>Rolllaeden, Jalousien und Markisen fuer Ihr Zuhause. Professionelle Montage und individuelle Beratung.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card tilt-card reveal-3d">
       <div class="icon">&#127969;</div>
       <h3>Lieblingsplatz</h3>
       <p>Terrassen, Grillplaetze und Outdoor-Bereiche nach Ihren Wuenschen. Wir gestalten Ihren persoenlichen Lieblingsplatz.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card tilt-card reveal-3d">
       <div class="icon">&#128736;</div>
       <h3>Sanierung</h3>
       <p>Renovierung und Sanierung von Wohnraeumen. Wir erledigen saemtliche Arbeiten, damit Sie Ihren neuen Wohnraum geniessen koennen.</p>
     </div>
   </div>
-  <div class="emergency-banner fade-in">
+  <div class="emergency-banner reveal-3d">
     <h3>Alles aus einer Hand!</h3>
     <p>Unsere breit gefaecherte handwerkliche Angebotspalette, gepaart mit der Funktion eines Handelsbetriebes, macht uns zu Ihrem "All in One Servicebetrieb".</p>
     <div class="phone">+43 664 22 35 602</div>
@@ -171,7 +168,7 @@ footer .hours span { color: var(--accent-light); font-weight: 600; }
 
 <section id="ueber">
   <div class="about-grid">
-    <div class="about-text fade-in">
+    <div class="about-text reveal-3d">
       <h2 class="section-title" style="text-align:left">Ueber <span>uns</span></h2>
       <h3>Ihr Handwerksbetrieb in Voitsberg</h3>
       <p>Die Handwerker stehen fuer zuverlaessiges Handwerk in der Weststeiermark. Kostenlose Beratung vor Ort, detaillierte Planung im Vorfeld und ein unverbindliches Angebot - so starten wir jedes Projekt.</p>
@@ -182,27 +179,25 @@ footer .hours span { color: var(--accent-light); font-weight: 600; }
         <div class="stat-item"><div class="num">1</div><div class="label">Ansprechpartner</div></div>
       </div>
     </div>
-    <div class="fade-in" style="background:var(--bg-card);border-radius:var(--radius);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;font-size:4rem;border:1px solid var(--glass-border);">
-      &#128736;
-    </div>
+    <div class="about-visual reveal-3d">&#128736;</div>
   </div>
 </section>
 
 <section id="kontakt">
-  <h2 class="section-title fade-in">Kontaktieren <span>Sie uns</span></h2>
-  <p class="section-sub fade-in">Sagen Sie uns Ihr Anliegen - wir erledigen fuer Sie!</p>
+  <h2 class="section-title reveal-3d">Kontaktieren <span>Sie uns</span></h2>
+  <p class="section-sub reveal-3d">Sagen Sie uns Ihr Anliegen - wir erledigen fuer Sie!</p>
   <div class="contact-grid">
-    <div class="contact-card fade-in">
+    <div class="contact-card tilt-card reveal-3d">
       <div class="icon">&#9742;</div>
       <h4>Telefon</h4>
       <p>+43 664 22 35 602</p>
     </div>
-    <div class="contact-card fade-in">
+    <div class="contact-card tilt-card reveal-3d">
       <div class="icon">&#9993;</div>
       <h4>E-Mail</h4>
       <p>office@diehandwerker.at</p>
     </div>
-    <div class="contact-card fade-in">
+    <div class="contact-card tilt-card reveal-3d">
       <div class="icon">&#9873;</div>
       <h4>Adresse</h4>
       <p>Bahnhofstrasse 9, 8570 Voitsberg</p>
@@ -220,8 +215,19 @@ footer .hours span { color: var(--accent-light); font-weight: 600; }
 <script>
 const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-}, { threshold: 0.15 });
-document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal-3d').forEach(el => obs.observe(el));
+
+document.querySelectorAll('.tilt-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = `perspective(800px) rotateY(${x * 16}deg) rotateX(${-y * 16}deg) scale(1.03)`;
+  });
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; card.style.transition = 'transform 0.5s'; });
+  card.addEventListener('mouseenter', () => { card.style.transition = 'none'; });
+});
 </script>
 </body>
 </html>

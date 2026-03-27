@@ -22,108 +22,127 @@
 html { scroll-behavior: smooth; font-size: 16px; }
 body {
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.7;
-  overflow-x: hidden;
+  background: var(--bg-primary); color: var(--text-primary);
+  line-height: 1.7; overflow-x: hidden;
 }
 .fade-in {
-  opacity: 0; transform: translateY(30px);
+  opacity: 0; transform: translateY(40px) translateZ(-50px);
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
+.fade-in.visible { opacity: 1; transform: translateY(0) translateZ(0); }
+
 nav {
   position: fixed; top: 0; width: 100%; z-index: 100;
-  background: rgba(9, 11, 16, 0.85);
-  backdrop-filter: blur(20px);
+  background: rgba(9, 11, 16, 0.85); backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--glass-border);
-  padding: 1rem 2rem;
-  display: flex; justify-content: space-between; align-items: center;
+  padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
 }
 .logo { font-size: 1.4rem; font-weight: 700; color: var(--accent); letter-spacing: 0.5px; }
 .nav-links { display: flex; gap: 2rem; list-style: none; }
-.nav-links a {
-  color: var(--text-secondary); text-decoration: none;
-  font-size: 0.9rem; transition: color 0.3s;
-}
+.nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
 .nav-links a:hover { color: var(--accent); }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px; cursor: pointer;
+  background: none; border: none; padding: 0.5rem;
+}
+.hamburger span { width: 25px; height: 2px; background: var(--text-secondary); transition: 0.3s; }
+
+/* Hero with 3D Parallax Depth */
 .hero {
-  min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  text-align: center; padding: 6rem 2rem 4rem;
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 6rem 2rem 4rem; perspective: 1000px;
   background: radial-gradient(ellipse at 50% 30%, rgba(74, 144, 217, 0.1) 0%, transparent 60%),
               linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
   position: relative;
 }
 .hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: repeating-linear-gradient(
-    0deg, transparent, transparent 50px,
-    rgba(74, 144, 217, 0.02) 50px, rgba(74, 144, 217, 0.02) 51px
-  );
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 50px,
+    rgba(74, 144, 217, 0.02) 50px, rgba(74, 144, 217, 0.02) 51px);
 }
 .hero::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-  height: 200px;
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 200px;
   background: linear-gradient(to top, var(--bg-primary), transparent);
 }
-.hero-content { position: relative; z-index: 1; max-width: 800px; }
+.hero-content { position: relative; z-index: 1; max-width: 800px; transform-style: preserve-3d; }
 .hero-badge {
   display: inline-block; padding: 0.4rem 1.2rem;
   background: var(--glass); border: 1px solid var(--glass-border);
   border-radius: 50px; font-size: 0.85rem; color: var(--accent);
   margin-bottom: 1.5rem; backdrop-filter: blur(10px);
+  transform: translateZ(30px);
 }
 .hero h1 {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 800; line-height: 1.1;
-  margin-bottom: 1.5rem;
+  font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;
   background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  transform: translateZ(20px);
 }
 .hero p {
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  color: var(--text-secondary); margin-bottom: 2.5rem;
-  max-width: 600px; margin-inline: auto;
+  font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-secondary);
+  margin-bottom: 2.5rem; max-width: 600px; margin-inline: auto;
+  transform: translateZ(10px);
 }
 .cta-btn {
   display: inline-block; padding: 1rem 2.5rem;
   background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-  color: #fff; font-weight: 700; font-size: 1rem;
-  text-decoration: none; border-radius: 50px;
-  transition: transform 0.3s, box-shadow 0.3s;
+  color: #fff; font-weight: 700; font-size: 1rem; text-decoration: none;
+  border-radius: 50px; transition: transform 0.2s, box-shadow 0.2s;
   box-shadow: 0 4px 25px rgba(74, 144, 217, 0.3);
+  transform: translateZ(15px);
 }
-.cta-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 35px rgba(74, 144, 217, 0.45);
+.cta-btn:hover { transform: translateZ(15px) translateY(-3px); box-shadow: 0 10px 40px rgba(74, 144, 217, 0.5); }
+.cta-btn:active { transform: translateZ(5px) translateY(0); box-shadow: 0 2px 10px rgba(74, 144, 217, 0.2); }
+
+/* Floating 3D Shapes */
+.float-shape {
+  position: absolute; border-radius: 50%; opacity: 0.06; background: var(--accent);
+  animation: floatShape 8s ease-in-out infinite; pointer-events: none;
 }
-section { padding: 6rem 2rem; }
+.float-shape:nth-child(1) { width: 90px; height: 90px; top: 20%; left: 8%; animation-delay: 0s; }
+.float-shape:nth-child(2) { width: 60px; height: 60px; top: 60%; right: 10%; animation-delay: 2.5s; }
+.float-shape:nth-child(3) { width: 110px; height: 110px; bottom: 18%; left: 22%; animation-delay: 5s; border-radius: 30%; }
+@keyframes floatShape {
+  0%, 100% { transform: translateZ(0) translateY(0); }
+  50% { transform: translateZ(40px) translateY(-20px); }
+}
+
+section { padding: 6rem 2rem; perspective: 1200px; }
 .section-header { text-align: center; margin-bottom: 4rem; }
-.section-header h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem; }
+.section-header h2 {
+  font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem;
+  text-shadow: 0 1px 0 rgba(74,144,217,0.3), 0 2px 0 rgba(74,144,217,0.2),
+               0 3px 8px rgba(0,0,0,0.3);
+}
 .section-header p { color: var(--text-secondary); max-width: 550px; margin-inline: auto; }
 .accent-line { width: 60px; height: 3px; background: var(--accent); margin: 1rem auto; border-radius: 2px; }
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+
+/* 3D Flip Cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
+.card-wrapper { perspective: 1000px; height: 280px; }
+.card-inner {
+  position: relative; width: 100%; height: 100%;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
 }
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px; padding: 2rem;
-  backdrop-filter: blur(10px);
-  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+.card-wrapper:hover .card-inner { transform: rotateY(180deg); }
+.card-front, .card-back {
+  position: absolute; width: 100%; height: 100%;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 2rem; backdrop-filter: blur(10px);
+  display: flex; flex-direction: column; justify-content: center;
 }
-.card:hover {
-  transform: translateY(-5px); border-color: var(--accent);
-  box-shadow: 0 10px 40px rgba(74, 144, 217, 0.1);
+.card-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(135deg, rgba(74,144,217,0.15), var(--bg-card));
+  border-color: var(--accent);
 }
 .card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-.card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent-light); }
-.card p { color: var(--text-secondary); font-size: 0.95rem; }
+.card-front h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent-light); }
+.card-front p, .card-back p { color: var(--text-secondary); font-size: 0.95rem; }
+.card-back h3 { color: var(--accent); margin-bottom: 0.75rem; }
+
 .about {
   background: var(--bg-secondary);
   border-top: 1px solid var(--glass-border);
@@ -135,11 +154,12 @@ section { padding: 6rem 2rem; }
 }
 .about-visual {
   background: linear-gradient(135deg, var(--glass), transparent);
-  border: 1px solid var(--glass-border);
-  border-radius: 20px; padding: 3rem;
-  text-align: center; font-size: 5rem;
-  aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--glass-border); border-radius: 20px; padding: 3rem;
+  text-align: center; font-size: 5rem; aspect-ratio: 4/3;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.5s; transform-style: preserve-3d;
 }
+.about-visual:hover { transform: rotateY(5deg) rotateX(-3deg); }
 .about-text h2 { font-size: 2rem; margin-bottom: 1rem; }
 .about-text p { color: var(--text-secondary); margin-bottom: 1rem; }
 .stats {
@@ -148,49 +168,53 @@ section { padding: 6rem 2rem; }
 }
 .stat-item .stat-num { font-size: 2rem; font-weight: 800; color: var(--accent); }
 .stat-item .stat-label { font-size: 0.85rem; color: var(--text-muted); }
+
+/* 3D Contact Cards */
 .contact-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem; max-width: 900px; margin: 0 auto;
 }
 .contact-card {
-  background: var(--bg-card);
-  border: 1px solid var(--glass-border);
+  background: rgba(74, 144, 217, 0.05); border: 1px solid var(--glass-border);
   border-radius: 16px; padding: 2rem; text-align: center;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px); transition: transform 0.4s, box-shadow 0.3s;
+  transform-style: preserve-3d;
 }
-.contact-card .icon { font-size: 2rem; margin-bottom: 1rem; }
+.contact-card:hover {
+  transform: translateY(-8px) rotateX(5deg);
+  box-shadow: 0 20px 40px rgba(74, 144, 217, 0.15);
+}
+.contact-card .icon { font-size: 2rem; margin-bottom: 1rem; transform: translateZ(15px); }
 .contact-card h3 { color: var(--accent-light); margin-bottom: 0.5rem; }
 .contact-card p { color: var(--text-secondary); font-size: 0.95rem; }
+
 footer {
-  background: var(--bg-secondary);
-  border-top: 1px solid var(--glass-border);
+  background: var(--bg-secondary); border-top: 1px solid var(--glass-border);
   padding: 3rem 2rem; text-align: center;
 }
 .footer-hours {
-  display: inline-block;
-  background: var(--bg-card); border: 1px solid var(--glass-border);
+  display: inline-block; background: var(--bg-card); border: 1px solid var(--glass-border);
   border-radius: 12px; padding: 1.5rem 2.5rem; margin-bottom: 1.5rem;
 }
 .footer-hours h3 { color: var(--accent); margin-bottom: 0.75rem; }
 .footer-hours p { color: var(--text-secondary); font-size: 0.9rem; margin: 0.25rem 0; }
 .footer-copy { color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; }
-.hamburger {
-  display: none; flex-direction: column; gap: 5px; cursor: pointer;
-  background: none; border: none; padding: 0.5rem;
-}
-.hamburger span { width: 25px; height: 2px; background: var(--text-secondary); transition: 0.3s; }
+
 @media (max-width: 768px) {
   .hamburger { display: flex; }
   .nav-links {
     display: none; position: absolute; top: 100%; left: 0; right: 0;
     flex-direction: column; background: rgba(9, 11, 16, 0.95);
-    padding: 1.5rem 2rem; gap: 1rem;
-    border-bottom: 1px solid var(--glass-border);
+    padding: 1.5rem 2rem; gap: 1rem; border-bottom: 1px solid var(--glass-border);
   }
   .nav-links.open { display: flex; }
   .about-grid { grid-template-columns: 1fr; }
   .about-visual { aspect-ratio: 16/9; font-size: 3rem; }
   .stats { flex-wrap: wrap; gap: 1.5rem; }
+  .card-wrapper { height: auto; }
+  .card-inner { transform: none !important; position: relative; }
+  .card-front { position: relative; }
+  .card-back { display: none; }
 }
 </style>
 </head>
@@ -209,6 +233,9 @@ footer {
 </nav>
 
 <section class="hero">
+  <div class="float-shape"></div>
+  <div class="float-shape"></div>
+  <div class="float-shape"></div>
   <div class="hero-content">
     <span class="hero-badge">Ihr Metallbau-Meisterbetrieb</span>
     <h1>Stahl praegt Raum und Form</h1>
@@ -224,25 +251,57 @@ footer {
     <p>Von der Skizze bis zur Montage - Metallbau auf hoechstem Niveau.</p>
   </div>
   <div class="cards">
-    <div class="card fade-in">
-      <div class="card-icon">&#128297;</div>
-      <h3>Gelaender &amp; Stiegen</h3>
-      <p>Elegante Stahl-Glas-Gelaender, freitragende Stiegen und Handlaeufe. Jedes Stueck wird individuell geplant und millimetergenau gefertigt.</p>
+    <div class="card-wrapper fade-in">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="card-icon">&#128297;</div>
+          <h3>Gelaender &amp; Stiegen</h3>
+          <p>Elegante Stahl-Glas-Gelaender, freitragende Stiegen und Handlaeufe.</p>
+        </div>
+        <div class="card-back">
+          <h3>Gelaender &amp; Stiegen</h3>
+          <p>Jedes Stueck wird individuell geplant und millimetergenau gefertigt. Elegante Stahl-Glas-Gelaender und freitragende Stiegen.</p>
+        </div>
+      </div>
     </div>
-    <div class="card fade-in">
-      <div class="card-icon">&#128682;</div>
-      <h3>Tore &amp; Zaeuene</h3>
-      <p>Einfahrtstore, Schiebetore und Zaunanlagen in Stahl oder Aluminium. Mit oder ohne Elektroantrieb - fuer Sicherheit und Komfort.</p>
+    <div class="card-wrapper fade-in">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="card-icon">&#128682;</div>
+          <h3>Tore &amp; Zaeuene</h3>
+          <p>Einfahrtstore, Schiebetore und Zaunanlagen in Stahl oder Aluminium.</p>
+        </div>
+        <div class="card-back">
+          <h3>Tore &amp; Zaeuene</h3>
+          <p>Mit oder ohne Elektroantrieb - fuer Sicherheit und Komfort. Einfahrtstore, Schiebetore und Zaunanlagen.</p>
+        </div>
+      </div>
     </div>
-    <div class="card fade-in">
-      <div class="card-icon">&#127959;&#65039;</div>
-      <h3>Stahlbau</h3>
-      <p>Tragwerke, Hallen, Vordaecher und Stahlkonstruktionen aller Art. Statisch berechnet, termingerecht montiert.</p>
+    <div class="card-wrapper fade-in">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="card-icon">&#127959;&#65039;</div>
+          <h3>Stahlbau</h3>
+          <p>Tragwerke, Hallen, Vordaecher und Stahlkonstruktionen aller Art.</p>
+        </div>
+        <div class="card-back">
+          <h3>Stahlbau</h3>
+          <p>Statisch berechnet, termingerecht montiert. Tragwerke, Hallen, Vordaecher und Stahlkonstruktionen aller Art.</p>
+        </div>
+      </div>
     </div>
-    <div class="card fade-in">
-      <div class="card-icon">&#9881;&#65039;</div>
-      <h3>Blechbearbeitung</h3>
-      <p>Laserschneiden, Kanten und Abkanten. Praezise Blechverarbeitung fuer Fassaden, Verkleidungen und Sonderanfertigungen.</p>
+    <div class="card-wrapper fade-in">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="card-icon">&#9881;&#65039;</div>
+          <h3>Blechbearbeitung</h3>
+          <p>Laserschneiden, Kanten und Abkanten fuer Fassaden und Verkleidungen.</p>
+        </div>
+        <div class="card-back">
+          <h3>Blechbearbeitung</h3>
+          <p>Praezise Blechverarbeitung fuer Fassaden, Verkleidungen und Sonderanfertigungen. Laserschneiden, Kanten und Abkanten.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -255,14 +314,8 @@ footer {
       <p>Schuster Metallbau verbindet traditionelles Schlosser-Handwerk mit modernster Fertigungstechnologie. Unser erfahrenes Team realisiert anspruchsvolle Metallbau-Projekte in der gesamten Steiermark.</p>
       <p>Von der Planungsphase ueber die Fertigung bis zur sauberen Montage vor Ort - bei uns bekommen Sie alles aus einer Hand. Und das immer termingerecht und in hoechster Qualitaet.</p>
       <div class="stats">
-        <div class="stat-item">
-          <div class="stat-num">Schuster</div>
-          <div class="stat-label">Metallbau</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">100%</div>
-          <div class="stat-label">Qualitaet</div>
-        </div>
+        <div class="stat-item"><div class="stat-num">Schuster</div><div class="stat-label">Metallbau</div></div>
+        <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Qualitaet</div></div>
       </div>
     </div>
   </div>
@@ -309,10 +362,24 @@ footer {
 <script>
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
+    if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+/* 3D Mouse tracking on hero */
+const hero = document.querySelector('.hero-content');
+document.querySelector('.hero').addEventListener('mousemove', (e) => {
+  const r = e.currentTarget.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width - 0.5;
+  const y = (e.clientY - r.top) / r.height - 0.5;
+  hero.style.transform = `rotateY(${x * 6}deg) rotateX(${-y * 4}deg)`;
+});
+document.querySelector('.hero').addEventListener('mouseleave', () => {
+  hero.style.transition = 'transform 0.5s ease';
+  hero.style.transform = 'rotateY(0) rotateX(0)';
+  setTimeout(() => hero.style.transition = '', 500);
+});
 </script>
 </body>
 </html>

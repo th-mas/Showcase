@@ -26,10 +26,10 @@ body {
   line-height: 1.7; overflow-x: hidden;
 }
 .fade-in {
-  opacity: 0; transform: translateY(30px);
+  opacity: 0; transform: translateY(40px) translateZ(-60px);
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
+.fade-in.visible { opacity: 1; transform: translateY(0) translateZ(0); }
 nav {
   position: fixed; top: 0; width: 100%; z-index: 100;
   background: rgba(8, 12, 8, 0.85); backdrop-filter: blur(20px);
@@ -39,95 +39,117 @@ nav {
 }
 .logo { font-size: 1.4rem; font-weight: 700; color: var(--accent); }
 .nav-links { display: flex; gap: 2rem; list-style: none; }
-.nav-links a {
-  color: var(--text-secondary); text-decoration: none;
-  font-size: 0.9rem; transition: color 0.3s;
-}
+.nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
 .nav-links a:hover { color: var(--accent); }
+
+/* Hero 3D Parallax */
 .hero {
-  min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
   text-align: center; padding: 6rem 2rem 4rem;
   background: radial-gradient(ellipse at 50% 40%, rgba(76, 175, 80, 0.08) 0%, transparent 55%),
               var(--bg-primary);
-  position: relative;
+  position: relative; perspective: 1000px;
+}
+.hero::before {
+  content: ''; position: absolute; width: 250px; height: 250px;
+  border: 1px solid rgba(76,175,80,0.08); border-radius: 50%;
+  top: 20%; right: 12%; animation: float3d 7s ease-in-out infinite;
 }
 .hero::after {
   content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-  height: 200px;
-  background: linear-gradient(to top, var(--bg-primary), transparent);
+  height: 200px; background: linear-gradient(to top, var(--bg-primary), transparent); z-index: 2;
 }
-.hero-content { position: relative; z-index: 1; max-width: 800px; }
+@keyframes float3d {
+  0%, 100% { transform: translateZ(-80px) translateY(0) rotate(0deg); }
+  50% { transform: translateZ(-30px) translateY(-15px) rotate(4deg); }
+}
+.hero-content { position: relative; z-index: 3; max-width: 800px; }
 .hero-badge {
   display: inline-block; padding: 0.4rem 1.2rem;
   background: var(--glass); border: 1px solid var(--glass-border);
-  border-radius: 50px; font-size: 0.85rem; color: var(--accent);
-  margin-bottom: 1.5rem;
+  border-radius: 50px; font-size: 0.85rem; color: var(--accent); margin-bottom: 1.5rem;
 }
 .hero h1 {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;
+  font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1;
+  margin-bottom: 1.5rem;
   background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 .hero p {
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  color: var(--text-secondary); margin-bottom: 2.5rem;
-  max-width: 600px; margin-inline: auto;
+  font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-secondary);
+  margin-bottom: 2.5rem; max-width: 600px; margin-inline: auto;
 }
+
+/* 3D CTA Press */
 .cta-btn {
   display: inline-block; padding: 1rem 2.5rem;
   background: linear-gradient(135deg, var(--accent), var(--accent-dark));
   color: #fff; font-weight: 700; font-size: 1rem;
   text-decoration: none; border-radius: 50px;
-  transition: transform 0.3s, box-shadow 0.3s;
-  box-shadow: 0 4px 25px rgba(76, 175, 80, 0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 6px 20px rgba(76,175,80,0.3), 0 4px 0 #2E7D32;
 }
 .cta-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 35px rgba(76, 175, 80, 0.4);
+  transform: translateY(-3px) translateZ(10px);
+  box-shadow: 0 10px 35px rgba(76,175,80,0.45), 0 6px 0 #2E7D32;
+}
+.cta-btn:active {
+  transform: translateY(2px) translateZ(-5px);
+  box-shadow: 0 2px 10px rgba(76,175,80,0.2), 0 1px 0 #2E7D32;
 }
 .cta-emergency {
   display: inline-block; margin-left: 1rem; padding: 1rem 2.5rem;
-  background: transparent;
-  border: 2px solid rgba(244, 67, 54, 0.5);
+  background: transparent; border: 2px solid rgba(244, 67, 54, 0.5);
   color: #EF5350; font-weight: 700; font-size: 1rem;
   text-decoration: none; border-radius: 50px;
-  transition: transform 0.3s, background 0.3s;
+  transition: transform 0.2s, background 0.3s, box-shadow 0.2s;
+  box-shadow: 0 4px 0 rgba(244,67,54,0.3);
 }
 .cta-emergency:hover {
-  transform: translateY(-2px);
-  background: rgba(244, 67, 54, 0.1);
+  transform: translateY(-3px); background: rgba(244, 67, 54, 0.1);
+  box-shadow: 0 6px 20px rgba(244,67,54,0.2);
 }
+.cta-emergency:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(244,67,54,0.2); }
+
 section { padding: 6rem 2rem; }
 .section-header { text-align: center; margin-bottom: 4rem; }
-.section-header h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem; }
+.section-header h2 {
+  font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem;
+  text-shadow: 0 1px 0 rgba(76,175,80,0.2), 0 2px 0 rgba(76,175,80,0.1), 0 3px 6px rgba(0,0,0,0.2);
+}
 .section-header p { color: var(--text-secondary); max-width: 550px; margin-inline: auto; }
 .accent-line { width: 60px; height: 3px; background: var(--accent); margin: 1rem auto; border-radius: 2px; }
+
+/* 3D Flip Cards */
 .cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem; max-width: 1100px; margin: 0 auto; perspective: 1000px;
 }
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px; padding: 2rem;
-  backdrop-filter: blur(10px);
-  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+.card-flip { perspective: 1000px; min-height: 220px; }
+.card-flip-inner {
+  position: relative; width: 100%; height: 100%; min-height: 220px;
+  transition: transform 0.6s ease; transform-style: preserve-3d;
 }
-.card:hover {
-  transform: translateY(-5px); border-color: var(--accent);
-  box-shadow: 0 10px 40px rgba(76, 175, 80, 0.08);
+.card-flip:hover .card-flip-inner { transform: rotateY(180deg); }
+.card-front, .card-back {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  backface-visibility: hidden; border-radius: 16px; padding: 2rem;
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: center;
+}
+.card-back {
+  transform: rotateY(180deg);
+  background: rgba(76,175,80,0.1); border-color: var(--accent);
 }
 .card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-.card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent-light); }
-.card p { color: var(--text-secondary); font-size: 0.95rem; }
+.card-front h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent-light); }
+.card-front p, .card-back p { color: var(--text-secondary); font-size: 0.95rem; }
+.card-back h3 { color: var(--accent-light); font-size: 1.1rem; margin-bottom: 0.5rem; }
+
+/* About */
 .about {
   background: var(--bg-secondary);
-  border-top: 1px solid var(--glass-border);
-  border-bottom: 1px solid var(--glass-border);
+  border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border);
 }
 .about-grid {
   display: grid; grid-template-columns: 1fr 1fr;
@@ -135,45 +157,60 @@ section { padding: 6rem 2rem; }
 }
 .about-visual {
   background: linear-gradient(135deg, var(--glass), transparent);
-  border: 1px solid var(--glass-border);
-  border-radius: 20px; padding: 3rem;
-  text-align: center; font-size: 5rem;
-  aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--glass-border); border-radius: 20px; padding: 3rem;
+  text-align: center; font-size: 5rem; aspect-ratio: 4/3;
+  display: flex; align-items: center; justify-content: center;
+  perspective: 600px; transition: transform 0.5s ease;
 }
+.about-visual:hover { transform: rotateY(-5deg) rotateX(3deg) translateZ(10px); }
 .about-text h2 { font-size: 2rem; margin-bottom: 1rem; }
 .about-text p { color: var(--text-secondary); margin-bottom: 1rem; }
-.team-badges {
-  display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem;
-}
+.team-badges { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; }
 .badge {
-  padding: 0.4rem 1rem;
-  background: var(--glass); border: 1px solid var(--glass-border);
+  padding: 0.4rem 1rem; background: var(--glass); border: 1px solid var(--glass-border);
   border-radius: 50px; font-size: 0.85rem; color: var(--accent-light);
+  transition: transform 0.3s; cursor: default;
 }
+.badge:hover { transform: translateZ(10px) scale(1.05); }
+
+/* 3D Glassmorphism Contact */
 .contact-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem; max-width: 900px; margin: 0 auto;
+  gap: 1.5rem; max-width: 900px; margin: 0 auto; perspective: 800px;
 }
 .contact-card {
-  background: var(--bg-card);
-  border: 1px solid var(--glass-border);
+  background: rgba(76,175,80,0.06); border: 1px solid var(--glass-border);
   border-radius: 16px; padding: 2rem; text-align: center;
+  backdrop-filter: blur(15px); transition: transform 0.4s ease, box-shadow 0.3s;
+  transform-style: preserve-3d;
 }
-.contact-card .icon { font-size: 2rem; margin-bottom: 1rem; }
+.contact-card:hover {
+  transform: rotateY(-5deg) translateZ(15px);
+  box-shadow: 10px 15px 40px rgba(0,0,0,0.3);
+}
+.contact-card .icon { font-size: 2rem; margin-bottom: 1rem; transform: translateZ(20px); }
 .contact-card h3 { color: var(--accent-light); margin-bottom: 0.5rem; }
 .contact-card p { color: var(--text-secondary); font-size: 0.95rem; }
-.emergency-note {
-  color: #EF5350; font-weight: 600; font-size: 0.9rem;
-  margin-top: 0.5rem;
+.emergency-note { color: #EF5350; font-weight: 600; font-size: 0.9rem; margin-top: 0.5rem; }
+
+/* Floating shapes */
+.float-shape {
+  position: absolute; border: 1px solid rgba(76,175,80,0.08); border-radius: 50%;
+  animation: floatShape 7s ease-in-out infinite;
 }
+.float-shape-1 { width: 80px; height: 80px; top: 25%; left: 8%; animation-delay: 0s; }
+.float-shape-2 { width: 50px; height: 50px; top: 55%; right: 10%; animation-delay: 3s; }
+@keyframes floatShape {
+  0%, 100% { transform: translateZ(0) translateY(0); opacity: 0.2; }
+  50% { transform: translateZ(30px) translateY(-15px); opacity: 0.5; }
+}
+
 footer {
-  background: var(--bg-secondary);
-  border-top: 1px solid var(--glass-border);
+  background: var(--bg-secondary); border-top: 1px solid var(--glass-border);
   padding: 3rem 2rem; text-align: center;
 }
 .footer-hours {
-  display: inline-block;
-  background: var(--bg-card); border: 1px solid var(--glass-border);
+  display: inline-block; background: var(--bg-card); border: 1px solid var(--glass-border);
   border-radius: 12px; padding: 1.5rem 2.5rem; margin-bottom: 1.5rem;
 }
 .footer-hours h3 { color: var(--accent); margin-bottom: 0.75rem; }
@@ -189,14 +226,15 @@ footer {
   .nav-links {
     display: none; position: absolute; top: 100%; left: 0; right: 0;
     flex-direction: column; background: rgba(8, 12, 8, 0.95);
-    padding: 1.5rem 2rem; gap: 1rem;
-    border-bottom: 1px solid var(--glass-border);
+    padding: 1.5rem 2rem; gap: 1rem; border-bottom: 1px solid var(--glass-border);
   }
   .nav-links.open { display: flex; }
   .about-grid { grid-template-columns: 1fr; }
   .about-visual { aspect-ratio: 16/9; font-size: 3rem; }
   .cta-emergency { margin-left: 0; margin-top: 1rem; }
   .hero .cta-wrapper { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .card-flip:hover .card-flip-inner { transform: none; }
+  .float-shape { display: none; }
 }
 </style>
 </head>
@@ -215,6 +253,8 @@ footer {
 </nav>
 
 <section class="hero">
+  <div class="float-shape float-shape-1"></div>
+  <div class="float-shape float-shape-2"></div>
   <div class="hero-content">
     <span class="hero-badge">Ihr Tier in besten Haenden</span>
     <h1>Weil jedes Tier zaehlt</h1>
@@ -233,25 +273,57 @@ footer {
     <p>Umfassende tiermedizinische Versorgung fuer Klein- und Grosstiere.</p>
   </div>
   <div class="cards">
-    <div class="card fade-in">
-      <div class="card-icon">&#x1F9AC;</div>
-      <h3>Dermatologie &amp; Endoskopie</h3>
-      <p>Hautmikroskop-Untersuchungen und endoskopische Diagnostik. Schonende Verfahren fuer praezise Ergebnisse bei Ihrem Tier.</p>
+    <div class="card-flip fade-in">
+      <div class="card-flip-inner">
+        <div class="card-front">
+          <div class="card-icon">&#x1F9AC;</div>
+          <h3>Dermatologie &amp; Endoskopie</h3>
+          <p>Hautmikroskop-Untersuchungen und endoskopische Diagnostik.</p>
+        </div>
+        <div class="card-back">
+          <h3>Details</h3>
+          <p>Schonende Verfahren fuer praezise Ergebnisse bei Ihrem Tier. Modernste Geraete fuer exakte Diagnosen.</p>
+        </div>
+      </div>
     </div>
-    <div class="card fade-in">
-      <div class="card-icon">&#x1F3E5;</div>
-      <h3>Chirurgie</h3>
-      <p>Knochen- und Gelenkschirurgie, endoskopische Operationen (die sanfte Kastration). Moderne OP-Ausstattung mit Narkoseueberwachung.</p>
+    <div class="card-flip fade-in">
+      <div class="card-flip-inner">
+        <div class="card-front">
+          <div class="card-icon">&#x1F3E5;</div>
+          <h3>Chirurgie</h3>
+          <p>Knochen- und Gelenkschirurgie, endoskopische Operationen.</p>
+        </div>
+        <div class="card-back">
+          <h3>Details</h3>
+          <p>Die sanfte Kastration. Moderne OP-Ausstattung mit Narkoseueberwachung fuer maximale Sicherheit.</p>
+        </div>
+      </div>
     </div>
-    <div class="card fade-in">
-      <div class="card-icon">&#x1F4A1;</div>
-      <h3>Diagnostik</h3>
-      <p>Roentgendiagnostik, Ultraschalldiagnostik, Laboruntersuchungen und Lasertherapie. Schnelle Diagnosen fuer schnelle Hilfe.</p>
+    <div class="card-flip fade-in">
+      <div class="card-flip-inner">
+        <div class="card-front">
+          <div class="card-icon">&#x1F4A1;</div>
+          <h3>Diagnostik</h3>
+          <p>Roentgen, Ultraschall, Labor und Lasertherapie.</p>
+        </div>
+        <div class="card-back">
+          <h3>Details</h3>
+          <p>Schnelle Diagnosen fuer schnelle Hilfe. Umfassende Laboruntersuchungen direkt in der Klinik.</p>
+        </div>
+      </div>
     </div>
-    <div class="card fade-in">
-      <div class="card-icon">&#x1F434;</div>
-      <h3>Grosstiere &amp; Pferde</h3>
-      <p>Nutztierbetreuung (hauptsaechlich Rinder) und Pferdemedizin. Veterinaerstation des Bundesgestuetes Piber und der Spanischen Hofreitschule Wien.</p>
+    <div class="card-flip fade-in">
+      <div class="card-flip-inner">
+        <div class="card-front">
+          <div class="card-icon">&#x1F434;</div>
+          <h3>Grosstiere &amp; Pferde</h3>
+          <p>Nutztierbetreuung und Pferdemedizin.</p>
+        </div>
+        <div class="card-back">
+          <h3>Details</h3>
+          <p>Veterinaerstation des Bundesgestuetes Piber und der Spanischen Hofreitschule Wien. Hauptsaechlich Rinder.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -262,7 +334,7 @@ footer {
     <div class="about-text fade-in">
       <h2>Dr. Gerhard Planner und die Tierklinik in Voitsberg</h2>
       <p>Nach dem Studium an der Veterinaermedizinischen Universitaet Wien (1984-1993) und dem Doktoratsstudium (1993-1994) baute Dr. Planner 1995 seine eigene Tierklinik auf. Als Grosstiermediziner arbeitet er sowohl im Nutztierbereich als auch bei Pferden.</p>
-      <p>Dr. Planner ist fuer die Veterinaerstation des Bundesgestuetes in Piber und der Spanischen Hofreitschule in Wien verantwortlich. Die gesamte Nachzucht der beruemten Lipizzaner wird von ihm betreut - ein kleines Raedchen in der weltberuehmten Uhr der Lipizzaner.</p>
+      <p>Dr. Planner ist fuer die Veterinaerstation des Bundesgestuetes in Piber und der Spanischen Hofreitschule in Wien verantwortlich. Die gesamte Nachzucht der beruemten Lipizzaner wird von ihm betreut.</p>
       <div class="team-badges">
         <span class="badge">Dr. Gerhard Planner</span>
         <span class="badge">Dr. Martina Eisserer</span>
@@ -317,6 +389,21 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+/* 3D Mouse-tracking on contact cards */
+document.querySelectorAll('.contact-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const rotateX = (y - rect.height / 2) / (rect.height / 2) * -6;
+    const rotateY = (x - rect.width / 2) / (rect.width / 2) * 6;
+    card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(15px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateZ(0)';
+  });
+});
 </script>
 </body>
 </html>

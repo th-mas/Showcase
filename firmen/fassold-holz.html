@@ -20,96 +20,104 @@
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: var(--bg-dark); color: var(--text); line-height: 1.7; overflow-x: hidden;
-}
-.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
-nav {
-  position: fixed; top: 0; width: 100%; z-index: 100;
-  background: rgba(12, 10, 8, 0.88); backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--glass-border);
-  padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
-}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-dark); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+
+nav { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(12, 10, 8, 0.88); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
 nav .logo { font-size: 1.3rem; font-weight: 700; color: var(--accent-warm); }
 nav ul { list-style: none; display: flex; gap: 2rem; }
 nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
 nav a:hover { color: var(--accent-warm); }
-.hero {
-  min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-  text-align: center; padding: 6rem 2rem 4rem;
-  background: radial-gradient(ellipse at 50% 50%, var(--accent-glow), transparent 55%),
-              linear-gradient(180deg, var(--bg-dark) 0%, #151008 100%);
-}
-.hero-icon { font-size: 3.5rem; margin-bottom: 1.5rem; }
-.hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.15; }
+
+/* Hero with 3D parallax depth */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 6rem 2rem 4rem; position: relative; overflow: hidden; background: var(--bg-dark); }
+.hero-layer { position: absolute; inset: 0; pointer-events: none; }
+.hero-layer.h1 { background: radial-gradient(ellipse at 50% 50%, var(--accent-glow), transparent 55%); }
+.hero-layer.h2 { background: linear-gradient(180deg, var(--bg-dark) 0%, #151008 100%); opacity: 0.5; }
+.hero-content { position: relative; z-index: 2; }
+.hero-icon { font-size: 3.5rem; margin-bottom: 1.5rem; animation: treeFloat 5s ease-in-out infinite; }
+@keyframes treeFloat { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-10px) rotate(2deg); } }
+.hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.15; text-shadow: 0 2px 0 #5D4037, 0 3px 0 #4E342E, 0 4px 8px rgba(0,0,0,0.4); }
 .hero h1 span { color: var(--accent-light); }
 .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 620px; margin-bottom: 2.5rem; }
-.btn {
-  display: inline-block; padding: 0.9rem 2.4rem; border-radius: 50px;
-  background: linear-gradient(135deg, var(--accent), #8D6E63);
-  color: #fff; text-decoration: none; font-weight: 700; font-size: 1rem;
-  transition: transform 0.3s, box-shadow 0.3s; border: none; cursor: pointer;
-}
-.btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px var(--accent-glow); }
+
+/* 3D Press Button */
+.btn { display: inline-block; padding: 0.9rem 2.4rem; border-radius: 50px; background: linear-gradient(135deg, var(--accent), #8D6E63); color: #fff; text-decoration: none; font-weight: 700; font-size: 1rem; border: none; cursor: pointer; box-shadow: 0 6px 0 #4E342E, 0 8px 20px rgba(0,0,0,0.3); transition: transform .15s, box-shadow .15s; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #4E342E, 0 12px 30px var(--accent-glow); }
+.btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #4E342E, 0 3px 10px rgba(0,0,0,0.3); }
+
 section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
-.section-title { text-align: center; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: 0.5rem; }
+.section-title { text-align: center; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: 0.5rem; text-shadow: 0 1px 0 #5D4037, 0 2px 0 #4E342E, 0 3px 6px rgba(0,0,0,0.3); }
 .section-title span { color: var(--accent-light); }
 .section-sub { text-align: center; color: var(--text-muted); margin-bottom: 3rem; max-width: 600px; margin-inline: auto; }
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
-.card {
-  background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: var(--radius);
-  padding: 2rem; backdrop-filter: blur(10px);
-  transition: background 0.4s, transform 0.3s, box-shadow 0.3s;
-}
-.card:hover { background: var(--bg-card-hover); transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
-.card .icon { font-size: 2.5rem; margin-bottom: 1rem; }
-.card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--accent-light); }
-.card p { font-size: 0.95rem; color: var(--text-muted); }
-.wood-types { display: flex; gap: 1rem; margin-top: 3rem; flex-wrap: wrap; justify-content: center; }
-.wood-tag {
-  padding: 0.5rem 1.2rem; border-radius: 50px; font-size: 0.85rem;
-  background: var(--bg-card); border: 1px solid var(--glass-border);
-  color: var(--accent-light); transition: background 0.3s;
-}
-.wood-tag:hover { background: var(--bg-card-hover); }
+
+/* 3D Flip Cards for Products */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; perspective: 1000px; }
+.card-flip { height: 280px; perspective: 1000px; }
+.card-flip-inner { position: relative; width: 100%; height: 100%; transition: transform .7s cubic-bezier(.4,.2,.2,1); transform-style: preserve-3d; }
+.card-flip:hover .card-flip-inner { transform: rotateY(180deg); }
+.card-front, .card-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: var(--radius); padding: 2rem; display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--glass-border); }
+.card-front { background: var(--bg-card); backdrop-filter: blur(10px); align-items: center; text-align: center; }
+.card-back { background: linear-gradient(135deg, rgba(121,85,72,0.12), rgba(121,85,72,0.04)); transform: rotateY(180deg); }
+.card-front .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.card-front h3 { font-size: 1.2rem; color: var(--accent-light); }
+.card-back h3 { font-size: 1.1rem; margin-bottom: .5rem; color: var(--accent-light); }
+.card-back p { font-size: 0.93rem; color: var(--text-muted); }
+
+/* Wood type tags with 3D hover */
+.wood-types { display: flex; gap: 1rem; margin-top: 3rem; flex-wrap: wrap; justify-content: center; perspective: 600px; }
+.wood-tag { padding: 0.5rem 1.2rem; border-radius: 50px; font-size: 0.85rem; background: var(--bg-card); border: 1px solid var(--glass-border); color: var(--accent-light); transition: transform .3s, box-shadow .3s; cursor: default; }
+.wood-tag:hover { transform: perspective(600px) translateZ(15px) scale(1.05); box-shadow: 0 8px 20px rgba(121,85,72,0.15); }
+
+/* About with Isometric visual */
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
 .about-text h3 { font-size: 1.4rem; margin-bottom: 1rem; color: var(--accent-light); }
 .about-text p { color: var(--text-muted); margin-bottom: 1rem; }
 .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.feature {
-  display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem 1rem;
-  background: var(--bg-card); border-radius: 10px; border: 1px solid var(--glass-border);
-}
+.feature { display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem 1rem; background: rgba(255,255,255,0.02); backdrop-filter: blur(8px); border-radius: 10px; border: 1px solid var(--glass-border); transition: transform .3s; }
+.feature:hover { transform: translateX(5px) translateZ(5px); }
 .feature .f-icon { font-size: 1.2rem; color: var(--accent-light); }
 .feature span { font-size: 0.9rem; color: var(--text-muted); }
+
+/* 3D Stats */
 .stats { display: flex; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
-.stat-item .num { font-size: 2rem; font-weight: 800; color: var(--accent-light); }
+.stat-item .num { font-size: 2rem; font-weight: 800; color: var(--accent-light); text-shadow: 0 2px 0 #5D4037, 0 3px 0 #4E342E, 0 4px 8px rgba(0,0,0,0.3); }
 .stat-item .label { font-size: 0.8rem; color: var(--text-muted); }
-.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
-.contact-card {
-  background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: var(--radius);
-  padding: 2rem; text-align: center;
-}
+
+/* 3D Contact Cards with tilt */
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; perspective: 1000px; }
+.contact-card { background: rgba(255,255,255,0.02); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 2rem; text-align: center; transition: transform .4s, box-shadow .4s; }
+.contact-card:hover { box-shadow: 0 15px 40px rgba(121,85,72,0.1); }
 .contact-card .icon { font-size: 2rem; margin-bottom: 0.8rem; color: var(--accent-light); }
 .contact-card h4 { margin-bottom: 0.4rem; }
 .contact-card p { color: var(--text-muted); font-size: 0.95rem; }
-footer {
-  text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--glass-border);
-  color: var(--text-muted); font-size: 0.9rem;
-}
+
+footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--glass-border); color: var(--text-muted); font-size: 0.9rem; }
 footer .hours { margin-bottom: 1rem; }
 footer .hours span { color: var(--accent-light); font-weight: 600; }
+
+/* Scroll-triggered 3D */
+.reveal-3d { opacity: 0; transform: perspective(800px) translateZ(-60px) translateY(30px) rotateX(5deg); transition: opacity .8s ease, transform .8s ease; }
+.reveal-3d.visible { opacity: 1; transform: perspective(800px) translateZ(0) translateY(0) rotateX(0); }
+
+/* Decorative wood grain lines */
+.deco-line { position: fixed; width: 1px; height: 60px; background: linear-gradient(to bottom, rgba(121,85,72,0.1), transparent); pointer-events: none; animation: grainDrift 8s ease-in-out infinite; z-index: 0; }
+@keyframes grainDrift { 0%,100% { opacity: 0.05; transform: translateY(0); } 50% { opacity: 0.1; transform: translateY(-15px); } }
+
 @media (max-width: 768px) {
   nav ul { display: none; }
   .about-grid { grid-template-columns: 1fr; }
   .about-features { grid-template-columns: 1fr; }
   section { padding: 3rem 1.2rem; }
+  .card-flip { height: auto; min-height: 200px; }
 }
 </style>
 </head>
 <body>
+
+<div class="deco-line" style="top:15%;left:5%;"></div>
+<div class="deco-line" style="top:45%;right:7%;animation-delay:-3s;height:80px;"></div>
+<div class="deco-line" style="top:70%;left:12%;animation-delay:-5s;"></div>
+
 <nav>
   <div class="logo">&#127794; Fassold Holz</div>
   <ul>
@@ -120,33 +128,40 @@ footer .hours span { color: var(--accent-light); font-weight: 600; }
 </nav>
 
 <section class="hero">
-  <div class="hero-icon">&#127794;</div>
-  <h1>Willkommen bei <span>Fassold</span></h1>
-  <p>Saegewerk und Holzhandels Ges.m.b.H - seit 1958 in Eggersdorf bei Graz. Deckschichtlamellen, Barfussterrassen und Aussenfassaden in hoechster Qualitaet.</p>
-  <a href="#sortiment" class="btn">Zu unseren Produkten &#10132;</a>
+  <div class="hero-layer h1"></div>
+  <div class="hero-layer h2"></div>
+  <div class="hero-content">
+    <div class="hero-icon">&#127794;</div>
+    <h1>Willkommen bei <span>Fassold</span></h1>
+    <p>Saegewerk und Holzhandels Ges.m.b.H - seit 1958 in Eggersdorf bei Graz. Deckschichtlamellen, Barfussterrassen und Aussenfassaden in hoechster Qualitaet.</p>
+    <a href="#sortiment" class="btn">Zu unseren Produkten &#10132;</a>
+  </div>
 </section>
 
 <section id="sortiment">
-  <h2 class="section-title fade-in">Unsere <span>Produkte</span></h2>
-  <p class="section-sub fade-in">Qualitaetsprodukte aus heimischem Holz - fuer Industrie und Privatkunden.</p>
+  <h2 class="section-title reveal-3d">Unsere <span>Produkte</span></h2>
+  <p class="section-sub reveal-3d">Qualitaetsprodukte aus heimischem Holz - fuer Industrie und Privatkunden.</p>
   <div class="cards">
-    <div class="card fade-in">
-      <div class="icon">&#9638;</div>
-      <h3>Deckschichtlamellen</h3>
-      <p>Seit 2004 produzieren wir Deckschichten. Durch langjaehrige Erfahrung und Prozessoptimierung fertigen wir qualitativ hochwertigste Rohprodukte fuer die Holzindustrie.</p>
+    <div class="card-flip reveal-3d">
+      <div class="card-flip-inner">
+        <div class="card-front"><div class="icon">&#9638;</div><h3>Deckschichtlamellen</h3></div>
+        <div class="card-back"><h3>Deckschichtlamellen</h3><p>Seit 2004 produzieren wir Deckschichten. Durch langjaehrige Erfahrung und Prozessoptimierung fertigen wir qualitativ hochwertigste Rohprodukte fuer die Holzindustrie.</p></div>
+      </div>
     </div>
-    <div class="card fade-in">
-      <div class="icon">&#9878;</div>
-      <h3>Barfussterrasse</h3>
-      <p>Robinie/Eiche Terrassenholz mit Unterkonstruktion in Akazie oder Aluminium. Sichtbare oder unsichtbare Verschraubung - formstabil und dauerhaft.</p>
+    <div class="card-flip reveal-3d">
+      <div class="card-flip-inner">
+        <div class="card-front"><div class="icon">&#9878;</div><h3>Barfussterrasse</h3></div>
+        <div class="card-back"><h3>Barfussterrasse</h3><p>Robinie/Eiche Terrassenholz mit Unterkonstruktion in Akazie oder Aluminium. Sichtbare oder unsichtbare Verschraubung - formstabil und dauerhaft.</p></div>
+      </div>
     </div>
-    <div class="card fade-in">
-      <div class="icon">&#9733;</div>
-      <h3>Aussenfassade</h3>
-      <p>Rhombus-Profil in Robinie/Akazie fuer verdeckte Montage ohne sichtbare Verschraubung. Unbehandelt und nachhaltig fuer Ihr Bauprojekt.</p>
+    <div class="card-flip reveal-3d">
+      <div class="card-flip-inner">
+        <div class="card-front"><div class="icon">&#9733;</div><h3>Aussenfassade</h3></div>
+        <div class="card-back"><h3>Aussenfassade</h3><p>Rhombus-Profil in Robinie/Akazie fuer verdeckte Montage ohne sichtbare Verschraubung. Unbehandelt und nachhaltig fuer Ihr Bauprojekt.</p></div>
+      </div>
     </div>
   </div>
-  <div class="wood-types fade-in">
+  <div class="wood-types reveal-3d">
     <div class="wood-tag">Robinie</div>
     <div class="wood-tag">Eiche</div>
     <div class="wood-tag">Akazie</div>
@@ -158,18 +173,18 @@ footer .hours span { color: var(--accent-light); font-weight: 600; }
 
 <section id="ueber">
   <div class="about-grid">
-    <div class="about-text fade-in">
+    <div class="about-text reveal-3d">
       <h2 class="section-title" style="text-align:left">Ueber <span>uns</span></h2>
       <h3>Tradition seit 1958 - 4 Generationen Holzkompetenz</h3>
       <p>Seit 1958 steht die Familie Fassold fuer Qualitaet und Kompetenz im Holzhandel. Heute fuehren wir den Betrieb in der 4. Generation mit modernster Produktionstechnik und einem erfahrenen Team von 15 Mitarbeitern.</p>
       <p>Mit einem jaehrlichen Produktionsvolumen von 400.000 m2 gehoeren wir zu den fuehrenden Deckschichtproduzenten der Region. Unser Standort in Eggersdorf bei Graz verbindet uns mit der steirischen Holztradition.</p>
       <div class="stats">
         <div class="stat-item"><div class="num">1958</div><div class="label">Gegruendet</div></div>
-        <div class="stat-item"><div class="num">400.000 m2</div><div class="label">Produktion/Jahr</div></div>
+        <div class="stat-item"><div class="num">400k m2</div><div class="label">Produktion/Jahr</div></div>
         <div class="stat-item"><div class="num">15</div><div class="label">Mitarbeiter</div></div>
       </div>
     </div>
-    <div class="about-features fade-in">
+    <div class="about-features reveal-3d">
       <div class="feature"><span class="f-icon">&#10003;</span><span>4 Generationen</span></div>
       <div class="feature"><span class="f-icon">&#10003;</span><span>Eigenes Saegewerk</span></div>
       <div class="feature"><span class="f-icon">&#10003;</span><span>Heimisches Holz</span></div>
@@ -183,20 +198,20 @@ footer .hours span { color: var(--accent-light); font-weight: 600; }
 </section>
 
 <section id="kontakt">
-  <h2 class="section-title fade-in">Kontaktieren <span>Sie uns</span></h2>
-  <p class="section-sub fade-in">Besuchen Sie unser Saegewerk oder fordern Sie Ihr individuelles Angebot an!</p>
+  <h2 class="section-title reveal-3d">Kontaktieren <span>Sie uns</span></h2>
+  <p class="section-sub reveal-3d">Besuchen Sie unser Saegewerk oder fordern Sie Ihr individuelles Angebot an!</p>
   <div class="contact-grid">
-    <div class="contact-card fade-in">
+    <div class="contact-card tilt-card reveal-3d">
       <div class="icon">&#9742;</div>
       <h4>Telefon</h4>
       <p>+43 (0) 3117 2206</p>
     </div>
-    <div class="contact-card fade-in">
+    <div class="contact-card tilt-card reveal-3d">
       <div class="icon">&#9993;</div>
       <h4>E-Mail</h4>
       <p>kontakt@fassold-holz.at</p>
     </div>
-    <div class="contact-card fade-in">
+    <div class="contact-card tilt-card reveal-3d">
       <div class="icon">&#9873;</div>
       <h4>Saegewerk</h4>
       <p>Stuhlsdorfer Strasse 42<br>8063 Eggersdorf bei Graz</p>
@@ -214,8 +229,19 @@ footer .hours span { color: var(--accent-light); font-weight: 600; }
 <script>
 const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-}, { threshold: 0.15 });
-document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal-3d').forEach(el => obs.observe(el));
+
+document.querySelectorAll('.tilt-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = `perspective(800px) rotateY(${x * 14}deg) rotateX(${-y * 14}deg) scale(1.03)`;
+  });
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; card.style.transition = 'transform 0.5s'; });
+  card.addEventListener('mouseenter', () => { card.style.transition = 'none'; });
+});
 </script>
 </body>
 </html>

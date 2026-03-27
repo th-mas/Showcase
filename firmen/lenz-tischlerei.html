@@ -20,151 +20,87 @@
 }
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; font-size: 16px; }
-body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.7;
-  overflow-x: hidden;
-}
-.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
-nav {
-  position: fixed; top: 0; width: 100%; z-index: 100;
-  background: rgba(13, 11, 9, 0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--glass-border);
-  padding: 1rem 2rem;
-  display: flex; justify-content: space-between; align-items: center;
-}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.7; overflow-x: hidden; }
+
+/* 3D SCROLL */
+.reveal-3d { opacity: 0; transform: perspective(800px) translateZ(-60px) rotateX(6deg); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal-3d.visible { opacity: 1; transform: perspective(800px) translateZ(0) rotateX(0); }
+
+nav { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(13, 11, 9, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
 .logo { font-size: 1.4rem; font-weight: 700; color: var(--accent); letter-spacing: 0.5px; }
 .nav-links { display: flex; gap: 2rem; list-style: none; }
 .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
 .nav-links a:hover { color: var(--accent); }
-.hero {
-  min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  text-align: center; padding: 6rem 2rem 4rem;
-  background: radial-gradient(ellipse at 50% 30%, rgba(196, 149, 106, 0.12) 0%, transparent 60%), var(--bg-primary);
-  position: relative;
-}
-.hero::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-  height: 200px;
-  background: linear-gradient(to top, var(--bg-primary), transparent);
-}
-.hero-content { position: relative; z-index: 1; max-width: 800px; }
-.hero-badge {
-  display: inline-block; padding: 0.4rem 1.2rem;
-  background: var(--glass); border: 1px solid var(--glass-border);
-  border-radius: 50px; font-size: 0.85rem; color: var(--accent);
-  margin-bottom: 1.5rem; backdrop-filter: blur(10px);
-}
-.hero h1 {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 800; line-height: 1.1;
-  margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.hero p {
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  color: var(--text-secondary); margin-bottom: 2.5rem;
-  max-width: 600px; margin-inline: auto;
-}
-.cta-btn {
-  display: inline-block; padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-  color: var(--bg-primary); font-weight: 700; font-size: 1rem;
-  text-decoration: none; border-radius: 50px;
-  transition: transform 0.3s, box-shadow 0.3s;
-  box-shadow: 0 4px 25px rgba(196, 149, 106, 0.3);
-}
-.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 35px rgba(196, 149, 106, 0.45); }
+
+/* HERO 3D PARALLAX */
+.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 6rem 2rem 4rem; position: relative; perspective: 1200px; overflow: hidden; }
+.hero-depth { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, rgba(196, 149, 106, 0.14) 0%, transparent 60%), var(--bg-primary); transform: translateZ(-70px) scale(1.07); pointer-events: none; }
+.hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 200px; background: linear-gradient(to top, var(--bg-primary), transparent); z-index: 1; }
+.hero-content { position: relative; z-index: 2; max-width: 800px; }
+.hero-badge { display: inline-block; padding: 0.4rem 1.2rem; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 50px; font-size: 0.85rem; color: var(--accent); margin-bottom: 1.5rem; backdrop-filter: blur(10px); }
+.hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 1px 0 rgba(196,149,106,0.4), 0 2px 0 rgba(196,149,106,0.3), 0 3px 0 rgba(196,149,106,0.2), 0 4px 10px rgba(0,0,0,0.5); }
+.hero p { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-secondary); margin-bottom: 2.5rem; max-width: 600px; margin-inline: auto; }
+
+/* FLOATING WOOD ELEMENTS */
+.wood-float { position: absolute; font-size: 2rem; opacity: 0.12; pointer-events: none; animation: woodDrift 7s ease-in-out infinite; }
+@keyframes woodDrift { 0%, 100% { transform: perspective(500px) translateZ(0) translateY(0) rotate(0); } 50% { transform: perspective(500px) translateZ(35px) translateY(-12px) rotate(3deg); } }
+
+/* 3D BUTTON */
+.cta-btn { display: inline-block; padding: 1rem 2.5rem; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: var(--bg-primary); font-weight: 700; font-size: 1rem; text-decoration: none; border-radius: 50px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 0 #8A6540, 0 6px 25px rgba(196, 149, 106, 0.3); }
+.cta-btn:hover { transform: perspective(500px) translateZ(5px) translateY(-2px); box-shadow: 0 6px 0 #8A6540, 0 10px 35px rgba(196, 149, 106, 0.45); }
+.cta-btn:active { transform: perspective(500px) translateZ(-5px) translateY(2px); box-shadow: 0 1px 0 #8A6540, 0 2px 10px rgba(196, 149, 106, 0.2); }
+
 section { padding: 6rem 2rem; }
 .section-header { text-align: center; margin-bottom: 4rem; }
 .section-header h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem; }
 .section-header p { color: var(--text-secondary); max-width: 550px; margin-inline: auto; }
 .accent-line { width: 60px; height: 3px; background: var(--accent); margin: 1rem auto; border-radius: 2px; }
-.cards {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem; max-width: 1100px; margin: 0 auto;
-}
-.card {
-  background: var(--bg-card); border: 1px solid var(--glass-border);
-  border-radius: 16px; padding: 2rem; backdrop-filter: blur(10px);
-  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-}
-.card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 10px 40px rgba(196, 149, 106, 0.1); }
-.card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-.card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent-light); }
-.card p { color: var(--text-secondary); font-size: 0.95rem; }
-.about {
-  background: var(--bg-secondary);
-  border-top: 1px solid var(--glass-border);
-  border-bottom: 1px solid var(--glass-border);
-}
-.about-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 4rem; max-width: 1100px; margin: 0 auto; align-items: center;
-}
-.about-visual {
-  background: linear-gradient(135deg, var(--glass), transparent);
-  border: 1px solid var(--glass-border);
-  border-radius: 20px; padding: 3rem;
-  text-align: center; font-size: 5rem;
-  aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;
-}
+
+/* 3D TILT CARDS */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; max-width: 1100px; margin: 0 auto; perspective: 1000px; }
+.card { background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 16px; padding: 2rem; backdrop-filter: blur(10px); transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s; transform-style: preserve-3d; will-change: transform; }
+.card:hover { border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 20px rgba(196,149,106,0.15); }
+.card-icon { font-size: 2.5rem; margin-bottom: 1rem; transform: translateZ(25px); display: block; }
+.card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent-light); transform: translateZ(15px); }
+.card p { color: var(--text-secondary); font-size: 0.95rem; transform: translateZ(8px); }
+
+/* ABOUT 3D */
+.about { background: var(--bg-secondary); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1100px; margin: 0 auto; align-items: center; }
+.about-visual { background: linear-gradient(135deg, var(--glass), transparent); border: 1px solid var(--glass-border); border-radius: 20px; padding: 3rem; text-align: center; font-size: 5rem; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; transition: transform 0.5s; }
+.about-visual:hover { transform: perspective(800px) rotateY(10deg) rotateX(-5deg); }
 .about-text h2 { font-size: 2rem; margin-bottom: 1rem; }
 .about-text p { color: var(--text-secondary); margin-bottom: 1rem; }
-.stats {
-  display: flex; gap: 2rem; margin-top: 2rem;
-  padding-top: 2rem; border-top: 1px solid var(--glass-border);
-}
+.stats { display: flex; gap: 2rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--glass-border); perspective: 600px; }
+.stat-item { transition: transform 0.3s; }
+.stat-item:hover { transform: perspective(600px) translateZ(10px); }
 .stat-item .stat-num { font-size: 2rem; font-weight: 800; color: var(--accent); }
 .stat-item .stat-label { font-size: 0.85rem; color: var(--text-muted); }
-.contact-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem; max-width: 900px; margin: 0 auto;
-}
-.contact-card {
-  background: var(--bg-card); border: 1px solid var(--glass-border);
-  border-radius: 16px; padding: 2rem; text-align: center; backdrop-filter: blur(10px);
-}
+
+/* CONTACT 3D */
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; max-width: 900px; margin: 0 auto; perspective: 800px; }
+.contact-card { background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 16px; padding: 2rem; text-align: center; backdrop-filter: blur(10px); transition: transform 0.4s, box-shadow 0.4s; }
+.contact-card:hover { transform: perspective(800px) rotateY(5deg) translateZ(15px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
 .contact-card .icon { font-size: 2rem; margin-bottom: 1rem; }
 .contact-card h3 { color: var(--accent-light); margin-bottom: 0.5rem; }
 .contact-card p { color: var(--text-secondary); font-size: 0.95rem; }
-footer {
-  background: var(--bg-secondary);
-  border-top: 1px solid var(--glass-border);
-  padding: 3rem 2rem; text-align: center;
-}
-.footer-hours {
-  display: inline-block;
-  background: var(--bg-card); border: 1px solid var(--glass-border);
-  border-radius: 12px; padding: 1.5rem 2.5rem; margin-bottom: 1.5rem;
-}
+
+footer { background: var(--bg-secondary); border-top: 1px solid var(--glass-border); padding: 3rem 2rem; text-align: center; }
+.footer-hours { display: inline-block; background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 12px; padding: 1.5rem 2.5rem; margin-bottom: 1.5rem; }
 .footer-hours h3 { color: var(--accent); margin-bottom: 0.75rem; }
 .footer-hours p { color: var(--text-secondary); font-size: 0.9rem; margin: 0.25rem 0; }
 .footer-copy { color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; }
-.hamburger {
-  display: none; flex-direction: column; gap: 5px; cursor: pointer;
-  background: none; border: none; padding: 0.5rem;
-}
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 0.5rem; }
 .hamburger span { width: 25px; height: 2px; background: var(--text-secondary); transition: 0.3s; }
+
 @media (max-width: 768px) {
   .hamburger { display: flex; }
-  .nav-links {
-    display: none; position: absolute; top: 100%; left: 0; right: 0;
-    flex-direction: column; background: rgba(13, 11, 9, 0.95);
-    padding: 1.5rem 2rem; gap: 1rem;
-    border-bottom: 1px solid var(--glass-border);
-  }
+  .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: rgba(13, 11, 9, 0.95); padding: 1.5rem 2rem; gap: 1rem; border-bottom: 1px solid var(--glass-border); }
   .nav-links.open { display: flex; }
   .about-grid { grid-template-columns: 1fr; }
   .about-visual { aspect-ratio: 16/9; font-size: 3rem; }
   .stats { flex-wrap: wrap; gap: 1.5rem; }
+  .wood-float { display: none; }
 }
 </style>
 </head>
@@ -183,6 +119,10 @@ footer {
 </nav>
 
 <section class="hero">
+  <div class="hero-depth"></div>
+  <div class="wood-float" style="top:15%;left:8%">&#129717;</div>
+  <div class="wood-float" style="top:30%;right:10%;animation-delay:-2.5s">&#127968;</div>
+  <div class="wood-float" style="bottom:25%;left:18%;animation-delay:-5s">&#129717;</div>
   <div class="hero-content">
     <span class="hero-badge">CNC-Fertigung &amp; Handwerkskunst</span>
     <h1>Perfektion. Individualitaet. Qualitaet.</h1>
@@ -192,28 +132,28 @@ footer {
 </section>
 
 <section id="leistungen">
-  <div class="section-header fade-in">
+  <div class="section-header reveal-3d">
     <h2>Unsere Leistungen</h2>
     <div class="accent-line"></div>
     <p>Von der Planung bis zur Montage - alles aus einer Hand.</p>
   </div>
   <div class="cards">
-    <div class="card fade-in">
+    <div class="card reveal-3d" data-tilt>
       <div class="card-icon">&#127859;</div>
       <h3>Kuechen</h3>
       <p>Ihre Traumkueche, perfekt geplant und gefertigt. Mit unserer CNC-Maschine und handwerklichem Koennen setzen wir Ihre individuellen Vorstellungen millimetergenau um.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card reveal-3d" data-tilt>
       <div class="card-icon">&#128716;</div>
       <h3>Schlafzimmer &amp; Betten</h3>
       <p>Massivholzbetten, Einbauschraenke und komplette Schlafzimmereinrichtungen. In Zirbe, Eiche oder dem Holz Ihrer Wahl - fuer erholsamen Schlaf.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card reveal-3d" data-tilt>
       <div class="card-icon">&#128707;</div>
       <h3>Badmoebel</h3>
       <p>Individuelle Badezimmermoebel, die Funktionalitaet und Design vereinen. Waschtische, Spiegelschraenke und Badregale nach Mass.</p>
     </div>
-    <div class="card fade-in">
+    <div class="card reveal-3d" data-tilt>
       <div class="card-icon">&#127968;</div>
       <h3>Wohnzimmer &amp; Esszimmer</h3>
       <p>Wohnwaende, Sideboards, Esstische und Regale. Komplette Raumloesungen fuer Ihr Wohn- und Esszimmer - in Altholz, Furnier, Lack oder Massivholz.</p>
@@ -223,8 +163,8 @@ footer {
 
 <section class="about" id="ueber-uns">
   <div class="about-grid">
-    <div class="about-visual fade-in">&#129717;</div>
-    <div class="about-text fade-in">
+    <div class="about-visual reveal-3d">&#129717;</div>
+    <div class="about-text reveal-3d">
       <h2>Handwerk mit Herz und Verstand</h2>
       <p>Unsere langjaehrige Erfahrung im Holzbau ermoeglicht es uns, vielseitige Loesungsmoeglichkeiten fuer technisch anspruchsvolle Aufgaben zu bieten. Dabei steht Perfektion in unserem Betrieb an oberster Stelle.</p>
       <p>Einrichtungsgegenstaende und Moebel tragen in grossem Masse zur Wohlfuehlatmosphaere in Raeumen bei. Wir planen und realisieren nach Ihren individuellen Anspruechen und Vorstellungen - mit einem Hoechstmass an Qualitaet.</p>
@@ -247,25 +187,25 @@ footer {
 </section>
 
 <section id="kontakt">
-  <div class="section-header fade-in">
+  <div class="section-header reveal-3d">
     <h2>Kontakt</h2>
     <div class="accent-line"></div>
     <p>Wir freuen uns auf Ihr Projekt - kontaktieren Sie uns!</p>
   </div>
   <div class="contact-grid">
-    <div class="contact-card fade-in">
+    <div class="contact-card reveal-3d">
       <div class="icon">&#128222;</div>
       <h3>Telefon</h3>
       <p>+43 664 924 21 36</p>
       <p>Hans Lenz</p>
     </div>
-    <div class="contact-card fade-in">
+    <div class="contact-card reveal-3d">
       <div class="icon">&#9993;&#65039;</div>
       <h3>E-Mail</h3>
       <p>hans@lenz-tischlerei.at</p>
       <p>Antwort innerhalb 24h</p>
     </div>
-    <div class="contact-card fade-in">
+    <div class="contact-card reveal-3d">
       <div class="icon">&#128205;</div>
       <h3>Werkstatt</h3>
       <p>Gewerbestrasse 1</p>
@@ -287,11 +227,21 @@ footer {
 
 <script>
 const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) { entry.target.classList.add('visible'); }
-  });
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+document.querySelectorAll('.reveal-3d').forEach(el => observer.observe(el));
+
+document.querySelectorAll('[data-tilt]').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `perspective(1000px) rotateY(${x * 15}deg) rotateX(${y * -15}deg) translateZ(10px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0) translateZ(0)';
+  });
+});
 </script>
 </body>
 </html>
